@@ -87,6 +87,10 @@ const sections = page.sections.map((s, i) => ({
   @media (max-width: 900px) {
     .pp__toc { position: static; padding-top: 0; }
   }
+  /* phone: touch targets ≥ 44×44 (spec section 13) */
+  @media (max-width: 560px) {
+    .pp__toc a { display: flex; align-items: center; min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
+  }
 
   .pp__body { flex: 999 1 560px; min-width: 0; max-width: 760px; }
   .pp__section { padding: 28px 0 16px; border-top: 1px solid var(--line); }

@@ -87,6 +87,7 @@ const isCurrent = (key: string) => (key === current ? 'page' : undefined);
     display: flex;
     align-items: center;
     min-width: 0;
+    min-height: 44px; /* touch target; the bar is 76px, so nothing moves */
     text-decoration: none;
   }
 
@@ -148,6 +149,7 @@ const isCurrent = (key: string) => (key === current ? 'page' : undefined);
   .nav-m__link:hover { color: var(--accent); }
   .nav-m__link[aria-current='page'] { font-weight: 600; }
   .nav-m__lang { padding-top: 6px; }
+  .nav-m__lang :global(.lang__link) { min-width: 44px; min-height: 44px; justify-content: center; }
 
   @media (max-width: 900px) {
     .nav-d { display: none; }

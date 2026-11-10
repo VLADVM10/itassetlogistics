@@ -173,6 +173,8 @@ const final = stages.length - 1;
     cursor: pointer;
   }
   .jbtn:hover { border-color: var(--accent); color: var(--accent); }
+  /* phone: touch targets ≥ 44×44 (spec section 13) */
+  @media (max-width: 560px) { .jbtn { min-height: 44px; } }
   .jbtn__inner[hidden] { display: none; }
 
   /* ---- shared station look ---- */

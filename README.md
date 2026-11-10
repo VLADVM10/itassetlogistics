@@ -69,3 +69,11 @@ Section heights match the design at 1440, 1100, 820, 700, 375 and 320 px. The Hu
 animation is already interactive (spec section 8). The form is markup only; sending arrives in
 stage 5. Email/phone captions (`contact_labels` in settings) are drafts: the design has no
 email/phone rows yet.
+Stage 4 (interactive) — done and tested in headless Chrome: mobile menu (keyboard, Esc with focus
+return, closes on link click and above 900px, plain list without JS), Journey (autoplay only in
+view and with the tab visible, manual pick pauses, reduced motion starts paused, aria-live only
+when paused, phone layout), Home hero rise-in, map routes pause on hover and keyboard focus,
+reduced motion disables every animation and smooth scroll. JS per page: ≤ 1.3 KB gzip.
+Accessibility over pixel parity on phones (≤560px): touch targets are ≥ 44×44 (spec section 13),
+so the footer links, Privacy contents, Journey buttons and the Hub services link are taller than
+in the artboards there; desktop layout is unchanged.

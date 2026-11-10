@@ -64,7 +64,9 @@ const items: Array<keyof typeof PAGES> = ['home', 'hub', 'managed', 'media', 'co
   .site-footer__logo {
     display: inline-flex;
     align-self: flex-start;
-    margin-bottom: 12px;
+    padding: 2px 0; /* 44px touch target without moving the layout */
+    margin-top: -2px;
+    margin-bottom: 10px;
     text-decoration: none;
   }
   .site-footer nav { flex: 0 1 auto; min-width: 0; }
@@ -79,6 +81,11 @@ const items: Array<keyof typeof PAGES> = ['home', 'hub', 'managed', 'media', 'co
     font-size: 14.5px;
   }
   .site-footer a:hover { color: #FFFFFF; text-decoration: underline; }
+  /* phone: touch targets ≥ 44×44 (spec section 13) */
+  @media (max-width: 560px) {
+    .site-footer nav ul { row-gap: 0; }
+    .site-footer nav a { display: flex; align-items: center; min-height: 44px; }
+  }
   .site-footer__bottom {
     padding-top: 22px;
     display: flex;

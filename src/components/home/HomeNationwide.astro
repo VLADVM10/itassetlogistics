@@ -27,7 +27,8 @@ const STEP_ICONS: IconName[] = ['globe', 'building', 'cube'];
     </div>
 
     <div class="nw__side">
-      <figure class="nw__map anim-pause card-pad">
+      <!-- focusable so keyboard users can pause the looping routes (spec section 8, WCAG 2.2.2) -->
+      <figure class="nw__map anim-pause card-pad" tabindex="0">
         <UkraineMap label={block.map_label} kyiv={block.map_kyiv} {...block.cities} />
         <figcaption>{block.map_caption}</figcaption>
       </figure>

@@ -108,4 +108,6 @@ const ICONS: IconName[] = ['receive', 'register', 'cube', 'truck', 'return', 'la
     color: var(--text);
   }
   .svcs__foot a { font-size: 15px; font-weight: 600; text-decoration: none; }
+  /* phone: touch targets ≥ 44×44 (spec section 13) */
+  @media (max-width: 560px) { .svcs__foot a { display: inline-flex; align-items: center; min-height: 44px; } }
 </style>
