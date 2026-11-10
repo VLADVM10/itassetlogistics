@@ -2,5 +2,171 @@
   "seo": {
     "title": "Home — IT Asset Logistics",
     "description": ""
+  },
+  "hero": {
+    "label": "IT Asset Logistics · Storage & equipment operations in Ukraine",
+    "h1": {
+      "before": "Your local equipment",
+      "accent": "operations base",
+      "after": "in Ukraine."
+    },
+    "intro": "We receive, store and handle corporate IT and technical equipment in Ukraine — from a few sealed boxes to individual devices. Inventory, dispatch and returns are available when needed.",
+    "cta_primary": "Contact Us",
+    "cta_secondary": "Our Services",
+    "operations_label": "Available operations",
+    "operations": [
+      "Receive",
+      "Register",
+      "Store",
+      "Dispatch",
+      "Return"
+    ],
+    "benefits": [
+      "Kyiv-based operations",
+      "Storage from a few boxes",
+      "Handling on request"
+    ],
+    "illustration_label": "Illustration: equipment on the intake bench in Kyiv, with an open delivery box, a parcel and a hard drive",
+    "tag": {
+      "title": "Asset Tag",
+      "serial_label": "SERIAL NO.",
+      "serial": "SAMPLE-SN-001",
+      "device_label": "DEVICE",
+      "device": "Laptop",
+      "asset_label": "ASSET ID",
+      "asset_id": "DEMO-001",
+      "location_label": "LOCATION",
+      "location": "Kyiv, Ukraine",
+      "status_label": "STATUS",
+      "status": "IN STOCK",
+      "note": "Illustrative example. Not an actual customer record."
+    }
+  },
+  "inside": {
+    "label": "Inside the Hub",
+    "title": "The physical work behind equipment storage and logistics.",
+    "intro": "Our Kyiv-based team handles the practical side of equipment storage and logistics — from receiving and checking packages to storing devices, preparing shipments and coordinating their release.",
+    "items": [
+      {
+        "caption": "Equipment Receiving & Inspection",
+        "illustration_label": "Illustration: a label on a laptop being scanned on the intake bench"
+      },
+      {
+        "caption": "Equipment Storage & Records",
+        "illustration_label": "Illustration: laptops stored on a shelf, each with a tag"
+      },
+      {
+        "caption": "Packing & Dispatch",
+        "illustration_label": "Illustration: a laptop packed in a box with a dispatch label"
+      },
+      {
+        "caption": "Careful Equipment Handling",
+        "illustration_label": "Illustration: equipment held in protective cases"
+      }
+    ],
+    "sealed_label": "SEALED"
+  },
+  "what_we_do": {
+    "label": "What We Do",
+    "title": "Two ways to support your equipment in Ukraine.",
+    "cards": [
+      {
+        "title": "Equipment Hub",
+        "text": "Receiving, asset registration, packing, dispatch and return coordination for corporate equipment.",
+        "link_label": "Explore Equipment Hub",
+        "illustration_label": "Illustration: a tagged laptop and labelled parcels ready for dispatch"
+      },
+      {
+        "title": "Managed Storage",
+        "text": "Responsible storage for a few sealed boxes, reserve stock and project equipment, with additional handling on request.",
+        "link_label": "Explore Managed Storage",
+        "illustration_label": "Illustration: sealed, labelled boxes and a reserve equipment case held in storage"
+      }
+    ],
+    "media_question": "Need separate storage for HDDs or SSDs?",
+    "media_link": "Media Storage & Handling"
+  },
+  "journey": {
+    "label": "Asset Journey",
+    "title": "Every device has a history. We keep it traceable.",
+    "intro": "From the moment equipment arrives at our hub, we maintain a record of its storage, dispatch and return — so you can follow its movements throughout the service cycle.",
+    "cta": "Explore Equipment Hub",
+    "card_title": "Asset Movement History",
+    "card_meta": "Device: Laptop · Asset ID: DEMO-001 · Serial Number: SAMPLE-SN-001",
+    "events": [
+      {
+        "title": "Received & Registered",
+        "text": "Equipment received in Kyiv and registered by serial number."
+      },
+      {
+        "title": "Dispatched to Employee",
+        "text": "Laptop shipped to an employee in Lviv. Dispatch recorded."
+      },
+      {
+        "title": "Returned",
+        "text": "Collection arranged and device received back at our hub."
+      },
+      {
+        "title": "Back in Stock",
+        "text": "Condition checked, inventory updated and storage location assigned."
+      },
+      {
+        "title": "Redeployed",
+        "text": "The same laptop dispatched to another employee in Odesa."
+      }
+    ],
+    "note": "Illustrative example. Not an actual customer record."
+  },
+  "nationwide": {
+    "label": "Nationwide Operations",
+    "title": "Based in Kyiv. Supporting clients across Ukraine.",
+    "intro": "From our Kyiv-based operations, we store corporate equipment and coordinate dispatch, collection and returns for employees, offices and project sites across Ukraine, wherever carrier services are available.",
+    "points": [
+      {
+        "title": "Nationwide Dispatch",
+        "text": "Equipment deliveries wherever courier services are available."
+      },
+      {
+        "title": "Collection & Returns",
+        "text": "Equipment pickup from employees and coordinated return to our Kyiv hub."
+      },
+      {
+        "title": "Storage & Stock Records",
+        "text": "Kyiv-based storage and inventory information according to the agreed service scope."
+      }
+    ],
+    "map_label": "Illustrative map of routes from Kyiv to cities across Ukraine",
+    "cities": {
+      "chernihiv": "Chernihiv",
+      "zhytomyr": "Zhytomyr",
+      "rivne": "Rivne",
+      "lviv": "Lviv",
+      "uzhhorod": "Uzhhorod",
+      "vinnytsia": "Vinnytsia",
+      "odesa": "Odesa",
+      "mykolaiv": "Mykolaiv",
+      "dnipro": "Dnipro",
+      "poltava": "Poltava",
+      "kharkiv": "Kharkiv"
+    },
+    "map_kyiv": "KYIV",
+    "map_caption": "Illustrative routes. Delivery availability depends on carrier coverage and local operating conditions.",
+    "abroad": {
+      "title": "Managing Ukraine from abroad?",
+      "steps": [
+        "Your HQ",
+        "Kyiv Operations",
+        "Your Equipment in Ukraine"
+      ],
+      "text": "Keep control of your equipment while we arrange storage and physical operations locally — through one English-speaking point of contact, without needing to run your own warehouse in Ukraine."
+    }
+  },
+  "contact": {
+    "label": "Get in Touch",
+    "title": "Tell us what needs handling.",
+    "intro": "Tell us what equipment you need to receive, store, dispatch or collect in Ukraine. We’ll review your requirements and discuss a practical solution for your operations.",
+    "location_label": "Location",
+    "message_placeholder": "Tell us about your equipment, approximate volumes and what you need us to handle.",
+    "thanks": "Thank you. Your request has been received. We’ll get back to you to discuss the details."
   }
 }

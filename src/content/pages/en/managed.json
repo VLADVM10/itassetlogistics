@@ -2,5 +2,132 @@
   "seo": {
     "title": "Managed Storage — IT Asset Logistics",
     "description": ""
+  },
+  "hero": {
+    "label": "Managed Storage",
+    "h1": {
+      "before": "Your equipment.",
+      "accent": "Our storage operations.",
+      "after": ""
+    },
+    "lead": "Corporate equipment storage in Ukraine — without running your own local warehouse.",
+    "paragraphs": [
+      "We receive and store corporate IT, technical, reserve and project equipment at our Kyiv-based facility — from a few sealed boxes to larger equipment batches. We record received and released packages and arrange equipment release on request. Detailed inventory, packing and dispatch coordination are available when needed."
+    ],
+    "cta_primary": "Discuss Storage Requirements",
+    "cta_secondary": "How It Works",
+    "benefits": [
+      "Storage from a few boxes",
+      "Package-level receipt & release",
+      "Optional handling & dispatch"
+    ],
+    "illustration_label": "Illustration: sealed boxes and equipment cases with numbered package tags"
+  },
+  "what_we_store": {
+    "label": "What We Store",
+    "title": "From corporate IT to project equipment.",
+    "intro": "We provide managed storage for corporate equipment and technical stock. Our service covers sealed boxes, individual devices, reserve stock and project batches — with the level of inventory detail agreed for each request.",
+    "items": [
+      {
+        "title": "Corporate IT Equipment",
+        "text": "Laptops, desktop computers, monitors, networking devices, peripherals and other corporate IT hardware.",
+        "illustration_label": "Illustration: a laptop, a monitor and a router"
+      },
+      {
+        "title": "Reserve & Replacement Stock",
+        "text": "Spare devices, replacement equipment, accessories and technical components held for future use or service requests.",
+        "illustration_label": "Illustration: spare device boxes and a tray of components"
+      },
+      {
+        "title": "Demonstration & Exhibition Equipment",
+        "text": "Product samples, demonstration units, presentation kits and exhibition equipment stored between events, customer visits or assignments.",
+        "illustration_label": "Illustration: a blank roll-up banner, a sample unit and a presentation case"
+      },
+      {
+        "title": "Project & Technical Equipment",
+        "text": "Measuring instruments, electronic devices, installation kits and technical equipment held for planned projects or phased deliveries.",
+        "illustration_label": "Illustration: a measuring instrument, a kit case and a cable coil"
+      }
+    ],
+    "aside": {
+      "title": "Other equipment? Let’s discuss it.",
+      "text": "We review storage requests individually, taking into account equipment dimensions, weight, packaging and handling requirements."
+    }
+  },
+  "services": {
+    "label": "Storage Services",
+    "title": "Straightforward storage. Additional handling when you need it.",
+    "intro": "Whether you have a few factory-sealed boxes or a larger batch of equipment, we provide storage with the level of service that suits your needs.",
+    "core": {
+      "title": "Core Storage",
+      "intro": "For clients who simply need a reliable local place to keep their equipment.",
+      "items": [
+        {
+          "title": "Receiving",
+          "text": "We accept equipment from you, your supplier or a carrier and record the number of packages and the visible condition of their outer packaging."
+        },
+        {
+          "title": "Storage",
+          "text": "Your equipment is stored as received, without opening sealed boxes unless otherwise agreed."
+        },
+        {
+          "title": "Basic Records",
+          "text": "We maintain records of received and released packages."
+        },
+        {
+          "title": "Release on Request",
+          "text": "Your equipment can be released to you or your authorised representative according to agreed instructions."
+        }
+      ]
+    },
+    "optional": {
+      "title": "Optional Handling Services",
+      "intro": "For clients who need more than storage, additional operations can be arranged:",
+      "items": [
+        "Detailed inventory by item, model or serial number",
+        "Equipment labelling and photographic documentation",
+        "Picking, packing and repacking",
+        "Preparation of individual items or complete equipment kits",
+        "Dispatch, courier coordination and returns",
+        "Customised stock and movement reports"
+      ]
+    },
+    "aside": {
+      "title": "Just a few boxes? That’s fine.",
+      "text": "You don’t need a complex logistics service to store your equipment with us. Start with simple storage and add other services when required."
+    }
+  },
+  "arrangements": {
+    "label": "Flexible Storage Arrangements",
+    "title": "Storage that fits your requirements.",
+    "intro": "Whether you need to store a few boxes for several months or maintain a larger equipment stock in Ukraine, we can agree on a practical storage arrangement for your business.",
+    "items": [
+      {
+        "title": "Flexible Volumes",
+        "text": "From a small number of packages to larger equipment batches, subject to available capacity and handling requirements."
+      },
+      {
+        "title": "Agreed Storage Periods",
+        "text": "Storage duration and extension terms are agreed according to your requirements."
+      },
+      {
+        "title": "Remote Coordination",
+        "text": "Manage storage requests from abroad through an English-speaking local contact, without needing to visit the warehouse."
+      },
+      {
+        "title": "Clear Arrangements",
+        "text": "Storage conditions, included services, additional operations and payment terms are agreed in advance."
+      }
+    ]
+  },
+  "cta": {
+    "label": "Get in Touch",
+    "title": "Need equipment storage in Ukraine?",
+    "lead": "Whether you have a few sealed boxes or a larger batch of equipment, tell us what you need to store.",
+    "paragraphs": [
+      "Share a brief description of your equipment, approximate volumes, expected storage period and any additional handling requirements.",
+      "We’ll review your request and discuss a suitable storage arrangement."
+    ],
+    "button": "Discuss Storage Requirements"
   }
 }

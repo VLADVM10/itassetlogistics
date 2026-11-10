@@ -28,5 +28,28 @@
   "footer": {
     "aria_label": "Footer",
     "domain": "itassetlogistics.com"
+  },
+  "form": {
+    "labels": {
+      "name": "Name *",
+      "company": "Company *",
+      "email": "Email *",
+      "phone": "Phone (optional)",
+      "message": "Message *"
+    },
+    "errors": {
+      "required": "Please fill in this field.",
+      "email": "Please enter a valid email address.",
+      "too_short": "Please enter at least {min} characters.",
+      "too_long": "Please shorten this to {max} characters or fewer.",
+      "phone": "Please enter a valid phone number: digits, +, spaces, brackets and hyphens."
+    },
+    "submit": "Send Request",
+    "sending": "Sending…",
+    "failure": "We couldn’t send your request. Please try again or email us directly.",
+    "failure_email": "Our email:",
+    "policy_before": "By submitting this form, you acknowledge our",
+    "policy_link": "Privacy Policy",
+    "policy_after": "."
   }
 }

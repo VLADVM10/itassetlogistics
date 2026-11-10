@@ -2,5 +2,109 @@
   "seo": {
     "title": "Media Storage & Handling — IT Asset Logistics",
     "description": ""
+  },
+  "hero": {
+    "label": "Media Storage & Handling",
+    "h1": {
+      "before": "Physical storage and handling of data-bearing media in Ukraine.",
+      "accent": "",
+      "after": ""
+    },
+    "lead": "Keep your HDDs, SSDs and other storage media in Ukraine until you're ready for their next use, return or further processing.",
+    "paragraphs": [
+      "We receive, identify and store physical data-bearing media in Kyiv under agreed handling conditions.",
+      "Receipt, storage and release records help you keep track of your media, while returns or transfers are arranged according to your instructions."
+    ],
+    "cta_primary": "Discuss Media Storage",
+    "benefits": [
+      "Individual media identification",
+      "Agreed storage and handling procedures",
+      "Documented receipt and release"
+    ],
+    "illustration_label": "Illustration: hard drives and solid-state drives with generic identification tags"
+  },
+  "what_we_handle": {
+    "label": "What We Handle",
+    "title": "Physical storage media, individually accounted for.",
+    "intro": "We provide physical storage and handling for data-bearing media removed from corporate IT equipment or retained for future use, return or further processing.",
+    "items": [
+      {
+        "title": "Hard Disk Drives (HDD)",
+        "text": "Internal hard drives from computers, servers and other corporate equipment."
+      },
+      {
+        "title": "Solid-State Drives (SSD)",
+        "text": "Solid-state storage devices requiring physical storage and documented handling."
+      },
+      {
+        "title": "Other Data-Bearing Media",
+        "text": "External drives, removable storage devices and other media may be accepted by prior arrangement."
+      }
+    ],
+    "note": "Media can be received individually or in packaged batches. Identification and recording procedures are agreed according to the type and quantity of media.",
+    "disclaimer": "We do not access or process the data stored on these devices as part of the storage service."
+  },
+  "handling": {
+    "label": "Storage & Handling",
+    "title": "Documented handling from receipt to release.",
+    "intro": "We organise the physical storage of data-bearing media according to agreed procedures, maintaining records of received, stored and released items.",
+    "steps": [
+      {
+        "title": "Receiving",
+        "text": "We receive individual media devices or packaged batches, confirm the number of items or packages and record visible packaging conditions."
+      },
+      {
+        "title": "Identification",
+        "text": "Media or packages are registered using available serial numbers, labels or agreed identifiers. The level of individual recording is defined with the client."
+      },
+      {
+        "title": "Storage",
+        "text": "Accepted media are placed in designated storage locations, with access and handling arrangements agreed in advance."
+      },
+      {
+        "title": "Release",
+        "text": "Media are released or prepared for transfer according to authorised client instructions. The handover is documented."
+      }
+    ],
+    "note": {
+      "title": "Physical handling only.",
+      "text": "Our storage service concerns the physical devices. We do not inspect, access, copy or modify the data stored on them."
+    }
+  },
+  "after_storage": {
+    "label": "After Storage",
+    "title": "Your media. Your decision.",
+    "intro": "When storage is no longer required, we arrange the next step according to your instructions.",
+    "items": [
+      {
+        "title": "Return to Owner",
+        "paragraphs": [
+          "We prepare the stored media for collection or coordinate their return to the client."
+        ]
+      },
+      {
+        "title": "Authorised Transfer",
+        "paragraphs": [
+          "Media can be released or transferred to an authorised recipient according to agreed instructions, with the handover documented."
+        ]
+      },
+      {
+        "title": "Media Destruction",
+        "paragraphs": [
+          "If physical destruction is required, we can coordinate a separate service through REISSWOLF Ukraine.",
+          "Destruction arrangements, pricing and supporting documentation are agreed separately."
+        ]
+      }
+    ],
+    "note": "Storage does not include data erasure or media destruction. These operations require separate authorisation and service arrangements."
+  },
+  "cta": {
+    "label": "Get in Touch",
+    "title": "Need to store physical data-bearing media in Ukraine?",
+    "lead": "Tell us what types of media you need to store, the approximate quantity and any specific handling requirements.",
+    "paragraphs": [
+      "We'll review your request and discuss a suitable storage arrangement."
+    ],
+    "button": "Discuss Media Storage"
   }
 }

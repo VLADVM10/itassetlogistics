@@ -10,7 +10,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check && node scripts/check-content.mjs",
+    "check:content": "node scripts/check-content.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "ultrahtml": "1.7.0"
   }
 }

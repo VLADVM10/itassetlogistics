@@ -2,5 +2,190 @@
   "seo": {
     "title": "Equipment Hub Ukraine — IT Asset Logistics",
     "description": ""
+  },
+  "hero": {
+    "label": "Corporate IT Equipment Logistics",
+    "h1": {
+      "before": "Equipment Hub",
+      "accent": "Ukraine",
+      "after": ""
+    },
+    "lead": "One local hub for the physical handling of your IT equipment in Ukraine.",
+    "paragraphs": [
+      "We receive equipment from suppliers and clients, register individual devices, provide secure storage, and coordinate deliveries and returns across Ukraine.",
+      "Whether you manage employee laptops, reserve stock or project equipment, we handle the local operations and keep you informed through inventory records and movement reports."
+    ],
+    "cta_primary": "Discuss Your Requirements",
+    "cta_secondary": "Explore Our Services",
+    "benefits": [
+      "Serial-number asset records",
+      "Small and medium batches",
+      "Regular inventory and movement reports",
+      "Nationwide delivery and collection coordination"
+    ],
+    "illustration_label": "Illustration: a laptop, a monitor and sealed equipment boxes on a neutral platform"
+  },
+  "services": {
+    "label": "Our Services",
+    "title": "From receiving to redeployment.",
+    "intro": "Choose the services you need or combine them into one coordinated workflow. We handle individual devices and equipment batches, keeping records of your assets and their movements.",
+    "items": [
+      {
+        "title": "Receiving & Inspection",
+        "text": "We accept equipment from suppliers, couriers or clients, verify quantities and check for visible discrepancies or damage on arrival.",
+        "result": "Receipt confirmation & intake record"
+      },
+      {
+        "title": "Asset Registration & Inventory",
+        "text": "We register devices by serial number, model and owner, maintain their inventory status and provide regular stock and movement reports.",
+        "result": "Asset register & inventory reports"
+      },
+      {
+        "title": "Equipment Storage",
+        "text": "We provide access-controlled storage for individual devices, reserve stock and project equipment, with recorded storage locations and documented movements.",
+        "result": "Controlled storage & recorded asset locations"
+      },
+      {
+        "title": "Picking, Packing & Dispatch",
+        "text": "We select the requested equipment, prepare it for shipment and coordinate delivery to employees, offices and project sites throughout Ukraine.",
+        "result": "Dispatch records & shipment tracking"
+      },
+      {
+        "title": "Equipment Collection & Returns",
+        "text": "We arrange equipment pickup from employees and other locations, coordinate its return to our hub, inspect received devices and update their inventory records.",
+        "result": "Return coordination & updated asset status"
+      },
+      {
+        "title": "Redeployment & Project Stock",
+        "text": "We manage reserve, project and demonstration equipment — including non-IT technical assets. From receiving and storage to staged dispatch, collection and reuse, we handle equipment movements without requiring clients to rent dedicated warehouse space.",
+        "result": "Managed equipment stock & movement records"
+      }
+    ],
+    "result_label": "You get",
+    "note": "Equipment labelling, photographic documentation and accessory checks can be included in the agreed workflow.",
+    "link": "Discuss Your Requirements"
+  },
+  "how": {
+    "label": "How It Works",
+    "title": "From arrival to the next assignment.",
+    "intro": "Follow an illustrative equipment journey through our hub — from receiving and registration to storage, dispatch and return.",
+    "intro_2": "Each operation is documented, and services can be used individually or combined into one workflow.",
+    "card_title": "Equipment Journey — Illustrative Example",
+    "serial": "SAMPLE-SN-001",
+    "controls": {
+      "previous": "Previous",
+      "play": "Play",
+      "pause": "Pause",
+      "next": "Next"
+    },
+    "status_label": "Status",
+    "stages": [
+      {
+        "name": "Receive",
+        "title": "Stage 01 — Receive",
+        "status": "RECEIVED",
+        "text": "Equipment received at our Kyiv hub. Quantity and visible condition checked."
+      },
+      {
+        "name": "Register",
+        "title": "Stage 02 — Register",
+        "status": "REGISTERED",
+        "text": "Device identified by model and serial number, with an individual inventory record created."
+      },
+      {
+        "name": "Store",
+        "title": "Stage 03 — Store",
+        "status": "IN STOCK",
+        "text": "Equipment placed in access-controlled storage with its location recorded."
+      },
+      {
+        "name": "Dispatch",
+        "title": "Stage 04 — Dispatch",
+        "status": "DISPATCHED",
+        "text": "Requested device selected, packed and handed to the carrier. Shipment details recorded."
+      },
+      {
+        "name": "Return",
+        "title": "Stage 05 — Return",
+        "status": "RETURNED",
+        "text": "Equipment collection arranged, device received back and its condition checked."
+      },
+      {
+        "name": "Back in Stock",
+        "title": "Back in Stock",
+        "status": "AVAILABLE FOR REDEPLOYMENT",
+        "text": "Inventory updated. If suitable for reuse, the equipment is returned to storage until its next assignment."
+      }
+    ],
+    "footnote": "Individual asset records. Documented movements. One local operations partner."
+  },
+  "equipment": {
+    "label": "Equipment We Handle",
+    "title": "IT equipment and beyond.",
+    "intro": "Corporate IT hardware is our primary focus, but our services also extend to technical, project and demonstration equipment that requires organised storage, inventory control and coordinated logistics.",
+    "items": [
+      {
+        "title": "Workplace IT Equipment",
+        "text": "Laptops, desktop computers, monitors, docking stations, peripherals and other employee devices."
+      },
+      {
+        "title": "Networking & Communications Equipment",
+        "text": "Routers, switches, network devices, telecommunications equipment and related components."
+      },
+      {
+        "title": "Technical & Measuring Devices",
+        "text": "Measuring instruments, electronic devices, technical tools and specialised equipment."
+      },
+      {
+        "title": "Demonstration & Exhibition Equipment",
+        "text": "Product samples, demonstration units, presentation kits and equipment used for exhibitions or customer demonstrations."
+      },
+      {
+        "title": "Project & Installation Equipment",
+        "text": "Technical equipment and materials held for projects, phased installations, site deliveries or future deployment."
+      },
+      {
+        "title": "Spare Parts, Accessories & Service Kits",
+        "text": "Replacement devices, accessories, spare components and complete equipment kits for service teams."
+      }
+    ],
+    "aside": {
+      "title": "Not sure if your equipment fits?",
+      "text": "Tell us what you need to store or move. We can review equipment dimensions, handling requirements and the most suitable service arrangement.",
+      "cta": "Discuss Your Equipment"
+    }
+  },
+  "scenarios": {
+    "label": "Typical Scenarios",
+    "title": "Different needs. One local equipment partner.",
+    "intro": "Companies use Equipment Hub Ukraine for different operational needs — from managing employee IT devices to maintaining reserve stock and handling demonstration or project equipment.",
+    "situation_label": "The situation",
+    "help_label": "How we help",
+    "items": [
+      {
+        "title": "Employee Equipment Lifecycle",
+        "situation": "An international company needs to supply laptops and other devices to employees across Ukraine and arrange their return when assignments end.",
+        "help": "We receive and register equipment, store available devices, coordinate deliveries to employees and arrange returns. Inventory records are updated as equipment moves through the process."
+      },
+      {
+        "title": "Reserve & Replacement Stock",
+        "situation": "A company or IT service provider needs replacement devices, spare equipment and accessories available in Ukraine without managing its own local stockroom.",
+        "help": "We maintain equipment stock, track quantities and individual assets, prepare requested items and coordinate dispatch. Returned equipment can be received and held for future use."
+      },
+      {
+        "title": "Demonstration & Project Equipment",
+        "situation": "An international manufacturer or technology company sends demonstration units, technical devices or project equipment to Ukraine for customer presentations, installations or phased deployment.",
+        "help": "We receive and register the equipment, store it between assignments, prepare individual shipments or complete kits, and coordinate deliveries and returns — without requiring a dedicated warehouse rental."
+      }
+    ],
+    "note": "Your requirements may be different. We can build an equipment handling workflow around your actual operational needs."
+  },
+  "cta": {
+    "label": "Get in Touch",
+    "title": "Let's discuss your equipment operations in Ukraine.",
+    "lead": "Need equipment received, stored, dispatched or returned in Ukraine?",
+    "text": "Tell us about your equipment, approximate volumes and operational requirements. We'll review your request and discuss a suitable service arrangement.",
+    "button": "Discuss Your Requirements",
+    "note": "Corporate IT, technical, demonstration and project equipment."
   }
 }

@@ -2,15 +2,11 @@
 import Base from '../layouts/Base.astro';
 import { getPage } from '../lib/content';
 import { pathFor, type Lang } from '../i18n/routes';
-import { z } from 'astro/zod';
-
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
-const content = z
-  .object({ title: z.string().min(1), text: z.string().min(1), home_link: z.string().min(1), contact_link: z.string().min(1) })
-  .parse(await getPage('404', lang));
+const content = await getPage('404', lang);
 ---
 <Base lang={lang} page="404">
   <section class="sec nf">

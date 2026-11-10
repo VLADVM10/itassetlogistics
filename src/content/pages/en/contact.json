@@ -2,5 +2,20 @@
   "seo": {
     "title": "Contact | IT Asset Logistics Ukraine",
     "description": ""
+  },
+  "hero": {
+    "label": "Contact",
+    "h1": {
+      "before": "Contact",
+      "accent": "IT Asset Logistics.",
+      "after": ""
+    },
+    "intro": "Tell us what equipment you need to store or handle in Ukraine. A brief description is enough to start.",
+    "location_label": "Location",
+    "about": "IT Asset Logistics is a Kyiv-based service supported by established local warehousing infrastructure. We provide local operational support for companies managing equipment in Ukraine."
+  },
+  "form": {
+    "message_placeholder": "Equipment type, approximate quantity, and what you need us to handle.",
+    "thanks": "Thank you. Your request has been received."
   }
 }
