@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import HomeHero from '../components/home/HomeHero.astro';
+import HomeInside from '../components/home/HomeInside.astro';
+import HomeWhatWeDo from '../components/home/HomeWhatWeDo.astro';
+import HomeJourney from '../components/home/HomeJourney.astro';
+import HomeNationwide from '../components/home/HomeNationwide.astro';
+import HomeContact from '../components/home/HomeContact.astro';
+import { getPage } from '../lib/content';
+import type { Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const home = await getPage('home', lang);
+---
+<Base lang={lang} page="home">
+  <HomeHero hero={home.hero} />
+  <HomeInside inside={home.inside} />
+  <HomeWhatWeDo lang={lang} block={home.what_we_do} />
+  <HomeJourney lang={lang} journey={home.journey} />
+  <HomeNationwide block={home.nationwide} />
+  <HomeContact lang={lang} block={home.contact} />
+</Base>

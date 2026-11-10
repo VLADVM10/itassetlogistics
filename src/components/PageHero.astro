@@ -1,0 +1,146 @@
+---
+/*
+ * Hero of the service pages (Equipment Hub, Managed Storage, Media Storage).
+ * The three artboards share the structure and differ in spacing and H1 size: `variant`.
+ */
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  variant: 'hub' | 'managed' | 'media';
+  label: string;
+  h1: { before: string; accent: string; after: string };
+  lead: string;
+  paragraphs: string[];
+  ctas: { label: string; href: string; primary?: boolean }[];
+  benefits: { text: string; icon: IconName }[];
+}
+const { variant, label, h1, lead, paragraphs, ctas, benefits } = Astro.props;
+---
+<section class={`sec ph ph--${variant}`}>
+  <div class="container ph__inner">
+    <div class="ph__text">
+      <p class="label ph__label">{label}</p>
+      <h1 class:list={['h1', variant === 'media' && 'h1--page', 'ph__title']}>
+        <span>{h1.before}</span>
+        {h1.accent && <>{' '}<span class="accent">{h1.accent}</span></>}
+        {h1.after && <>{' '}<span>{h1.after}</span></>}
+      </h1>
+      <p class="ph__lead">{lead}</p>
+      {paragraphs.map((p) => <p class="ph__p">{p}</p>)}
+      <div class="ph__ctas">
+        {ctas.map((c) => (
+          c.primary ? (
+            <a class="btn btn-p btn-lg btn-shadow" href={c.href}>{c.label}<Icon name="arrow" stroke={2.2} /></a>
+          ) : (
+            <a class="btn btn-s btn-lg" href={c.href}>{c.label}</a>
+          )
+        ))}
+      </div>
+      <ul class="ph__benefits">
+        {benefits.map((b) => (
+          <li>
+            <span class="ph__tile"><Icon name={b.icon} size={15} /></span>
+            {b.text}
+          </li>
+        ))}
+      </ul>
+    </div>
+    <figure class="ph__figure">
+      <div class="ph__art"><slot /></div>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .ph {
+    padding: 64px 0 76px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .ph__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 48px 56px; }
+  .ph__text { flex: 1.25 1 460px; min-width: 0; }
+  .ph__label { margin-bottom: 22px; }
+  .ph__title { margin-bottom: 18px; }
+  .ph__lead {
+    max-width: 580px;
+    margin-bottom: 14px;
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .ph__p {
+    max-width: 580px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .ph__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0; }
+  .ph__ctas .btn { padding: 12px 26px; }
+  .ph__benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    margin: 0;
+    padding: 20px 0 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .ph__benefits li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .ph__tile {
+    display: flex;
+    flex: 0 0 26px;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+  .ph__figure { flex: 1 1 400px; min-width: 0; }
+  .ph__art {
+    padding: 22px 20px;
+    border: 1px solid var(--line-2);
+    border-radius: 20px;
+    background: var(--surface-3);
+  }
+
+  /* Equipment Hub */
+  .ph--hub .ph__title { font-size: clamp(36px, 4.4vw, 56px); }
+  .ph--hub .ph__title span { display: inline-block; }
+  .ph--hub .ph__benefits {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    gap: 10px 16px;
+  }
+  .ph--hub .ph__benefits li { line-height: 1.35; }
+
+  /* Managed Storage */
+  .ph--managed .ph__p:last-of-type { margin-bottom: 28px; }
+  .ph--managed .ph__ctas { margin: 0 0 26px; }
+  .ph--managed .ph__ctas .btn { padding: 0 26px; }
+
+  /* Media Storage */
+  .ph--media { padding: 56px 0 64px; }
+  .ph--media .ph__inner { gap: 40px 56px; }
+  .ph--media .ph__label { margin-bottom: 20px; }
+  .ph--media .ph__lead { font-size: 18px; }
+  .ph--media .ph__p { margin-bottom: 10px; }
+  .ph--media .ph__ctas { margin: 24px 0 26px; }
+  .ph--media .ph__benefits { flex-direction: column; gap: 10px; }
+  .ph--media .ph__benefits li { gap: 8px; font-size: 13.5px; }
+  .ph--media .ph__art { padding: 18px 14px; }
+
+  @media (max-width: 760px) {
+    .ph, .ph--media { padding: var(--section-y) 0; }
+  }
+</style>

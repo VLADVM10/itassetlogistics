@@ -1,0 +1,99 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  block: PageData<'media'>['handling'];
+}
+const { block } = Astro.props;
+const ICONS: IconName[] = ['receive', 'register', 'lock', 'download'];
+const last = block.steps.length - 1;
+---
+<section id="storage-handling" class="sec sec--84 mh">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={block.intro} />
+    <ol class="mh__steps">
+      {block.steps.map((step, i) => (
+        <li class="mh__step">
+          <div class="mh__top">
+            <span class="mh__icon"><Icon name={ICONS[i] ?? 'cube'} size={20} stroke={1.7} /></span>
+            <span class="mh__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            {i < last && <span class="mh__arrow" aria-hidden="true"><Icon name="arrow" stroke={2.2} /></span>}
+          </div>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+    <div class="mh__note card-pad">
+      <span class="mh__note-icon"><Icon name="alert" size={22} stroke={1.7} /></span>
+      <p><strong>{block.note.title}</strong> {block.note.text}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mh { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .mh__steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: 16px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+  }
+  .mh__step {
+    min-width: 0;
+    padding: 22px 22px 24px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+  }
+  .mh__top { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .mh__icon {
+    display: flex;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #FFFFFF;
+  }
+  .mh__num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .mh__arrow { display: block; margin-left: auto; color: var(--rail); }
+  .mh__step h3 {
+    margin-bottom: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .mh__step p { font-size: 14px; line-height: 1.6; color: var(--text); }
+
+  .mh__note {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 22px;
+    border: 1px solid var(--line-2);
+    border-radius: 14px;
+    background: var(--surface);
+  }
+  .mh__note-icon { display: block; flex: 0 0 22px; margin-top: 1px; color: var(--accent); }
+  /* inline icons, as in the design (they sit on a text line) */
+  .mh__note-icon :global(svg), .mh__arrow :global(svg) { display: inline; }
+  .mh__note p {
+    min-width: 0;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .mh__note strong { font-weight: 600; color: var(--ink); }
+</style>

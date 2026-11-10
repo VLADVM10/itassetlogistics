@@ -1,0 +1,71 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  block: PageData<'media'>['what_we_handle'];
+}
+const { block } = Astro.props;
+const ICONS: IconName[] = ['hdd', 'ssd', 'usb'];
+---
+<section id="what-we-handle" class="sec sec--84 wh">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={block.intro} />
+    <div class="wh__grid">
+      {block.items.map((item, i) => (
+        <article class="wh__card">
+          <span class="wh__icon"><Icon name={ICONS[i] ?? 'hdd'} size={22} stroke={1.6} /></span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+    <div class="wh__notes">
+      <p>{block.note}</p>
+      <p>{block.disclaimer}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wh { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .wh__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 16px;
+  }
+  .wh__card {
+    padding: 24px 24px 26px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+  }
+  .wh__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    border-radius: 11px;
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+  .wh__card h3 {
+    margin-bottom: 8px;
+    font-size: 17.5px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .wh__card p { font-size: 14.5px; line-height: 1.6; color: var(--text); }
+  .wh__notes { display: flex; flex-wrap: wrap; gap: 12px 40px; margin-top: 24px; }
+  .wh__notes p {
+    flex: 1 1 340px;
+    min-width: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+</style>

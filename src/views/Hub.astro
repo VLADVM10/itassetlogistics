@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import HubHeroArt from '../components/art/HubHero.astro';
+import HubServices from '../components/hub/HubServices.astro';
+import HubJourney from '../components/hub/HubJourney.astro';
+import HubEquipment from '../components/hub/HubEquipment.astro';
+import HubScenarios from '../components/hub/HubScenarios.astro';
+import CtaPanel from '../components/CtaPanel.astro';
+import { getPage } from '../lib/content';
+import { pathFor, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const hub = await getPage('hub', lang);
+const { cta, hero } = hub;
+const BENEFIT_ICONS = ['register', 'cube', 'chart', 'route'] as const;
+---
+<Base lang={lang} page="hub">
+  <PageHero
+    variant="hub"
+    label={hero.label}
+    h1={hero.h1}
+    lead={hero.lead}
+    paragraphs={hero.paragraphs}
+    ctas={[
+      { label: hero.cta_primary, href: pathFor('contact', lang), primary: true },
+      { label: hero.cta_secondary, href: '#our-services' },
+    ]}
+    benefits={hero.benefits.map((text, i) => ({ text, icon: BENEFIT_ICONS[i] ?? 'cube' }))}
+  >
+    <HubHeroArt label={hero.illustration_label} />
+  </PageHero>
+  <HubServices lang={lang} block={hub.services} />
+  <HubJourney block={hub.how} />
+  <HubEquipment lang={lang} block={hub.equipment} />
+  <HubScenarios block={hub.scenarios} />
+  <CtaPanel
+    label={cta.label}
+    title={cta.title}
+    lead={cta.lead}
+    paragraphs={[cta.text]}
+    wide
+    button={cta.button}
+    href={pathFor('contact', lang)}
+    note={cta.note}
+  />
+</Base>

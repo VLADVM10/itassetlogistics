@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ManagedHeroArt from '../components/art/ManagedHero.astro';
+import ManagedStore from '../components/managed/ManagedStore.astro';
+import ManagedServices from '../components/managed/ManagedServices.astro';
+import ManagedArrangements from '../components/managed/ManagedArrangements.astro';
+import CtaPanel from '../components/CtaPanel.astro';
+import { getPage } from '../lib/content';
+import { pathFor, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const page = await getPage('managed', lang);
+const { hero, cta } = page;
+const BENEFIT_ICONS = ['cube', 'clipboard', 'sliders'] as const;
+const contact = pathFor('contact', lang);
+---
+<Base lang={lang} page="managed">
+  <PageHero
+    variant="managed"
+    label={hero.label}
+    h1={hero.h1}
+    lead={hero.lead}
+    paragraphs={hero.paragraphs}
+    ctas={[
+      { label: hero.cta_primary, href: contact, primary: true },
+      { label: hero.cta_secondary, href: '#storage-services' },
+    ]}
+    benefits={hero.benefits.map((text, i) => ({ text, icon: BENEFIT_ICONS[i] ?? 'cube' }))}
+  >
+    <ManagedHeroArt label={hero.illustration_label} />
+  </PageHero>
+  <ManagedStore block={page.what_we_store} />
+  <ManagedServices block={page.services} />
+  <ManagedArrangements block={page.arrangements} />
+  <CtaPanel
+    label={cta.label}
+    title={cta.title}
+    paragraphs={[cta.lead, ...cta.paragraphs]}
+    button={cta.button}
+    href={contact}
+  />
+</Base>

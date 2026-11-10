@@ -29,6 +29,10 @@
     "aria_label": "Навігація у футері",
     "domain": "itassetlogistics.com"
   },
+  "contact_labels": {
+    "email": "Ел. пошта",
+    "phone": "Телефон"
+  },
   "form": {
     "labels": {
       "name": "Ім’я *",

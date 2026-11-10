@@ -8,9 +8,9 @@ interface Props {
   dark?: boolean;
 }
 const { size = 'header', dark = false } = Astro.props;
-const dims = size === 'footer' ? { w: 34.7, h: 40, font: 17.8, gap: 11 } : { w: 31.3, h: 36, font: 16, gap: 10 };
+const dims = size === 'footer' ? { w: 34.7, h: 40 } : { w: 31.3, h: 36 };
 ---
-<span class:list={['logo', { 'logo--dark': dark }]} style={`--logo-gap:${dims.gap}px;--logo-font:${dims.font}px`}>
+<span class:list={['logo', `logo--${size}`, { 'logo--dark': dark }]}>
   <svg
     width={dims.w}
     height={dims.h}
@@ -22,8 +22,8 @@ const dims = size === 'footer' ? { w: 34.7, h: 40, font: 17.8, gap: 11 } : { w: 
     focusable="false"
   >
     <path class="logo__top" d="M 110 13 L 192 57 L 110 100 L 28 57 Z" stroke-width="13"></path>
-    <path d="M 28 116 L 110 159 L 192 116" stroke="var(--logo-mid)" stroke-width="13"></path>
-    <path d="M 28 161 L 110 204 L 192 161" stroke="var(--logo-bottom)" stroke-width="13"></path>
+    <path class="logo__mid" d="M 28 116 L 110 159 L 192 116" stroke-width="13"></path>
+    <path class="logo__bottom" d="M 28 161 L 110 204 L 192 161" stroke-width="13"></path>
   </svg>
   <span class="logo__word"><span>IT ASSET</span><span>LOGISTICS</span></span>
 </span>
@@ -32,22 +32,26 @@ const dims = size === 'footer' ? { w: 34.7, h: 40, font: 17.8, gap: 11 } : { w: 
   .logo {
     display: flex;
     align-items: center;
-    gap: var(--logo-gap);
+    gap: 10px;
     min-width: 0;
   }
+  .logo--footer { gap: 11px; }
   .logo svg { flex: 0 0 auto; }
   .logo__top { stroke: var(--logo-top); }
+  .logo__mid { stroke: var(--logo-mid); }
+  .logo__bottom { stroke: var(--logo-bottom); }
   .logo--dark .logo__top { stroke: #FFFFFF; }
   .logo__word {
     display: flex;
     flex-direction: column;
     font-family: var(--font-sans);
-    font-size: var(--logo-font);
+    font-size: 16px;
     line-height: 1.04;
     font-weight: 800;
     letter-spacing: -0.02em;
     color: var(--logo-top);
     white-space: nowrap;
   }
+  .logo--footer .logo__word { font-size: 17.8px; }
   .logo--dark .logo__word { color: #FFFFFF; }
 </style>

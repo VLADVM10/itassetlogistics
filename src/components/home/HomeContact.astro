@@ -1,0 +1,40 @@
+---
+import ContactDetails from '../ContactDetails.astro';
+import RequestForm from '../RequestForm.astro';
+import type { Lang } from '../../i18n/routes';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  lang: Lang;
+  block: PageData<'home'>['contact'];
+}
+const { lang, block } = Astro.props;
+---
+<section id="contact" class="sec hc">
+  <div class="container hc__inner">
+    <div class="hc__text">
+      <p class="eyebrow">{block.label}</p>
+      <h2 class="h2 hc__title">{block.title}</h2>
+      <p class="hc__intro">{block.intro}</p>
+      <ContactDetails lang={lang} locationLabel={block.location_label} />
+    </div>
+    <div class="hc__form">
+      <RequestForm lang={lang} placeholder={block.message_placeholder} thanks={block.thanks} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hc { background: var(--surface); }
+  .hc__inner { display: flex; flex-wrap: wrap; gap: 40px 64px; }
+  .hc__text { flex: 1 1 360px; min-width: 0; }
+  .hc__title { max-width: 440px; }
+  .hc__intro {
+    max-width: 460px;
+    margin: 20px 0 28px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .hc__form { flex: 999 1 520px; min-width: 0; }
+</style>

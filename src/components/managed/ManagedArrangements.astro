@@ -1,0 +1,63 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  block: PageData<'managed'>['arrangements'];
+}
+const { block } = Astro.props;
+const ICONS: IconName[] = ['bars', 'calendar', 'globe', 'document'];
+---
+<section id="arrangements" class="sec ar">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={block.intro} />
+    <div class="ar__grid">
+      {block.items.map((item, i) => (
+        <div class="ar__item">
+          <span class="ar__icon"><Icon name={ICONS[i] ?? 'cube'} size={20} stroke={1.7} /></span>
+          <div class="ar__text">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ar { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .ar__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
+    gap: 0 48px;
+  }
+  .ar__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px 0;
+    border-top: 1px solid var(--line-2);
+  }
+  .ar__icon {
+    display: flex;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--line-2);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--accent);
+  }
+  .ar__text { min-width: 0; }
+  .ar__text h3 {
+    margin-bottom: 6px;
+    font-size: 16.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .ar__text p { font-size: 14.5px; line-height: 1.6; color: var(--text); }
+</style>

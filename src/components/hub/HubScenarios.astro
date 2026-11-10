@@ -1,0 +1,76 @@
+---
+import SectionHead from '../SectionHead.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  block: PageData<'hub'>['scenarios'];
+}
+const { block } = Astro.props;
+---
+<section id="scenarios" class="sec sc">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={block.intro} />
+    <div class="sc__list">
+      {block.items.map((item, i) => (
+        <article class="sc__item">
+          <div class="sc__head">
+            <p class="sc__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+            <h3>{item.title}</h3>
+          </div>
+          <div class="sc__col">
+            <p class="sc__key">{block.situation_label}</p>
+            <p class="sc__text">{item.situation}</p>
+          </div>
+          <div class="sc__col">
+            <p class="sc__key">{block.help_label}</p>
+            <p class="sc__text">{item.help}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="sc__note">{block.note}</p>
+  </div>
+</section>
+
+<style>
+  .sc { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .sc__list { border-bottom: 1px solid var(--line-2); }
+  .sc__item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 40px;
+    padding: 30px 0;
+    border-top: 1px solid var(--line-2);
+  }
+  .sc__head { flex: 1 1 260px; min-width: 0; }
+  .sc__num {
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .sc__head h3 {
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  .sc__col { flex: 1 1 280px; min-width: 0; }
+  .sc__key {
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sc__text { font-size: 14.5px; line-height: 1.6; color: var(--text); }
+  .sc__note {
+    margin-top: 24px;
+    font-size: 15.5px;
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--ink);
+  }
+</style>

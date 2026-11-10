@@ -1,0 +1,161 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  block: PageData<'managed'>['services'];
+}
+const { block } = Astro.props;
+const CORE_ICONS: IconName[] = ['receive', 'cube', 'clipboard', 'download'];
+---
+<section id="storage-services" class="sec ss">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={block.intro} />
+
+    <div class="core card-pad">
+      <h3 class="core__title">{block.core.title}</h3>
+      <p class="core__intro">{block.core.intro}</p>
+      <div class="core__items">
+        {block.core.items.map((item, i) => (
+          <div class="core__item">
+            <span class="core__icon"><Icon name={CORE_ICONS[i] ?? 'cube'} size={22} stroke={1.7} /></span>
+            <h4>{item.title}</h4>
+            <p>{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="opt card-pad">
+      <h3 class="opt__title">{block.optional.title}</h3>
+      <p class="opt__intro">{block.optional.intro}</p>
+      <ul class="opt__list">
+        {block.optional.items.map((item) => (
+          <li>
+            <span class="opt__check"><Icon name="check" stroke={2.2} /></span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="ss__aside card-pad">
+      <p class="ss__aside-title">{block.aside.title}</p>
+      <p class="ss__aside-text">{block.aside.text}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ss { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+
+  .core {
+    margin-bottom: 16px;
+    padding: 36px 36px 40px;
+    border-radius: 16px;
+    background: var(--ink);
+    box-shadow: 0 24px 48px -32px rgba(13, 27, 42, 0.6);
+  }
+  .core__title {
+    margin-bottom: 8px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+  }
+  .core__intro {
+    max-width: 640px;
+    margin-bottom: 30px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--dark-text);
+  }
+  .core__items { display: flex; flex-wrap: wrap; gap: 28px 32px; }
+  .core__item { flex: 1 1 220px; min-width: 0; }
+  .core__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    border-radius: 11px;
+    background: var(--accent);
+    color: #FFFFFF;
+  }
+  .core__item h4 {
+    margin-bottom: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #FFFFFF;
+  }
+  .core__item p { font-size: 14.5px; line-height: 1.6; color: var(--dark-text-2); }
+
+  .opt {
+    margin-bottom: 16px;
+    padding: 28px 36px 30px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  .opt__title {
+    margin-bottom: 6px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .opt__intro {
+    margin-bottom: 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .opt__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    gap: 10px 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .opt__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .opt__list li > span:last-child { min-width: 0; }
+  .opt__check { display: block; flex: 0 0 16px; margin-top: 3px; color: var(--accent); }
+  /* inline as in the design: the icon sits on a text line, which sets the row height */
+  .opt__check :global(svg) { display: inline; }
+
+  .ss__aside {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 32px;
+    padding: 22px 36px;
+    border: 1px dashed var(--rail);
+    border-radius: 16px;
+  }
+  .ss__aside-title {
+    flex: 1 1 320px;
+    min-width: 0;
+    font-size: 19px;
+    line-height: 1.35;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .ss__aside-text {
+    flex: 1.6 1 380px;
+    min-width: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+</style>

@@ -1,0 +1,79 @@
+---
+/* "Get in Touch" panel closing the service pages. */
+import Icon from './Icon.astro';
+
+interface Props {
+  label: string;
+  title: string;
+  /** bold first line (Equipment Hub) */
+  lead?: string;
+  paragraphs?: string[];
+  button: string;
+  href: string;
+  note?: string;
+  /** H2 max-width 640px (Equipment Hub) instead of 620px */
+  wide?: boolean;
+  /** Media Storage: 84px section, 48px panel padding */
+  compact?: boolean;
+}
+const { label, title, lead, paragraphs = [], button, href, note, wide, compact } = Astro.props;
+---
+<section id="get-in-touch" class:list={['sec', 'cta', compact && 'sec--84 cta--compact']}>
+  <div class="container">
+    <div class="cta__panel card-pad">
+      <div class="cta__text">
+        <p class="eyebrow">{label}</p>
+        <h2 class:list={['h2', 'cta__title', wide && 'cta__title--wide']}>{title}</h2>
+        {lead && <p class="cta__lead">{lead}</p>}
+        {paragraphs.length > 0 && (
+          <div class:list={['cta__body', !lead && 'cta__body--spaced']}>{paragraphs.map((p) => <p>{p}</p>)}</div>
+        )}
+      </div>
+      <div class="cta__action">
+        <a class="btn btn-p btn-lg btn-shadow cta__btn" href={href}>
+          {button}
+          <Icon name="arrow" stroke={2.2} />
+        </a>
+        {note && <p class="cta__note">{note}</p>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { background: var(--surface); }
+  .cta__panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 32px 56px;
+    padding: 52px 48px;
+    border: 1px solid var(--line-3);
+    border-radius: 12px;
+    background: var(--surface-2);
+  }
+  .cta__text { flex: 999 1 520px; min-width: 0; }
+  .cta__title { max-width: 620px; }
+  .cta__title--wide { max-width: 640px; }
+  .cta--compact .cta__panel { gap: 28px 56px; padding: 48px; }
+  .cta__lead {
+    max-width: 660px;
+    margin: 20px 0 8px;
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .cta__body { max-width: 660px; }
+  .cta__body--spaced { margin-top: 20px; }
+  .cta__body p { font-size: 16px; line-height: 1.65; color: var(--text); }
+  .cta__body--spaced p { margin-bottom: 12px; }
+  .cta__action { flex: 1 1 330px; min-width: 0; }
+  .cta__btn { padding: 12px 26px; }
+  .cta__note {
+    margin-top: 14px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+</style>

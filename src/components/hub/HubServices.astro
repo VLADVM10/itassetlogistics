@@ -1,0 +1,111 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import { pathFor, type Lang } from '../../i18n/routes';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  lang: Lang;
+  block: PageData<'hub'>['services'];
+}
+const { lang, block } = Astro.props;
+const ICONS: IconName[] = ['receive', 'register', 'cube', 'truck', 'return', 'layers'];
+---
+<section id="our-services" class="sec svcs">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={block.intro} />
+    <div class="svcs__grid">
+      {block.items.map((item, i) => (
+        <article class="svcs__card">
+          <div class="svcs__top">
+            <span class="svcs__icon"><Icon name={ICONS[i] ?? 'cube'} size={22} stroke={1.6} /></span>
+            <span class="svcs__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <h3 class="svcs__title">{item.title}</h3>
+          <p class="svcs__text">{item.text}</p>
+          <p class="svcs__result"><span>{block.result_label} →</span> {item.result}</p>
+        </article>
+      ))}
+    </div>
+    <div class="svcs__foot">
+      <p>{block.note}</p>
+      <a href={pathFor('contact', lang)}>{block.link} →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .svcs { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .svcs__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    gap: 16px;
+  }
+  .svcs__card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 22px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+  }
+  .svcs__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .svcs__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+  .svcs__num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .svcs__title {
+    margin-bottom: 8px;
+    font-size: 17.5px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .svcs__text {
+    margin-bottom: 18px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .svcs__result {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .svcs__result span { font-weight: 600; color: var(--accent); }
+  .svcs__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 32px;
+    margin-top: 24px;
+  }
+  .svcs__foot p {
+    flex: 999 1 420px;
+    min-width: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .svcs__foot a { font-size: 15px; font-weight: 600; text-decoration: none; }
+</style>

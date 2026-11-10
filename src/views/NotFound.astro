@@ -12,7 +12,7 @@ const content = await getPage('404', lang);
   <section class="sec nf">
     <div class="container nf__inner">
       <p class="label">404</p>
-      <h1 class="h1">{content.title}</h1>
+      <h1 class="h1 h1--page">{content.title}</h1>
       <p class="lead">{content.text}</p>
       <div class="nf__actions">
         <a class="btn btn-p" href={pathFor('home', lang)}>{content.home_link}</a>
@@ -23,8 +23,13 @@ const content = await getPage('404', lang);
 </Base>
 
 <style>
-  .nf { min-height: 60vh; }
+  /* No artboard for 404: built from the Contact/Privacy page head (spec section 4) */
+  .nf {
+    min-height: 60vh;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border-bottom: 1px solid var(--line);
+  }
   .nf__inner { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
-  .nf .lead { max-width: 620px; }
+  .nf .lead { max-width: 620px; font-size: 18px; }
   .nf__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
 </style>

@@ -1,0 +1,436 @@
+---
+/*
+ * Equipment Journey (spec section 8): 5 stations + the final "Back in Stock" state.
+ * Server output shows stage 1 and is fully readable without JS; scripts/journey.ts
+ * adds autoplay (4.5 s, only in view and with the tab visible), Previous/Play/Pause/Next
+ * and picking any stage. All labels come from page JSON.
+ */
+import Icon from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  block: PageData<'hub'>['how'];
+}
+const { block } = Astro.props;
+const stages = block.stages;
+const pad = (n: number) => String(n).padStart(2, '0');
+const total = pad(stages.length);
+
+// Station icons and status tones are fixed by position (design), not content.
+const ICON_D = [
+  'M21 8v11a2 2 0 01-2 2H5a2 2 0 01-2-2V8 M2 8l2.5-5h15L22 8H2z',
+  'M4 7V5h3 M20 7V5h-3 M4 17v2h3 M20 17v2h-3 M8 9v6 M11.5 9v6 M15 9v6',
+  'M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z M4 7.5l8 4.5 8-4.5 M12 12v9',
+  'M3 7h11v9H3z M14 10h4l3 3v3h-7 M5.2 18.5a1.8 1.8 0 103.6 0 1.8 1.8 0 10-3.6 0 M15.2 18.5a1.8 1.8 0 103.6 0 1.8 1.8 0 10-3.6 0',
+  'M3 11a9 9 0 0115.5-6 M21 13a9 9 0 01-15.5 6 M18 3v5h-5 M6 21v-5h5',
+  'M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z M4 7.5l8 4.5 8-4.5 M12 12v9',
+];
+const TONES = ['grey', 'blue', 'blue', 'dark', 'grey', 'blue'];
+const final = stages.length - 1;
+---
+<section id="how-it-works" class="sec how">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={[block.intro, block.intro_2]} gap={36} />
+
+    <figure id="journey" class="jr card-pad" aria-labelledby="journey-title" data-journey data-step="0">
+      <div class="jr__bar">
+        <p id="journey-title" class="jr__caption">{block.card_title}</p>
+        <span class="jr__count" data-j-count data-total={total}>01 / {total}</span>
+        <div class="jr__ctrl">
+          <button class="jbtn" type="button" data-j-prev>
+            <Icon name="prev" size={14} stroke={2.2} />{block.controls.previous}
+          </button>
+          <button class="jbtn" type="button" data-j-toggle>
+            <span class="jbtn__inner" data-j-pause><Icon name="pause" size={13} stroke={0} />{block.controls.pause}</span>
+            <span class="jbtn__inner" data-j-play hidden><Icon name="play" size={13} stroke={0} />{block.controls.play}</span>
+          </button>
+          <button class="jbtn" type="button" data-j-next>
+            {block.controls.next}<Icon name="next" size={14} stroke={2.2} />
+          </button>
+        </div>
+      </div>
+
+      <!-- desktop track -->
+      <div class="jt-h">
+        <div class="jt-h__marker" aria-hidden="true">
+          <span class="jt-h__pill"><Icon name="laptop" /><span>{block.serial}</span></span>
+          <span class="jt-h__stem"></span>
+        </div>
+        <span class="jt-h__rail" aria-hidden="true"></span>
+        <span class="jt-h__progress" aria-hidden="true"></span>
+        {stages.slice(0, final).map((s, i) => (
+          <button class:list={['jst', i === 0 && 'is-cur']} type="button" data-j-pick={i} aria-current={i === 0 ? 'step' : undefined}>
+            <span class="jst__dot">
+              <span class="jst__ring" aria-hidden="true"></span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ICON_D[i]} /></svg>
+            </span>
+            <span class="jst__label">{s.name}</span>
+          </button>
+        ))}
+        <span class="jt-h__arc" aria-hidden="true"></span>
+        <span class="jt-h__arrow" aria-hidden="true">
+          <svg width="12" height="9" viewBox="0 0 12 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 7.5L6 2l4.5 5.5" /></svg>
+        </span>
+        <button class="jt-h__final" type="button" data-j-pick={final}>{stages[final]!.name}</button>
+      </div>
+
+      <!-- phone track -->
+      <div class="jt-v">
+        <span class="jt-v__rail" aria-hidden="true"></span>
+        <span class="jt-v__progress" aria-hidden="true"></span>
+        <span class="jt-v__loop" aria-hidden="true"></span>
+        <span class="jt-v__marker" aria-hidden="true"><Icon name="laptop" size={20} stroke={1.7} /></span>
+        {stages.map((s, i) => (
+          <button class:list={['jrow', i === 0 && 'is-cur']} type="button" data-j-pick={i} aria-current={i === 0 ? 'step' : undefined}>
+            <span class="jst__dot">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ICON_D[i]} /></svg>
+            </span>
+            <span class="jst__label">{s.name}</span>
+          </button>
+        ))}
+      </div>
+
+      <!-- record of the current stage -->
+      <div class="jr__record" aria-live="off" data-j-live>
+        {stages.map((s, i) => (
+          <div class="jr__entry" data-j-entry={i} hidden={i !== 0}>
+            <div class="jr__head">
+              <p class="jr__title">{s.title}</p>
+              <p class="jr__status">
+                <span class="jr__status-key">{block.status_label}</span>
+                <span class={`jr__pill jr__pill--${TONES[i]}`}><span aria-hidden="true"></span>{s.status}</span>
+              </p>
+            </div>
+            <p class="jr__event">{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </figure>
+    <p class="how__foot">{block.footnote}</p>
+  </div>
+</section>
+
+<script>
+  import { initJourney } from '../../scripts/journey';
+  initJourney();
+</script>
+
+<style>
+  .how { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+
+  .jr {
+    --pos: 0;
+    --reached: 0;
+    --ease: cubic-bezier(0.65, 0, 0.35, 1);
+    padding: 24px 32px 30px;
+    border: 1px solid var(--line-2);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgba(13, 27, 42, 0.04), 0 30px 60px -36px rgba(13, 27, 42, 0.35);
+  }
+
+  .jr__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+    margin-bottom: 18px;
+  }
+  .jr__caption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .jr__count {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink);
+  }
+  .jr__ctrl { display: flex; gap: 6px; }
+  /* controls do nothing without JS */
+  :global(html:not(.js)) .jr__ctrl,
+  :global(html:not(.js)) .jr__count { display: none; }
+  .jbtn, .jbtn__inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  }
+  .jbtn {
+    min-height: 40px;
+    padding: 0 13px;
+    border: 1px solid var(--line-3);
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .jbtn:hover { border-color: var(--accent); color: var(--accent); }
+  .jbtn__inner[hidden] { display: none; }
+
+  /* ---- shared station look ---- */
+  .jst__dot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--line-3);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--muted);
+    transition: background 0.5s ease, border-color 0.5s ease;
+  }
+  .jst__label {
+    font-weight: 500;
+    color: var(--muted);
+    transition: color 0.5s ease;
+  }
+  .is-done .jst__dot { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+  .is-done .jst__label { color: var(--ink); }
+  .is-cur .jst__dot { border-color: var(--accent); background: var(--accent); color: #FFFFFF; }
+  .is-cur .jst__label { font-weight: 700; color: var(--accent); }
+
+  /* ---- desktop track ---- */
+  .jt-h { position: relative; height: 228px; margin: 0 56px; }
+  .jt-h__marker {
+    position: absolute;
+    top: 6px;
+    left: calc(var(--pos) * 25%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-50%);
+    transition: left 1.15s var(--ease);
+    pointer-events: none;
+  }
+  .jt-h__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 8px 10px;
+    border-radius: 999px;
+    background: var(--ink);
+    box-shadow: 0 10px 24px -10px rgba(13, 27, 42, 0.6);
+    color: var(--marker-icon);
+    white-space: nowrap;
+  }
+  .jt-h__pill span {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+  }
+  .jt-h__stem { display: block; width: 0; height: 30px; border-left: 1.5px dashed var(--accent); }
+  .jt-h__rail, .jt-h__progress {
+    position: absolute;
+    top: 102px;
+    left: 0;
+    height: 2px;
+    border-radius: 2px;
+  }
+  .jt-h__rail { right: 0; background: var(--line); }
+  .jt-h__progress {
+    width: calc(var(--reached) * 25%);
+    background: var(--accent);
+    transition: width 1.15s var(--ease);
+  }
+  .jst {
+    position: absolute;
+    top: 77px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 112px;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transform: translateX(-50%);
+  }
+  .jst:nth-of-type(1) { left: 0; }
+  .jst:nth-of-type(2) { left: 25%; }
+  .jst:nth-of-type(3) { left: 50%; }
+  .jst:nth-of-type(4) { left: 75%; }
+  .jst:nth-of-type(5) { left: 100%; }
+  .jst .jst__dot { width: 52px; height: 52px; }
+  .jst .jst__label { font-size: 13.5px; }
+  .jst__ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: none;
+    width: 52px;
+    height: 52px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    animation: a-ring 1.4s ease-out infinite;
+  }
+  .jst[aria-current='step'] .jst__ring { display: block; }
+  .jt-h__arc {
+    position: absolute;
+    top: 165px;
+    left: 50%;
+    width: 50%;
+    height: 36px;
+    border: 1.5px dashed var(--line-3);
+    border-top: none;
+    border-radius: 0 0 16px 16px;
+    transition: border-color 0.5s ease;
+  }
+  .jt-h__arrow {
+    position: absolute;
+    top: 158px;
+    left: 50%;
+    display: block;
+    line-height: 0;
+    color: var(--line-3);
+    transform: translateX(-50%);
+    transition: color 0.5s ease;
+  }
+  .jt-h__final {
+    position: absolute;
+    top: 183px;
+    left: 75%;
+    min-height: 36px;
+    padding: 0 16px;
+    border: 1.5px solid var(--line-3);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transform: translateX(-50%);
+    transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+  }
+  .is-final .jt-h__arc { border-color: var(--accent); }
+  .is-final .jt-h__arrow { color: var(--accent); }
+  .is-final .jt-h__final { border-color: var(--accent); background: var(--accent); color: #FFFFFF; }
+
+  /* ---- phone track ---- */
+  .jt-v { position: relative; display: none; }
+  .jt-v__rail, .jt-v__progress {
+    position: absolute;
+    top: 26px;
+    left: 21px;
+    width: 2px;
+  }
+  .jt-v__rail { height: 224px; background: var(--line); }
+  .jt-v__progress {
+    height: calc(var(--reached) * 56px);
+    background: var(--accent);
+    transition: height 1.15s var(--ease);
+  }
+  .jt-v__loop {
+    position: absolute;
+    top: 250px;
+    left: 21px;
+    width: 0;
+    height: 56px;
+    border-left: 1.5px dashed var(--line-3);
+  }
+  .jt-v__marker {
+    position: absolute;
+    top: calc(var(--pos) * 56px + 6px);
+    left: 2px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #FFFFFF;
+    transition: top 1.15s var(--ease);
+    pointer-events: none;
+  }
+  .jrow {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    height: 56px;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: var(--font-sans);
+    text-align: left;
+    cursor: pointer;
+  }
+  .jrow .jst__dot { flex: 0 0 44px; width: 44px; height: 44px; }
+  .jrow .jst__label { font-size: 15px; }
+
+  @media (max-width: 640px) {
+    .jt-h { display: none; }
+    .jt-v { display: block; }
+  }
+
+  /* ---- record ---- */
+  .jr__record { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .jr__entry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 14px 40px;
+  }
+  .jr__entry[hidden] { display: none; }
+  .jr__head { flex: 0 1 300px; min-width: 0; }
+  .jr__title {
+    margin-bottom: 8px;
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .jr__status { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+  .jr__status-key {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .jr__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 12px 5px 10px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .jr__pill span { display: block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .jr__pill--grey { background: var(--tone-grey-bg); color: var(--tone-grey-fg); }
+  .jr__pill--blue { background: var(--pill); color: var(--accent); }
+  .jr__pill--dark { background: var(--ink); color: #FFFFFF; }
+  .jr__event {
+    flex: 999 1 340px;
+    min-width: 0;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .how__foot {
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--ink);
+  }
+</style>

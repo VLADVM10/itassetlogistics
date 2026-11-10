@@ -1,0 +1,169 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+import HeroIntake from '../art/HeroIntake.astro';
+import AssetTag from './AssetTag.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  hero: PageData<'home'>['hero'];
+}
+const { hero } = Astro.props;
+
+const OPERATION_ICONS: IconName[] = ['receive', 'register', 'lock', 'truck', 'return'];
+const BENEFIT_ICONS: IconName[] = ['building', 'cube', 'sliders'];
+---
+<section class="sec hero">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <p class="label hero__label">{hero.label}</p>
+      <h1 class="h1 hero__title">
+        {hero.h1.before}{' '}
+        {hero.h1.accent && <span class="accent nb">{hero.h1.accent}</span>}
+        {hero.h1.after && <>{' '}{hero.h1.after}</>}
+      </h1>
+      <p class="hero__intro">{hero.intro}</p>
+      <div class="hero__ctas">
+        <a class="btn btn-p btn-lg btn-shadow" href="#contact">
+          {hero.cta_primary}
+          <Icon name="arrow" stroke={2.2} />
+        </a>
+        <a class="btn btn-s btn-lg" href="#what-we-do">{hero.cta_secondary}</a>
+      </div>
+
+      <ul class="hero__ops" aria-label={hero.operations_label}>
+        {hero.operations.map((op, i) => (
+          <>
+            {i > 0 && <li class="hero__dot" aria-hidden="true">·</li>}
+            <li class="hero__op">
+              <Icon name={OPERATION_ICONS[i] ?? 'cube'} />
+              {op}
+            </li>
+          </>
+        ))}
+      </ul>
+
+      <ul class="hero__benefits">
+        {hero.benefits.map((b, i) => (
+          <li>
+            <span class="hero__tile"><Icon name={BENEFIT_ICONS[i] ?? 'cube'} /></span>
+            {b}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <figure class="hero__figure">
+      <div class="hero__art">
+        <HeroIntake label={hero.illustration_label} />
+      </div>
+      <AssetTag tag={hero.tag} />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 64px 0 76px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 48px 56px;
+  }
+  .hero__text {
+    flex: 1.25 1 460px;
+    min-width: 0;
+    animation: a-rise 0.7s ease-out both;
+  }
+  .hero__label { margin-bottom: 22px; }
+  .hero__title { margin-bottom: 22px; }
+  .hero__intro {
+    max-width: 560px;
+    margin-bottom: 28px;
+    font-size: 18px;
+    line-height: 1.62;
+    color: var(--text);
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  .hero__ops {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin: 0 0 26px;
+    padding: 0;
+    list-style: none;
+  }
+  .hero__op {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .hero__op :global(svg) { color: var(--accent); }
+  .hero__dot {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dot);
+  }
+
+  .hero__benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    margin: 0;
+    padding: 20px 0 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .hero__benefits li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .hero__tile {
+    display: flex;
+    flex: 0 0 26px;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+
+  .hero__figure {
+    position: relative;
+    flex: 1 1 400px;
+    min-width: 0;
+    animation: a-rise 0.9s ease-out 0.15s both;
+  }
+  .hero__art {
+    padding: 18px 18px 6px;
+    border: 1px solid var(--line-2);
+    border-radius: 20px;
+    background: var(--surface-3);
+  }
+  /* Asset Tag variant A sits over the illustration from 1181px (spec section 8) */
+  @media (min-width: 1181px) {
+    .hero__art { padding: 14px 6px 78px 20%; }
+  }
+  @media (max-width: 760px) {
+    .hero { padding: var(--section-y) 0; }
+  }
+</style>

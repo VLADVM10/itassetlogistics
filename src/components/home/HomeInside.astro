@@ -1,0 +1,132 @@
+---
+import InsideReceiving from '../art/InsideReceiving.astro';
+import InsideStorage from '../art/InsideStorage.astro';
+import InsidePacking from '../art/InsidePacking.astro';
+import InsideCases from '../art/InsideCases.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  inside: PageData<'home'>['inside'];
+}
+const { inside } = Astro.props;
+// the schema fixes exactly four items, one per illustration
+const [receiving, storage, packing, cases] = inside.items;
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+<section id="inside" class="sec inside">
+  <div class="container">
+    <div class="inside__head">
+      <div class="inside__titles">
+        <p class="eyebrow">{inside.label}</p>
+        <h2 class="h2 inside__title">{inside.title}</h2>
+      </div>
+      <p class="inside__intro">{inside.intro}</p>
+    </div>
+
+    <div class="bento">
+      <figure class="tile tile--a">
+        <div class="tile__art"><InsideReceiving label={receiving.illustration_label} /></div>
+        <figcaption><span>{num(0)} — {receiving.caption}</span></figcaption>
+      </figure>
+      <figure class="tile tile--b">
+        <div class="tile__art"><InsideStorage label={storage.illustration_label} /></div>
+        <figcaption><span>{num(1)} — {storage.caption}</span></figcaption>
+      </figure>
+      <figure class="tile tile--c">
+        <div class="tile__art"><InsidePacking label={packing.illustration_label} /></div>
+        <figcaption><span>{num(2)} — {packing.caption}</span></figcaption>
+      </figure>
+      <figure class="tile tile--d tile--dark">
+        <div class="tile__art"><InsideCases label={cases.illustration_label} sealed={inside.sealed_label} /></div>
+        <figcaption><span>{num(3)} — {cases.caption}</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .inside { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .inside__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 20px 56px;
+    margin-bottom: 40px;
+  }
+  .inside__titles { flex: 999 1 480px; min-width: 0; }
+  .inside__title { max-width: 640px; }
+  .inside__intro {
+    flex: 1 1 340px;
+    min-width: 0;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    grid-template-rows: 270px 270px;
+    gap: 16px;
+  }
+  .tile {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--tile-line);
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--tile-from) 0%, var(--tile-to) 100%);
+  }
+  /* 28px grid behind the illustration */
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(13, 27, 42, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(13, 27, 42, 0.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .tile--dark {
+    border-color: var(--dark-line);
+    background: linear-gradient(135deg, var(--dark-2) 0%, var(--ink) 100%);
+  }
+  .tile--dark::before {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+  .tile--a { grid-column: 1; grid-row: 1 / span 2; }
+  .tile--b { grid-column: 2; grid-row: 1; }
+  .tile--c { grid-column: 3; grid-row: 1; }
+  .tile--d { grid-column: 2 / span 2; grid-row: 2; }
+
+  .tile__art {
+    position: absolute;
+    inset: 20px 22px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tile figcaption {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+  .tile figcaption span {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 4px 12px -6px rgba(13, 27, 42, 0.3);
+    font-size: 12.5px;
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  @media (max-width: 760px) {
+    .bento { grid-template-columns: 1fr; grid-template-rows: none; }
+    .bento > .tile { grid-column: auto; grid-row: auto; min-height: 300px; }
+  }
+</style>

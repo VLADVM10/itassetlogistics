@@ -293,6 +293,8 @@ export const settings = z.strictObject({
     logo_label: label,
   }),
   footer: z.strictObject({ aria_label: label, domain: str(60) }),
+  // captions for the email/phone rows on Home and Contact (shown only when contacts.json has a value)
+  contact_labels: z.strictObject({ email: str(30), phone: str(30) }),
   form: z.strictObject({
     labels: z.strictObject({
       name: str(40),

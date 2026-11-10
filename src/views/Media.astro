@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import MediaHeroArt from '../components/art/MediaHero.astro';
+import MediaHandle from '../components/media/MediaHandle.astro';
+import MediaHandling from '../components/media/MediaHandling.astro';
+import MediaAfter from '../components/media/MediaAfter.astro';
+import CtaPanel from '../components/CtaPanel.astro';
+import { getPage } from '../lib/content';
+import { pathFor, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const page = await getPage('media', lang);
+const { hero, cta } = page;
+const BENEFIT_ICONS = ['register', 'document', 'clipboard'] as const;
+const contact = pathFor('contact', lang);
+---
+<Base lang={lang} page="media">
+  <PageHero
+    variant="media"
+    label={hero.label}
+    h1={hero.h1}
+    lead={hero.lead}
+    paragraphs={hero.paragraphs}
+    ctas={[{ label: hero.cta_primary, href: contact, primary: true }]}
+    benefits={hero.benefits.map((text, i) => ({ text, icon: BENEFIT_ICONS[i] ?? 'cube' }))}
+  >
+    <MediaHeroArt label={hero.illustration_label} />
+  </PageHero>
+  <MediaHandle block={page.what_we_handle} />
+  <MediaHandling block={page.handling} />
+  <MediaAfter block={page.after_storage} />
+  <CtaPanel
+    label={cta.label}
+    title={cta.title}
+    paragraphs={[cta.lead, ...cta.paragraphs]}
+    button={cta.button}
+    href={contact}
+    compact
+  />
+</Base>

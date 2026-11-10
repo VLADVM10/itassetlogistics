@@ -1,0 +1,213 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+import UkraineMap from '../art/UkraineMap.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  block: PageData<'home'>['nationwide'];
+}
+const { block } = Astro.props;
+const POINT_ICONS: IconName[] = ['truck', 'return', 'cube'];
+const STEP_ICONS: IconName[] = ['globe', 'building', 'cube'];
+---
+<section id="nationwide" class="sec nw">
+  <div class="container nw__inner">
+    <div class="nw__text">
+      <p class="eyebrow">{block.label}</p>
+      <h2 class="h2 nw__title">{block.title}</h2>
+      <p class="nw__intro">{block.intro}</p>
+      <ul class="nw__points">
+        {block.points.map((p, i) => (
+          <li>
+            <span class="nw__tile"><Icon name={POINT_ICONS[i] ?? 'cube'} size={20} stroke={1.7} /></span>
+            <p><strong>{p.title}</strong>{' '}{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="nw__side">
+      <figure class="nw__map anim-pause card-pad">
+        <UkraineMap label={block.map_label} kyiv={block.map_kyiv} {...block.cities} />
+        <figcaption>{block.map_caption}</figcaption>
+      </figure>
+
+      <div class="abroad card-pad">
+        <h3 class="abroad__title">{block.abroad.title}</h3>
+        <ol class="abroad__steps">
+          {block.abroad.steps.map((step, i) => (
+            <>
+              {i > 0 && (
+                <li class="abroad__arrow" aria-hidden="true">
+                  <span></span>
+                  <svg width="9" height="12" viewBox="0 0 9 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 1.5L7 6l-5 4.5" /></svg>
+                </li>
+              )}
+              <li class:list={['abroad__step', i === 1 && 'abroad__step--us']}>
+                <span class="abroad__circle"><Icon name={STEP_ICONS[i] ?? 'cube'} /></span>
+                <span class="abroad__label">{step}</span>
+              </li>
+            </>
+          ))}
+        </ol>
+        <p class="abroad__text">{block.abroad.text}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nw { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .nw__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 40px 64px;
+  }
+  .nw__text { flex: 1 1 380px; min-width: 0; }
+  .nw__title { max-width: 480px; }
+  .nw__intro {
+    max-width: 480px;
+    margin: 20px 0 22px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .nw__points {
+    max-width: 480px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .nw__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .nw__tile {
+    display: flex;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+  .nw__points p {
+    min-width: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+  .nw__points strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .nw__side {
+    display: flex;
+    flex: 1 1 520px;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+  .nw__map {
+    padding: 22px 24px 18px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+  }
+  .nw__map figcaption {
+    margin-top: 10px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .abroad {
+    padding: 22px 24px 24px;
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  .abroad__title {
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  .abroad__steps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0 0 16px;
+    padding: 14px 10px;
+    list-style: none;
+    border-radius: 10px;
+    background: var(--surface-2);
+  }
+  .abroad__step {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    text-align: center;
+  }
+  .abroad__circle {
+    display: flex;
+    flex: 0 0 34px;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--line-3);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text);
+  }
+  .abroad__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.35;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .abroad__step--us .abroad__circle {
+    border: none;
+    background: var(--accent);
+    color: #FFFFFF;
+  }
+  .abroad__step--us .abroad__label { font-weight: 600; color: var(--accent); }
+  .abroad__arrow {
+    display: flex;
+    flex: 0 1 48px;
+    align-items: center;
+    min-width: 20px;
+    margin-top: 11px;
+    color: var(--dot);
+  }
+  .abroad__arrow span {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 0;
+    border-top: 1.5px dashed var(--rail);
+  }
+  .abroad__arrow svg { flex: 0 0 9px; }
+  .abroad__text {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+</style>

@@ -15,10 +15,26 @@
   --surface-3: #F0F4F9;
   --error: #B42318;
 
+  /* secondary values used by single components in the design */
+  --dot: #8795A6;          /* separators, connector arrows */
+  --rail: #A9B6C6;         /* timeline dots, dashed connectors */
+  --tile-line: #D3DCE8;    /* bento tiles */
+  --tile-from: #F3F6FA;
+  --tile-to: #E3E9F1;
+  --pill: #E4ECFC;         /* status pill */
+  --tone-grey-bg: #EEF1F5;  /* Journey status pills */
+  --tone-grey-fg: #3B4A5C;
+  --marker-icon: #7FA6F5;  /* laptop icon on the Journey marker */
+  --error-bg: #FDF1F0;
+  --error-line: #F3C9C5;
+  --error-text: #8A1C12;
+
   /* dark surfaces (footer, dark panels) */
+  --dark-2: #16324A;
   --dark-text: #AFBDCE;
   --dark-link: #DCE5F0;
   --dark-muted: #8C9CB2;
+  --dark-text-2: #C5D0DE; /* body text on the dark Core Storage card */
   --dark-line: #27384D;
 
   /* logo emblem (brand kit C2) */
@@ -30,6 +46,7 @@
   --font-sans: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --h1: clamp(34px, 4.4vw, 56px);
+  --h1-page: clamp(32px, 3.6vw, 46px);
   --h2: clamp(28px, 3.2vw, 40px);
   --label-size: 11.5px;
   --label-track: 0.14em;

@@ -10,7 +10,12 @@ export default defineConfig({
   trailingSlash: 'always',
   build: {
     format: 'directory',
-    inlineStylesheets: 'auto',
+    // CSS and JS go to /_astro/ files, never inline: the CSP (spec section 13) allows no inline code
+    // except the one-line `html.js` flag in <head>, which stage 7 whitelists by hash.
+    inlineStylesheets: 'never',
+  },
+  vite: {
+    build: { assetsInlineLimit: 0 },
   },
   i18n: {
     defaultLocale: 'en',

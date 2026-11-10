@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactDetails from '../components/ContactDetails.astro';
+import RequestForm from '../components/RequestForm.astro';
+import { getPage } from '../lib/content';
+import type { Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const { hero, form } = await getPage('contact', lang);
+---
+<Base lang={lang} page="contact">
+  <section class="sec ct">
+    <div class="container ct__inner">
+      <div class="ct__text">
+        <p class="eyebrow">{hero.label}</p>
+        <h1 class="h1 ct__title">
+          {hero.h1.before}
+          {hero.h1.accent && <>{' '}<span class="accent">{hero.h1.accent}</span></>}
+          {hero.h1.after && <>{' '}{hero.h1.after}</>}
+        </h1>
+        <p class="ct__intro">{hero.intro}</p>
+        <ContactDetails lang={lang} locationLabel={hero.location_label} />
+        <div class="ct__spacer" aria-hidden="true"></div>
+        <p class="ct__about">{hero.about}</p>
+      </div>
+      <div class="ct__form">
+        <RequestForm lang={lang} placeholder={form.message_placeholder} thanks={form.thanks} />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ct {
+    padding: 72px 0 96px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  }
+  .ct__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 48px 72px;
+  }
+  .ct__text {
+    display: flex;
+    flex: 1 1 400px;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .ct__title {
+    margin-bottom: 20px;
+    font-size: clamp(32px, 3vw, 42px);
+    line-height: 1.1;
+  }
+  .ct__title .accent { display: inline-block; }
+  .ct__intro {
+    max-width: 480px;
+    margin-bottom: 32px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .ct__spacer { flex: 1 1 32px; min-height: 32px; }
+  .ct__about {
+    max-width: 480px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  /* the card stretches to the height of the text column, as in the design */
+  .ct__form { display: flex; flex: 999 1 440px; flex-direction: column; min-width: 0; }
+  .ct__form > :global(.form-card) { flex: 1 1 auto; }
+  @media (max-width: 760px) {
+    .ct { padding: var(--section-y) 0; }
+  }
+</style>

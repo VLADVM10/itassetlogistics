@@ -1,0 +1,159 @@
+---
+/*
+ * Request form card shared by Home (#contact) and Contact (spec section 9).
+ * Stage 3: markup and states as in the design. Without JS the browser validates the
+ * required fields and posts to the handler; client validation, sending and the
+ * success/failure states are wired in stage 5 (scripts/form.ts).
+ */
+import Icon from './Icon.astro';
+import { getContacts, getSettings } from '../lib/content';
+import { pathFor, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  placeholder: string;
+  thanks: string;
+}
+const { lang, placeholder, thanks } = Astro.props;
+const { form } = await getSettings(lang);
+const contacts = await getContacts();
+const l = form.labels;
+---
+<div class="form-card card-pad">
+  <div class="form-done" role="status" hidden data-form-done>
+    <span class="form-done__icon"><Icon name="check" size={18} stroke={2.6} /></span>
+    <p>{thanks}</p>
+  </div>
+
+  <form class="form" action="/api/request.php" method="post" data-form>
+    <div class="form__grid">
+      <div class="fw">
+        <label for="f-name">{l.name}</label>
+        <input class="field" id="f-name" name="name" type="text" autocomplete="name" required aria-required="true" />
+      </div>
+      <div class="fw">
+        <label for="f-company">{l.company}</label>
+        <input class="field" id="f-company" name="company" type="text" autocomplete="organization" required aria-required="true" />
+      </div>
+      <div class="fw">
+        <label for="f-email">{l.email}</label>
+        <input class="field" id="f-email" name="email" type="email" autocomplete="email" required aria-required="true" />
+      </div>
+      <div class="fw">
+        <label for="f-phone">{l.phone}</label>
+        <input class="field" id="f-phone" name="phone" type="tel" autocomplete="tel" />
+      </div>
+    </div>
+    <div class="fw">
+      <label for="f-message">{l.message}</label>
+      <textarea class="field" id="f-message" name="message" rows="5" placeholder={placeholder} required aria-required="true"></textarea>
+    </div>
+
+    <div class="form__fail" role="alert" hidden data-form-fail>
+      <Icon name="alert" size={20} />
+      <p>
+        {form.failure}
+        {contacts.email && <>{' '}{form.failure_email} <a href={`mailto:${contacts.email}`}>{contacts.email}</a></>}
+      </p>
+    </div>
+
+    <div class="form__actions">
+      <button class="btn btn-p btn-lg btn-shadow form__submit" type="submit">
+        {form.submit}
+        <Icon name="arrow" stroke={2.2} />
+      </button>
+      <p class="form__policy">
+        {form.policy_before} <a href={pathFor('privacy', lang)}>{form.policy_link}</a>{form.policy_after}
+      </p>
+    </div>
+  </form>
+</div>
+
+<style>
+  .form-card {
+    padding: 34px 32px 30px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgba(13, 27, 42, 0.04), 0 30px 60px -36px rgba(13, 27, 42, 0.35);
+  }
+
+  .form-done { display: flex; align-items: flex-start; gap: 14px; padding: 8px 0; }
+  .form-done[hidden] { display: none; }
+  .form-done__icon {
+    display: flex;
+    flex: 0 0 38px;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #FFFFFF;
+  }
+  .form-done p { margin-top: 6px; font-size: 16px; line-height: 1.55; color: var(--ink); }
+
+  .form { display: flex; flex-direction: column; gap: 18px; }
+  .form__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 18px 20px;
+  }
+  .fw { display: flex; flex-direction: column; gap: 8px; }
+  .fw label { font-size: 13.5px; font-weight: 600; }
+  .field {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px;
+    border: 1px solid var(--line-3);
+    border-radius: var(--radius-field);
+    background: var(--surface);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--ink);
+  }
+  textarea.field {
+    height: auto;
+    padding: 12px 14px;
+    line-height: 1.6;
+    resize: vertical;
+  }
+  .fw:has(.ferr) .field { border-color: var(--error); }
+  .fw :global(.ferr) { margin: 0; font-size: 13px; line-height: 1.4; color: var(--error); }
+
+  .form__fail {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--error-line);
+    border-radius: var(--radius-field);
+    background: var(--error-bg);
+    color: var(--error);
+  }
+  .form__fail[hidden] { display: none; }
+  .form__fail :global(svg) { flex: 0 0 20px; }
+  .form__fail p { min-width: 0; font-size: 14px; line-height: 1.5; color: var(--error-text); }
+
+  .form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+  }
+  .form__submit { padding: 0 30px; border-radius: var(--radius-field); }
+  .form__submit[aria-busy='true'] { opacity: 0.72; cursor: default; }
+  .form__policy {
+    flex: 1 1 220px;
+    min-width: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .form__policy a { color: var(--text); }
+
+  @media (max-width: 560px) {
+    .form__grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

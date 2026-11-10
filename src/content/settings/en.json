@@ -29,6 +29,10 @@
     "aria_label": "Footer",
     "domain": "itassetlogistics.com"
   },
+  "contact_labels": {
+    "email": "Email",
+    "phone": "Phone"
+  },
   "form": {
     "labels": {
       "name": "Name *",

@@ -1,0 +1,98 @@
+---
+import SectionHead from '../SectionHead.astro';
+import StoreDevices from '../art/StoreDevices.astro';
+import StoreSpares from '../art/StoreSpares.astro';
+import StoreEvent from '../art/StoreEvent.astro';
+import StoreInstruments from '../art/StoreInstruments.astro';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  block: PageData<'managed'>['what_we_store'];
+}
+const { block } = Astro.props;
+const ART = [StoreDevices, StoreSpares, StoreEvent, StoreInstruments];
+---
+<section id="what-we-store" class="sec ws">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={block.intro} />
+    <div class="ws__grid">
+      {block.items.map((item, i) => {
+        const Art = ART[i] ?? StoreDevices;
+        return (
+          <article class="ws__card">
+            <div class="ws__art"><div><Art label={item.illustration_label} /></div></div>
+            <div class="ws__text">
+              <p class="ws__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+    <p class="ws__aside"><strong>{block.aside.title}</strong> {block.aside.text}</p>
+  </div>
+</section>
+
+<style>
+  .ws { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .ws__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+    gap: 20px;
+  }
+  .ws__card {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .ws__card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 16px 32px -20px rgba(13, 27, 42, 0.4);
+    transform: translateY(-3px);
+  }
+  .ws__art {
+    display: flex;
+    flex: 1 1 190px;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 176px;
+    padding: 16px;
+    background: var(--accent-tint);
+  }
+  .ws__art > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    height: 140px;
+  }
+  .ws__text { flex: 2 1 260px; min-width: 0; padding: 24px 24px 26px; }
+  .ws__num {
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .ws__text h3 {
+    margin-bottom: 8px;
+    font-size: 18px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .ws__text p:last-child { font-size: 14.5px; line-height: 1.6; color: var(--text); }
+  .ws__aside {
+    margin-top: 28px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .ws__aside strong { font-weight: 600; color: var(--ink); }
+</style>

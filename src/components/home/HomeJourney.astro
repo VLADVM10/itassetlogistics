@@ -1,0 +1,177 @@
+---
+import Icon from '../Icon.astro';
+import { pathFor, type Lang } from '../../i18n/routes';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  lang: Lang;
+  journey: PageData<'home'>['journey'];
+}
+const { lang, journey } = Astro.props;
+const last = journey.events.length - 1;
+---
+<section id="asset-journey" class="sec journey">
+  <div class="container journey__inner">
+    <div class="journey__text">
+      <p class="eyebrow">{journey.label}</p>
+      <h2 class="h2 journey__title">{journey.title}</h2>
+      <p class="journey__intro">{journey.intro}</p>
+      <a class="btn btn-p journey__cta" href={pathFor('hub', lang)}>
+        {journey.cta}
+        <Icon name="arrow" stroke={2.2} />
+      </a>
+    </div>
+
+    <figure class="history">
+      <div class="history__head card-pad">
+        <span class="history__icon"><Icon name="laptop" size={22} stroke={1.6} /></span>
+        <span class="history__titles">
+          <span class="history__title">{journey.card_title}</span>
+          <span class="history__meta">{journey.card_meta}</span>
+        </span>
+      </div>
+      <ol class="history__list card-pad">
+        {journey.events.map((e, i) => (
+          <li class:list={['event', i === last && 'event--now']}>
+            <span class="event__rail" aria-hidden="true"><span class="event__dot"></span>{i < last && <span class="event__line"></span>}</span>
+            <span class="event__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <p class="event__text"><strong>{e.title}</strong>{' '}{e.text}</p>
+          </li>
+        ))}
+      </ol>
+      <figcaption class="history__note card-pad">{journey.note}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .journey { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .journey__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px 64px;
+  }
+  .journey__text { flex: 1 1 400px; min-width: 0; }
+  .journey__title { max-width: 500px; }
+  .journey__intro {
+    max-width: 480px;
+    margin: 20px 0 28px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .journey__cta { min-height: 50px; gap: 10px; }
+
+  .history {
+    flex: 1 1 440px;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgba(13, 27, 42, 0.04), 0 30px 60px -36px rgba(13, 27, 42, 0.4);
+  }
+  .history__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .history__icon {
+    display: flex;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #FFFFFF;
+  }
+  .history__titles { flex: 1 1 auto; min-width: 0; }
+  .history__title {
+    display: block;
+    margin-bottom: 3px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .history__meta {
+    display: block;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .history__list { margin: 0; padding: 18px 22px 8px; list-style: none; }
+  .event { display: flex; gap: 14px; }
+  .event__rail {
+    display: flex;
+    flex: 0 0 14px;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5px;
+  }
+  .event__dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--rail);
+    border-radius: 50%;
+    background: var(--surface);
+  }
+  .event__line {
+    flex: 1;
+    width: 0;
+    margin-top: 3px;
+    border-left: 1.5px solid var(--line);
+  }
+  .event__num {
+    flex: 0 0 22px;
+    padding-top: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .event__text {
+    min-width: 0;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text);
+  }
+  .event__text strong {
+    display: block;
+    margin-bottom: 3px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .event--now .event__dot {
+    width: 12px;
+    height: 12px;
+    border: none;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(27, 82, 201, 0.18);
+  }
+  .event--now .event__num,
+  .event--now .event__text strong { color: var(--accent); }
+  .event--now .event__text { margin-bottom: 12px; }
+
+  .history__note {
+    padding: 12px 22px;
+    background: var(--surface-2);
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+</style>

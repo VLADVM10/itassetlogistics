@@ -15,7 +15,7 @@ body {
   flex-direction: column;
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: normal; /* as in the design: only text blocks set their own */
   color: var(--ink);
   background: var(--surface);
   -webkit-font-smoothing: antialiased;
@@ -46,37 +46,69 @@ section[id], [id].anchor { scroll-margin-top: 84px; }
 }
 
 .sec { padding: var(--section-y) 0; }
+/* Media Storage uses 84px sections; below 760px every section is 72px */
+.sec--84 { padding: 84px 0; }
+@media (max-width: 760px) { .sec--84 { padding: var(--section-y) 0; } }
 
+/* Headings (design: Home H1 1.07 / -0.03em; inner pages use .h1--page) */
 .h1 {
   font-size: var(--h1);
-  line-height: 1.08;
+  line-height: 1.07;
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   color: var(--ink);
+  text-wrap: balance;
 }
+.h1--page { font-size: var(--h1-page); line-height: 1.1; }
 .h1 .accent { color: var(--accent); }
 
 .h2 {
   font-size: var(--h2);
-  line-height: 1.18;
+  line-height: 1.15;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--ink);
+  text-wrap: balance;
 }
 
 .label {
   font-family: var(--font-mono);
   font-size: var(--label-size);
-  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Section eyebrow: mono label with an 18px rule before it */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
   letter-spacing: var(--label-track);
   text-transform: uppercase;
   color: var(--accent);
+}
+.eyebrow::before {
+  content: '';
+  display: block;
+  flex: 0 0 18px;
+  width: 18px;
+  border-top: 2px solid var(--accent);
 }
 
 .lead { font-size: 19px; line-height: 1.6; color: var(--text); }
 .body { font-size: 16px; line-height: 1.65; color: var(--text); }
 
 .nb { white-space: nowrap; }
+
+/* Cards that tighten their side padding on phones (design: .card-pad) */
+@media (max-width: 560px) {
+  .card-pad { padding-left: 18px !important; padding-right: 18px !important; }
+}
 @media (max-width: 1100px) { .nb { white-space: normal; } }
 
 /* Buttons — 48px tall, 6px radius (design: Visual system / Components) */
@@ -90,7 +122,7 @@ section[id], [id].anchor { scroll-margin-top: 84px; }
   border-radius: var(--radius-control);
   font-size: 15px;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: normal;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
@@ -99,6 +131,17 @@ section[id], [id].anchor { scroll-margin-top: 84px; }
 .btn-p:hover { background: var(--accent-hover); color: #FFFFFF; }
 .btn-s { background: var(--surface); color: var(--ink); border: 1px solid var(--line-3); }
 .btn-s:hover { border-color: var(--accent); color: var(--accent); }
+.btn-lg { min-height: 52px; padding: 0 28px; font-size: 15.5px; gap: 10px; }
+.btn-shadow { box-shadow: 0 8px 20px -8px rgba(27, 82, 201, 0.55); }
+
+/* Motion used by the illustrations (design keyframes) */
+@keyframes a-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes a-beam { 0%, 100% { opacity: 0.08; } 50% { opacity: 0.32; } }
+@keyframes a-route { 0% { offset-distance: 0%; opacity: 0; } 6% { opacity: 1; } 40% { offset-distance: 100%; opacity: 1; } 46%, 100% { offset-distance: 100%; opacity: 0; } }
+@keyframes a-ping { 0% { transform: scale(0.6); opacity: 0.5; } 30%, 100% { transform: scale(2.4); opacity: 0; } }
+@keyframes a-spin { to { transform: rotate(360deg); } }
+@keyframes a-ring { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.55; } 100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; } }
+.anim-pause:hover *, .anim-pause:focus-within * { animation-play-state: paused; }
 
 /* Skip link */
 .skip-link {

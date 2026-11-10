@@ -1,0 +1,59 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+import { getContacts, getSettings } from '../lib/content';
+import type { Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  locationLabel: string;
+}
+const { lang, locationLabel } = Astro.props;
+const contacts = await getContacts();
+const { contact_labels } = await getSettings(lang);
+
+// Email and phone appear only when filled in settings/contacts.json — no placeholders (spec section 6).
+const rows: { icon: IconName; label: string; value: string; href?: string }[] = [
+  { icon: 'pin', label: locationLabel, value: lang === 'uk' ? contacts.city_uk : contacts.city_en },
+];
+if (contacts.email) rows.push({ icon: 'mail', label: contact_labels.email, value: contacts.email, href: `mailto:${contacts.email}` });
+if (contacts.phone) rows.push({ icon: 'phone', label: contact_labels.phone, value: contacts.phone, href: `tel:${contacts.phone.replace(/[^\d+]/g, '')}` });
+---
+<div class="details">
+  {rows.map((r) => (
+    <p class="details__row">
+      <span class="details__tile"><Icon name={r.icon} size={19} stroke={1.7} /></span>
+      <span class="details__text">
+        <span class="details__label">{r.label}</span>
+        {r.href ? <a class="details__value" href={r.href}>{r.value}</a> : <span class="details__value">{r.value}</span>}
+      </span>
+    </p>
+  ))}
+</div>
+
+<style>
+  .details { display: flex; flex-direction: column; gap: 14px; }
+  .details__row { display: flex; align-items: center; gap: 14px; }
+  .details__tile {
+    display: flex;
+    flex: 0 0 38px;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+  .details__text { min-width: 0; }
+  .details__label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .details__value { font-size: 15px; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+  a.details__value { text-decoration: none; }
+  a.details__value:hover { color: var(--accent); }
+</style>

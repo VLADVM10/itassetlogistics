@@ -1,0 +1,96 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import { pathFor, type Lang } from '../../i18n/routes';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  lang: Lang;
+  block: PageData<'hub'>['equipment'];
+}
+const { lang, block } = Astro.props;
+const ICONS: IconName[] = ['laptop', 'network', 'gauge', 'display', 'wrench', 'case'];
+---
+<section id="equipment" class="sec eq">
+  <div class="container">
+    <SectionHead label={block.label} title={block.title} intro={block.intro} />
+    <div class="eq__grid">
+      {block.items.map((item, i) => (
+        <article class="eq__card">
+          <span class="eq__icon"><Icon name={ICONS[i] ?? 'cube'} size={21} stroke={1.6} /></span>
+          <div class="eq__text">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="eq__aside card-pad">
+      <div class="eq__aside-text">
+        <p class="eq__aside-title">{block.aside.title}</p>
+        <p>{block.aside.text}</p>
+      </div>
+      <a class="btn btn-s eq__aside-btn" href={pathFor('contact', lang)}>{block.aside.cta}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .eq { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .eq__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    gap: 16px;
+  }
+  .eq__card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 20px 22px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+  }
+  .eq__icon {
+    display: flex;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+  .eq__text { min-width: 0; }
+  .eq__text h3 {
+    margin-bottom: 6px;
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .eq__text p { font-size: 14px; line-height: 1.55; color: var(--text); }
+
+  .eq__aside {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 40px;
+    margin-top: 16px;
+    padding: 22px 28px;
+    border: 1px dashed var(--rail);
+    border-radius: 14px;
+  }
+  .eq__aside-text { flex: 999 1 420px; min-width: 0; }
+  .eq__aside-text p { font-size: 15px; line-height: 1.6; color: var(--text); }
+  .eq__aside-text .eq__aside-title {
+    margin-bottom: 4px;
+    font-size: 18px;
+    line-height: normal;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .eq__aside-btn { padding: 10px 22px; }
+</style>

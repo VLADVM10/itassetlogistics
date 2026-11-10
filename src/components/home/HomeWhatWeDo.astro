@@ -1,0 +1,113 @@
+---
+import Icon from '../Icon.astro';
+import CardHub from '../art/CardHub.astro';
+import CardStorage from '../art/CardStorage.astro';
+import { pathFor, type Lang } from '../../i18n/routes';
+import type { PageData } from '../../lib/content';
+
+interface Props {
+  lang: Lang;
+  block: PageData<'home'>['what_we_do'];
+}
+const { lang, block } = Astro.props;
+const [hub, storage] = block.cards;
+const cards = [
+  { ...hub, href: pathFor('hub', lang), Art: CardHub },
+  { ...storage, href: pathFor('managed', lang), Art: CardStorage },
+];
+---
+<section id="what-we-do" class="sec wwd">
+  <div class="container">
+    <div class="wwd__head">
+      <p class="eyebrow">{block.label}</p>
+      <h2 class="h2 wwd__title">{block.title}</h2>
+    </div>
+
+    <div class="wwd__grid">
+      {cards.map(({ Art, ...card }) => (
+        <a class="svc" href={card.href}>
+          <div class="svc__art"><Art label={card.illustration_label} /></div>
+          <div class="svc__body">
+            <h3 class="svc__title">{card.title}</h3>
+            <p class="svc__text">{card.text}</p>
+            <span class="svc__link">{card.link_label} <Icon name="arrow" stroke={2.2} /></span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <p class="wwd__media">
+      {block.media_question}{' '}
+      <a href={pathFor('media', lang)}>{block.media_link} →</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .wwd { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .wwd__head { margin-bottom: 40px; }
+  .wwd__title { max-width: 640px; }
+  .wwd__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+    gap: 24px;
+  }
+
+  .svc {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .svc:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+    box-shadow: 0 16px 32px -20px rgba(13, 27, 42, 0.4);
+    transform: translateY(-3px);
+  }
+  .svc__art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 260px;
+    padding: 24px 28px 16px;
+    background: var(--accent-tint);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .svc__body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 12px;
+    padding: 30px 32px 32px;
+  }
+  .svc__title { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .svc__text {
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .svc__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .wwd__media {
+    margin-top: 24px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .wwd__media a { font-weight: 600; text-decoration: none; white-space: nowrap; }
+</style>
