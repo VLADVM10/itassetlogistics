@@ -1,0 +1,31 @@
+# build
+dist/
+.astro/
+
+# dependencies
+node_modules/
+server/vendor/
+
+# secrets and server-only data (never in the repository)
+server/config.php
+*.sqlite
+*.sqlite3
+.env
+.env.*
+
+# design source copy and client files (kept locally, not part of the site)
+_design/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+__MACOSX/
+.vscode/
+.idea/
+*.log
+
+# client source material kept locally (content is transferred into src/ and public/)
+IT_Asset_Logistics_Brand_Kit/
+Privacy Policy/
+cityhost_ssh_key.pub
+.claude/

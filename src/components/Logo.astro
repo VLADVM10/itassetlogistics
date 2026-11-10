@@ -1,0 +1,53 @@
+---
+/*
+ * Logo: brand-kit C2 emblem in its own colours + live Inter 800 wordmark (spec section 7).
+ * On dark backgrounds the top diamond turns white.
+ */
+interface Props {
+  size?: 'header' | 'footer';
+  dark?: boolean;
+}
+const { size = 'header', dark = false } = Astro.props;
+const dims = size === 'footer' ? { w: 34.7, h: 40, font: 17.8, gap: 11 } : { w: 31.3, h: 36, font: 16, gap: 10 };
+---
+<span class:list={['logo', { 'logo--dark': dark }]} style={`--logo-gap:${dims.gap}px;--logo-font:${dims.font}px`}>
+  <svg
+    width={dims.w}
+    height={dims.h}
+    viewBox="21 6 178 205"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path class="logo__top" d="M 110 13 L 192 57 L 110 100 L 28 57 Z" stroke-width="13"></path>
+    <path d="M 28 116 L 110 159 L 192 116" stroke="var(--logo-mid)" stroke-width="13"></path>
+    <path d="M 28 161 L 110 204 L 192 161" stroke="var(--logo-bottom)" stroke-width="13"></path>
+  </svg>
+  <span class="logo__word"><span>IT ASSET</span><span>LOGISTICS</span></span>
+</span>
+
+<style>
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--logo-gap);
+    min-width: 0;
+  }
+  .logo svg { flex: 0 0 auto; }
+  .logo__top { stroke: var(--logo-top); }
+  .logo--dark .logo__top { stroke: #FFFFFF; }
+  .logo__word {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-sans);
+    font-size: var(--logo-font);
+    line-height: 1.04;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--logo-top);
+    white-space: nowrap;
+  }
+  .logo--dark .logo__word { color: #FFFFFF; }
+</style>

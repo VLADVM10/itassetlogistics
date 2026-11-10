@@ -1,0 +1,54 @@
+/* Design tokens — every value comes from the approved design (spec section 7). */
+:root {
+  /* colour */
+  --ink: #0D1B2A;
+  --text: #44556B;
+  --muted: #5C6B7E;
+  --accent: #1B52C9;
+  --accent-hover: #163F9B;
+  --accent-tint: #EEF3FD;
+  --line: #E3E8EE;
+  --line-2: #DCE4EE;
+  --line-3: #CED6E0;
+  --surface: #FFFFFF;
+  --surface-2: #F5F7FA;
+  --surface-3: #F0F4F9;
+  --error: #B42318;
+
+  /* dark surfaces (footer, dark panels) */
+  --dark-text: #AFBDCE;
+  --dark-link: #DCE5F0;
+  --dark-muted: #8C9CB2;
+  --dark-line: #27384D;
+
+  /* logo emblem (brand kit C2) */
+  --logo-top: #101820;
+  --logo-mid: #AEB9C9;
+  --logo-bottom: #095BFF;
+
+  /* type */
+  --font-sans: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --h1: clamp(34px, 4.4vw, 56px);
+  --h2: clamp(28px, 3.2vw, 40px);
+  --label-size: 11.5px;
+  --label-track: 0.14em;
+
+  /* layout */
+  --container: 1200px;
+  --gutter: 40px;
+  --section-y: 96px;
+  --header-h: 76px;
+  --radius-control: 6px;
+  --radius-field: 8px;
+  --radius-card: 10px;
+  --radius-panel: 12px;
+}
+
+@media (max-width: 760px) {
+  :root { --section-y: 72px; }
+}
+
+@media (max-width: 560px) {
+  :root { --gutter: 16px; }
+}

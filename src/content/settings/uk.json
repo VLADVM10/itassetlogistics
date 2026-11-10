@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "aria_label": "Основне меню",
+    "home": {
+      "label": "Головна"
+    },
+    "hub": {
+      "label": "Equipment Hub"
+    },
+    "managed": {
+      "label": "Кероване зберігання"
+    },
+    "media": {
+      "label": "Media Storage & Handling"
+    },
+    "contact": {
+      "label": "Контакти"
+    },
+    "privacy": {
+      "label": "Політика конфіденційності"
+    },
+    "menu_open": "Відкрити меню",
+    "menu_close": "Закрити меню",
+    "lang_switch": "Мова",
+    "skip_link": "Перейти до змісту",
+    "logo_label": "IT Asset Logistics — Головна"
+  },
+  "footer": {
+    "aria_label": "Навігація у футері",
+    "domain": "itassetlogistics.com"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "aria_label": "Main",
+    "home": {
+      "label": "Home"
+    },
+    "hub": {
+      "label": "Equipment Hub"
+    },
+    "managed": {
+      "label": "Managed Storage"
+    },
+    "media": {
+      "label": "Media Storage & Handling"
+    },
+    "contact": {
+      "label": "Contact"
+    },
+    "privacy": {
+      "label": "Privacy Policy"
+    },
+    "menu_open": "Open menu",
+    "menu_close": "Close menu",
+    "lang_switch": "Language",
+    "skip_link": "Skip to content",
+    "logo_label": "IT Asset Logistics — Home"
+  },
+  "footer": {
+    "aria_label": "Footer",
+    "domain": "itassetlogistics.com"
+  }
+}

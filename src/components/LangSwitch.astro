@@ -1,0 +1,48 @@
+---
+import { LANGS, LANG_LABEL, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  /** URL of this same page in each language. */
+  alternates: Record<Lang, string>;
+  label: string;
+}
+const { lang, alternates, label } = Astro.props;
+---
+<span class="lang" role="group" aria-label={label}>
+  {LANGS.map((l, i) => (
+    <>
+      {i > 0 && <span class="lang__sep" aria-hidden="true">/</span>}
+      <a
+        href={alternates[l]}
+        lang={l}
+        hreflang={l}
+        aria-current={l === lang ? 'true' : undefined}
+        class:list={['lang__link', { 'is-current': l === lang }]}
+      >{LANG_LABEL[l]}</a>
+    </>
+  ))}
+</span>
+
+<style>
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+  .lang__sep { color: var(--line-3); }
+  .lang__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 6px 7px;
+    text-decoration: none;
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .lang__link:hover { color: var(--accent); }
+  .lang__link.is-current { font-weight: 600; color: var(--ink); }
+</style>

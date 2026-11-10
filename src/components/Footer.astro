@@ -1,0 +1,97 @@
+---
+import Logo from './Logo.astro';
+import { pathFor, type Lang, type PAGES } from '../i18n/routes';
+import { getContacts, getSettings } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const { nav, footer } = await getSettings(lang);
+const contacts = await getContacts();
+const city = lang === 'uk' ? contacts.city_uk : contacts.city_en;
+const year = new Date().getFullYear();
+
+const items: Array<keyof typeof PAGES> = ['home', 'hub', 'managed', 'media', 'contact', 'privacy'];
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a class="site-footer__logo" href={pathFor('home', lang)} aria-label={nav.logo_label}>
+          <Logo size="footer" dark />
+        </a>
+        <p>{city}</p>
+        {contacts.email && <p><a href={`mailto:${contacts.email}`}>{contacts.email}</a></p>}
+        {contacts.phone && <p><a href={`tel:${contacts.phone.replace(/[^\d+]/g, '')}`}>{contacts.phone}</a></p>}
+      </div>
+      <nav aria-label={footer.aria_label}>
+        <ul class="site-footer__links" role="list">
+          {items.map((key) => (
+            <li><a href={pathFor(key, lang)}>{nav[key].label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© {year} IT Asset Logistics</p>
+      <p class="site-footer__domain">{footer.domain}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--dark-text);
+    padding: 64px 0 28px;
+  }
+  .site-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px 64px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--dark-line);
+  }
+  .site-footer__brand {
+    flex: 1 1 300px;
+    min-width: 0;
+    font-size: 14.5px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .site-footer__logo {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-bottom: 12px;
+    text-decoration: none;
+  }
+  .site-footer nav { flex: 0 1 auto; min-width: 0; }
+  .site-footer__links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px 40px;
+  }
+  .site-footer a {
+    color: var(--dark-link);
+    text-decoration: none;
+    font-size: 14.5px;
+  }
+  .site-footer a:hover { color: #FFFFFF; text-decoration: underline; }
+  .site-footer__bottom {
+    padding-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--dark-muted);
+  }
+  .site-footer__domain {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+  }
+</style>
