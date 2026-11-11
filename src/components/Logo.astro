@@ -25,7 +25,9 @@ const dims = size === 'footer' ? { w: 34.7, h: 40 } : { w: 31.3, h: 36 };
     <path class="logo__mid" d="M 28 116 L 110 159 L 192 116" stroke-width="13"></path>
     <path class="logo__bottom" d="M 28 161 L 110 204 L 192 161" stroke-width="13"></path>
   </svg>
-  <span class="logo__word"><span>IT ASSET</span><span>LOGISTICS</span></span>
+  <!-- the space keeps the text "IT ASSET LOGISTICS" (accessible name ⊇ visible text, WCAG 2.5.3);
+       between flex items it takes no room -->
+  <span class="logo__word"><span>IT ASSET</span> <span>LOGISTICS</span></span>
 </span>
 
 <style>

@@ -20,6 +20,8 @@ const REQUIRED = [
   'uk/404/index.html',
   'robots.txt',
   'sitemap-index.xml',
+  '.htaccess',
+  'og-default.png',
   'api/request.php',
   'admin/index.html',
   'admin/config.yml',

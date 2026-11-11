@@ -4,6 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
+    <!-- Admin CSP (Sveltia docs: security + GitHub backend; *.workers.dev = sign-in service).
+         Kept in sync with the /admin/ header rule in ops/cloudflare.md. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' https://cdn.jsdelivr.net; img-src 'self' blob: data: https://*.githubusercontent.com; media-src blob:; frame-src blob:; worker-src blob:; manifest-src blob:; connect-src 'self' blob: data: https://unpkg.com https://api.github.com https://www.githubstatus.com https://*.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Редагування сайту — IT Asset Logistics</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- Admin (spec section 11). Settings: config.yml next to this file, generated from the

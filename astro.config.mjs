@@ -15,7 +15,9 @@ export default defineConfig({
     inlineStylesheets: 'never',
   },
   vite: {
-    build: { assetsInlineLimit: 0 },
+    // One CSS file for the whole site (~11 KB brotli): one request instead of three render-blocking
+    // ones per page, cached across pages (stage 7, LCP).
+    build: { assetsInlineLimit: 0, cssCodeSplit: false },
   },
   i18n: {
     defaultLocale: 'en',

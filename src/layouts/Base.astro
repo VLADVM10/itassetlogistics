@@ -38,6 +38,29 @@ const alternates = Object.fromEntries(
 ) as Record<Lang, string>;
 const canonical = absoluteUrl(alternates[lang]);
 
+/** Shared social image (spec section 10): C2 logo, 1200×630. A page can set its own in seo.og_image. */
+const OG_IMAGE = '/og-default.png';
+
+/*
+ * Content-Security-Policy (spec section 13). Delivered in a meta tag because Cityhost's nginx serves
+ * the HTML itself, past .htaccess; frame-ancestors and the other headers come from Cloudflare
+ * (see ops/cloudflare.md). The only inline script is the `js` class flag below, allowed by hash:
+ * change the hash together with that line. Turnstile needs its script and iframe origin.
+ */
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' https://challenges.cloudflare.com",
+  "style-src 'self'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  'frame-src https://challenges.cloudflare.com',
+  "form-action 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  'upgrade-insecure-requests',
+].join('; ');
+
 const organization = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -53,6 +76,8 @@ const organization = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content={CSP} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <title>{seo.title}</title>
     {seo.description && <meta name="description" content={seo.description} />}
@@ -84,8 +109,15 @@ const organization = {
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={OG_LOCALE[lang]} />
     {LANGS.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={OG_LOCALE[l]} />)}
-    {seo.og_image && <meta property="og:image" content={absoluteUrl(seo.og_image)} />}
-    <meta name="twitter:card" content={seo.og_image ? 'summary_large_image' : 'summary'} />
+    <meta property="og:image" content={absoluteUrl(seo.og_image || OG_IMAGE)} />
+    {!seo.og_image && (
+      <>
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+      </>
+    )}
+    <meta property="og:image:alt" content="IT Asset Logistics" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     {page === 'home' && <script type="application/ld+json" set:html={JSON.stringify(organization)} />}
   </head>

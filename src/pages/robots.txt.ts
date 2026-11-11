@@ -5,6 +5,7 @@ import { SITE_URL } from '../i18n/routes';
 const LIVE = `User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /api/
 
 Sitemap: ${SITE_URL}/sitemap-index.xml
 `;

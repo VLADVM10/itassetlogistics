@@ -1,0 +1,29 @@
+# Apache part of the hosting (spec sections 10 and 13).
+# Cityhost's nginx serves existing static files (.html, .css, .js, images…) itself, so these rules
+# only see: missing paths (404s, old URLs), directories without a trailing slash, PHP and other
+# non-static files. http → https, www → apex for static files and the security headers are set
+# in Cloudflare (ops/cloudflare.md).
+
+Options -Indexes
+DirectorySlash Off
+
+# 404 in the language of the URL
+ErrorDocument 404 /404.html
+<If "%{REQUEST_URI} =~ m#^/uk(/|$)#">
+  ErrorDocument 404 /uk/404/index.html
+</If>
+
+RewriteEngine On
+
+# www → apex
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^(.*)$ https://itassetlogistics.com/$1 [R=301,L]
+
+# Old URLs (spec section 10)
+RewriteRule ^(uk/)?(about|about-contact)/?$ https://itassetlogistics.com/$1contact/ [R=301,L]
+RewriteRule ^(uk/)?(asset-storage|asset-media-storage)/?$ https://itassetlogistics.com/$1media-storage/ [R=301,L]
+
+# Trailing slash for directories, always to https (Apache alone would answer with http://)
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*)$ https://itassetlogistics.com/$1/ [R=301,L]

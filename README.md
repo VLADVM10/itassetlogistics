@@ -50,7 +50,9 @@ scripts/verify-build.mjs         dist check before publishing (pages, hreflang, 
 scripts/cms/                     admin config generator: build-config.mjs, labels.mjs, recommended.json
 public/admin/                    Sveltia CMS: index.html (pinned version), config.yml (generated)
 .github/workflows/deploy.yml     build + checks → `deploy` branch
-ops/                             server side of the deploy (pull-deploy.sh, README.md)
+ops/                             server side of the deploy (pull-deploy.sh, README.md), cloudflare.md
+public/.htaccess                 Apache rules: old-URL and trailing-slash 301s, 404 per language
+public/og-default.png            shared social image (C2 logo, 1200×630)
 ```
 
 Content notes:
@@ -100,7 +102,7 @@ exists; email needs the domain mailbox in config.php. Without JS the form cannot
 
 Hosting facts that shape stages 5 and 7: PHP's `open_basedir` is the site folder (hence
 `/_private/`), and nginx serves static files (`.html`, `.txt`, CSS, JS, images) itself, so
-`.htaccess` rules and headers do not reach them; security headers go to Cloudflare in stage 7.
+`.htaccess` rules and headers do not reach them; security headers are set in Cloudflare.
 
 Stage 6 (admin) — Sveltia CMS at `/admin/` (pinned 0.253.1 with SRI), GitHub backend on `main`.
 `public/admin/config.yml` is generated from `src/content/schemas.ts` (`npm run cms:config`;
@@ -113,3 +115,15 @@ with a copy of the repository in the admin's local-repository mode: saving chang
 fields, keeps empty optional fields and key order. Deploy: see `ops/README.md` (pull model).
 Sign-in through GitHub needs the `sveltia-cms-auth` Worker (`AUTH_URL` in
 `scripts/cms/build-config.mjs`); until then the admin offers sign-in with a GitHub token.
+
+Stage 7 (SEO and security) — done in code; the Cloudflare part is a checklist for the account
+owner in `ops/cloudflare.md` (Full (strict) SSL, HSTS, always HTTPS, www → apex, security
+headers, cache rules, no injected analytics). In code: strict CSP in a meta tag on every page
+(`'self'`, one hashed inline line, Turnstile only) and its own policy for `/admin/`;
+`Referrer-Policy` meta; shared Open Graph / Twitter image; `robots.txt` closes `/admin/` and
+`/api/`; `.htaccess` gives the 301s of spec section 10 (old URLs, trailing slash, always to
+https) and the 404 page in the language of the URL; one CSS file for the whole site (one request,
+cached across pages — layout verified identical on every page at 1440 and 375 px); the logo's
+visible text is part of its accessible name. Mobile Lighthouse on the live preview: Performance
+98–100, Accessibility 100, Best Practices 100, LCP 1.3–1.6 s, CLS 0; SEO stays at 58 only because
+the preview is `noindex` and the `description` texts await the client.
