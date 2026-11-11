@@ -15,7 +15,9 @@ Spec: <https://claude.ai/artifact/Krg6Hofn5bpeQRYwDj7yTH> · Design: <https://cl
 | --- | --- |
 | `npm install` | Install dependencies |
 | `npm run dev` | Dev server at http://localhost:4321 |
-| `npm run check` | Types, content schemas, then `check:content` |
+| `npm run check` | Types, content schemas, EN/UA structure, admin config up to date, then `check:content` |
+| `npm run check:i18n` | EN and UA content have the same keys and list sizes |
+| `npm run cms:config` | Regenerate `public/admin/config.yml` from the content schemas |
 | `npm run check:content` | Every design text is present verbatim in the content JSON (needs local `_design/`) |
 | `npm run build` | Build static site into `dist/` |
 | `npm run build:preview` | Same, closed to search engines: `noindex, nofollow` on every page, `robots.txt` disallows all |
@@ -43,6 +45,12 @@ server/                          PHP handler: validation, Turnstile, SQLite jour
   styles/                        tokens.css, base.css
 public/                          favicons (brand kit C2), manifest
 scripts/check-content.mjs        design ↔ JSON text check
+scripts/check-i18n.mjs           EN/UA structure check
+scripts/verify-build.mjs         dist check before publishing (pages, hreflang, links)
+scripts/cms/                     admin config generator: build-config.mjs, labels.mjs, recommended.json
+public/admin/                    Sveltia CMS: index.html (pinned version), config.yml (generated)
+.github/workflows/deploy.yml     build + checks → `deploy` branch
+ops/                             server side of the deploy (pull-deploy.sh, README.md)
 ```
 
 Content notes:
@@ -93,3 +101,15 @@ exists; email needs the domain mailbox in config.php. Without JS the form cannot
 Hosting facts that shape stages 5 and 7: PHP's `open_basedir` is the site folder (hence
 `/_private/`), and nginx serves static files (`.html`, `.txt`, CSS, JS, images) itself, so
 `.htaccess` rules and headers do not reach them; security headers go to Cloudflare in stage 7.
+
+Stage 6 (admin) — Sveltia CMS at `/admin/` (pinned 0.253.1 with SRI), GitHub backend on `main`.
+`public/admin/config.yml` is generated from `src/content/schemas.ts` (`npm run cms:config`;
+`npm run check` fails when it is stale), so the admin's list limits and length caps match the
+build; Ukrainian names and hints live in `scripts/cms/labels.mjs`, recommended lengths are frozen
+from the design texts in `scripts/cms/recommended.json`. EN and UA are edited side by side; list
+items are added, removed and ordered in English and mirrored in Ukrainian (a new item arrives with
+the English text to translate), and `check:i18n` stops the build if the two ever differ. Tested
+with a copy of the repository in the admin's local-repository mode: saving changes only the edited
+fields, keeps empty optional fields and key order. Deploy: see `ops/README.md` (pull model).
+Sign-in through GitHub needs the `sveltia-cms-auth` Worker (`AUTH_URL` in
+`scripts/cms/build-config.mjs`); until then the admin offers sign-in with a GitHub token.

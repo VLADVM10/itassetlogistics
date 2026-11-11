@@ -1,0 +1,64 @@
+# Production deploy (spec section 12), pull model:
+#   push to main (from a developer or from the admin) → this workflow checks and builds the site →
+#   the release goes to the `deploy` branch → the server picks it up within a minute
+#   (ops/pull-deploy.sh, cron on Cityhost).
+# Cityhost allows SSH only from listed IPs, so GitHub cannot push to the server; the server pulls
+# instead, and no hosting credentials are stored in GitHub. A failed step publishes nothing:
+# the site stays on the previous release.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Check types, content schemas, EN/UA structure, admin config
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+        env:
+          # Preview: the site is online but closed to search engines. Remove at launch (stage 8).
+          SITE_PREVIEW: '1'
+
+      - name: Check the build
+        run: node scripts/verify-build.mjs
+
+      - name: Package the release
+        run: |
+          mkdir -p release/server
+          cp -r dist release/site
+          cp -r server/src server/composer.json server/composer.lock server/config.example.php server/.htaccess server/README.md release/server/
+          printf '%s\n%s\n' "$GITHUB_SHA" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > release/RELEASE
+
+      - name: Publish to the deploy branch
+        working-directory: release
+        run: |
+          git init -q
+          git checkout -q -b deploy
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Release ${GITHUB_SHA::7}"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" deploy

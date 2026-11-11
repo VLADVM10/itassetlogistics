@@ -10,9 +10,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check && node scripts/check-content.mjs",
+    "check": "astro check && node scripts/check-i18n.mjs && node scripts/cms/build-config.mjs --check && node scripts/check-content.mjs",
     "check:content": "node scripts/check-content.mjs",
-    "build:preview": "node -e \"process.env.SITE_PREVIEW='1';require('child_process').execSync('astro build',{stdio:'inherit',env:process.env})\""
+    "build:preview": "node -e \"process.env.SITE_PREVIEW='1';require('child_process').execSync('astro build',{stdio:'inherit',env:process.env})\"",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "cms:config": "node scripts/cms/build-config.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.12",
     "typescript": "5.9.3",
-    "ultrahtml": "1.7.0"
+    "ultrahtml": "1.7.0",
+    "yaml": "2.9.1"
   }
 }
