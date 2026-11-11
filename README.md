@@ -18,6 +18,7 @@ Spec: <https://claude.ai/artifact/Krg6Hofn5bpeQRYwDj7yTH> · Design: <https://cl
 | `npm run check` | Types, content schemas, then `check:content` |
 | `npm run check:content` | Every design text is present verbatim in the content JSON (needs local `_design/`) |
 | `npm run build` | Build static site into `dist/` |
+| `npm run build:preview` | Same, closed to search engines: `noindex, nofollow` on every page, `robots.txt` disallows all |
 
 ## Layout
 

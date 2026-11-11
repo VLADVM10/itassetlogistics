@@ -11,6 +11,7 @@ import interCyrillic from '@fontsource-variable/inter/files/inter-cyrillic-wght-
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { getContacts, getPage, getSettings } from '../lib/content';
+import { PREVIEW } from '../lib/env';
 import {
   LANGS,
   OG_LOCALE,
@@ -56,8 +57,9 @@ const organization = {
     <title>{seo.title}</title>
     {seo.description && <meta name="description" content={seo.description} />}
 
+    {PREVIEW && <meta name="robots" content="noindex, nofollow" />}
     {is404 ? (
-      <meta name="robots" content="noindex" />
+      !PREVIEW && <meta name="robots" content="noindex" />
     ) : (
       <>
         <link rel="canonical" href={canonical} />
