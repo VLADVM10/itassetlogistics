@@ -37,7 +37,9 @@ src/
   lib/richtext.ts                paragraphs, **bold** and [links](/path/) for Privacy bodies (escaped)
   views/                         page bodies shared by EN and UA routes
   pages/                         EN routes; pages/uk/ — UA routes
-  scripts/                       client scripts: menu.ts, journey.ts (Equipment Hub)
+  scripts/                       client scripts: menu.ts, journey.ts (Equipment Hub), form.ts
+public/api/request.php           form endpoint; the handler itself is in server/ (see server/README.md)
+server/                          PHP handler: validation, Turnstile, SQLite journal, PHPMailer → /_private/
   styles/                        tokens.css, base.css
 public/                          favicons (brand kit C2), manifest
 scripts/check-content.mjs        design ↔ JSON text check
@@ -78,3 +80,16 @@ reduced motion disables every animation and smooth scroll. JS per page: ≤ 1.3 
 Accessibility over pixel parity on phones (≤560px): touch targets are ≥ 44×44 (spec section 13),
 so the footer links, Privacy contents, Journey buttons and the Hub services link are taller than
 in the artboards there; desktop layout is unchanged.
+Stage 5 (form) — done. `scripts/form.ts` validates on submit with the texts from settings
+(`aria-invalid`, `aria-describedby`, `role="alert"`, focus on the first error), loads Turnstile only
+when the form nears the screen, sends JSON with a 20 s timeout, shows thanks only after
+`{"ok":true}` and the failure block otherwise. `server/` checks method, Origin, rate limit,
+honeypot, Turnstile and fields, saves to SQLite, then sends the email. Tested: handler on the
+server (every status of spec section 9), 28 UI checks in headless Chrome, and end-to-end on the
+domain with the real Turnstile widget. Turnstile uses Cloudflare's test keys
+(`TURNSTILE_SITE_KEY` in `src/lib/env.ts` and the secret in config.php) until the client's widget
+exists; email needs the domain mailbox in config.php. Without JS the form cannot pass Turnstile.
+
+Hosting facts that shape stages 5 and 7: PHP's `open_basedir` is the site folder (hence
+`/_private/`), and nginx serves static files (`.html`, `.txt`, CSS, JS, images) itself, so
+`.htaccess` rules and headers do not reach them; security headers go to Cloudflare in stage 7.

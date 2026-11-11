@@ -27,7 +27,7 @@ const { hero, form } = await getPage('contact', lang);
         <p class="ct__about">{hero.about}</p>
       </div>
       <div class="ct__form">
-        <RequestForm lang={lang} placeholder={form.message_placeholder} thanks={form.thanks} />
+        <RequestForm lang={lang} page="contact" placeholder={form.message_placeholder} thanks={form.thanks} />
       </div>
     </div>
   </section>

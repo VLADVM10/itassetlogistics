@@ -1,0 +1,29 @@
+{
+    "name": "itassetlogistics/request-handler",
+    "description": "Request form handler for itassetlogistics.com (spec section 9)",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.1",
+        "ext-curl": "*",
+        "ext-mbstring": "*",
+        "ext-pdo_sqlite": "*",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@php -r \"@unlink('vendor/phpmailer/phpmailer/get_oauth_token.php');\""
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "ItAssetLogistics\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.1"
+        }
+    }
+}

@@ -29,3 +29,7 @@ IT_Asset_Logistics_Brand_Kit/
 Privacy Policy/
 cityhost_ssh_key.pub
 .claude/
+
+# form app data created at runtime (local tests)
+server/data/
+server/logs/

@@ -1,31 +1,38 @@
 ---
 /*
- * Request form card shared by Home (#contact) and Contact (spec section 9).
- * Stage 3: markup and states as in the design. Without JS the browser validates the
- * required fields and posts to the handler; client validation, sending and the
- * success/failure states are wired in stage 5 (scripts/form.ts).
+ * Request form card shared by Home (#contact) and Contact (spec section 9), with the states of
+ * the ContactStates artboard. scripts/form.ts validates, gets the Turnstile token and sends JSON
+ * to /api/request.php (server/); the thanks block appears only after the server says ok.
  */
 import Icon from './Icon.astro';
 import { getContacts, getSettings } from '../lib/content';
+import { TURNSTILE_SITE_KEY } from '../lib/env';
 import { pathFor, type Lang } from '../i18n/routes';
 
 interface Props {
   lang: Lang;
+  /** Source page, sent with the request and shown in the email. */
+  page: 'home' | 'contact';
   placeholder: string;
   thanks: string;
 }
-const { lang, placeholder, thanks } = Astro.props;
+const { lang, page, placeholder, thanks } = Astro.props;
 const { form } = await getSettings(lang);
 const contacts = await getContacts();
 const l = form.labels;
+const messages = JSON.stringify({ ...form.errors, sending: form.sending });
 ---
-<div class="form-card card-pad">
-  <div class="form-done" role="status" hidden data-form-done>
+<div class="form-card card-pad" data-form-card>
+  <div class="form-done" role="status" tabindex="-1" hidden data-form-done>
     <span class="form-done__icon"><Icon name="check" size={18} stroke={2.6} /></span>
     <p>{thanks}</p>
   </div>
 
-  <form class="form" action="/api/request.php" method="post" data-form>
+  <form class="form" action="/api/request.php" method="post" data-form data-messages={messages}>
+    <input type="hidden" name="lang" value={lang} />
+    <input type="hidden" name="page" value={page} />
+    <!-- honeypot: hidden from people and assistive tech, bots fill it in -->
+    <div hidden><input type="text" name="website" tabindex="-1" autocomplete="off" /></div>
     <div class="form__grid">
       <div class="fw">
         <label for="f-name">{l.name}</label>
@@ -49,6 +56,9 @@ const l = form.labels;
       <textarea class="field" id="f-message" name="message" rows="5" placeholder={placeholder} required aria-required="true"></textarea>
     </div>
 
+    <!-- Turnstile widget: invisible unless Cloudflare asks for an interaction -->
+    <div class="form__ts" data-turnstile data-sitekey={TURNSTILE_SITE_KEY} data-lang={lang}></div>
+
     <div class="form__fail" role="alert" hidden data-form-fail>
       <Icon name="alert" size={20} />
       <p>
@@ -60,14 +70,21 @@ const l = form.labels;
     <div class="form__actions">
       <button class="btn btn-p btn-lg btn-shadow form__submit" type="submit">
         {form.submit}
-        <Icon name="arrow" stroke={2.2} />
+        <Icon name="arrow" stroke={2.2} class="form__arrow" />
+        <Icon name="spinner" stroke={2.4} class="form__spin" />
       </button>
+      <span class="visually-hidden" role="status" data-form-status></span>
       <p class="form__policy">
         {form.policy_before} <a href={pathFor('privacy', lang)}>{form.policy_link}</a>{form.policy_after}
       </p>
     </div>
   </form>
 </div>
+
+<script>
+  import { initForms } from '../scripts/form';
+  initForms();
+</script>
 
 <style>
   .form-card {
@@ -80,6 +97,8 @@ const l = form.labels;
 
   .form-done { display: flex; align-items: flex-start; gap: 14px; padding: 8px 0; }
   .form-done[hidden] { display: none; }
+  .form-done:focus { outline: none; }
+  .form[hidden] { display: none; }
   .form-done__icon {
     display: flex;
     flex: 0 0 38px;
@@ -143,7 +162,14 @@ const l = form.labels;
     gap: 12px 20px;
   }
   .form__submit { padding: 0 30px; border-radius: var(--radius-field); }
-  .form__submit[aria-busy='true'] { opacity: 0.72; cursor: default; }
+  /* sending: as in the design, the arrow turns into a spinner, the button dims and loses its shadow */
+  .form__submit[aria-busy='true'] { box-shadow: none; opacity: 0.72; cursor: default; }
+  .form__submit :global(.form__spin) { display: none; }
+  .form__submit[aria-busy='true'] :global(.form__arrow) { display: none; }
+  .form__submit[aria-busy='true'] :global(.form__spin) { display: block; animation: a-spin 0.8s linear infinite; }
+  /* the empty widget box takes no room in the column gap; it opens only for an interaction */
+  .form__ts { margin-top: -18px; }
+  .form__ts:global(.is-shown) { margin-top: 0; }
   .form__policy {
     flex: 1 1 220px;
     min-width: 0;

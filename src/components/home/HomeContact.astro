@@ -19,7 +19,7 @@ const { lang, block } = Astro.props;
       <ContactDetails lang={lang} locationLabel={block.location_label} />
     </div>
     <div class="hc__form">
-      <RequestForm lang={lang} placeholder={block.message_placeholder} thanks={block.thanks} />
+      <RequestForm lang={lang} page="home" placeholder={block.message_placeholder} thanks={block.thanks} />
     </div>
   </div>
 </section>
