@@ -41,6 +41,17 @@ Manual run: `~/itassetlogistics-app/pull-deploy.sh`; force a re-deploy of the sa
 If the repository becomes private, give the server a read-only deploy key (GitHub → Settings →
 Deploy keys) and change `REPO_URL` to `git@github.com:VLADVM10/itassetlogistics.git`.
 
+## Admin sign-in (GitHub OAuth)
+
+The admin's "Sign in with GitHub" goes through the `sveltia-cms-auth` Worker
+(<https://github.com/sveltia/sveltia-cms-auth>, unchanged code) on the Cloudflare account
+skladovka.ua: <https://sveltia-cms-auth.skladovka-ua.workers.dev> (`AUTH_URL` in
+`scripts/cms/build-config.mjs`). Worker variables: `ALLOWED_DOMAINS = itassetlogistics.com`
+(in its `wrangler.toml`), secrets `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` from the GitHub
+OAuth App whose callback URL is the Worker URL + `/callback`. To change a secret:
+`npx wrangler secret put GITHUB_CLIENT_SECRET` in a checkout of that repository. Editors need
+write access to this repository (Settings → Collaborators).
+
 ## Rollback
 
 Revert the bad commit on `main` (GitHub → commit → Revert, or `git revert`); the workflow builds

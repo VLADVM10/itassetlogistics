@@ -113,8 +113,8 @@ items are added, removed and ordered in English and mirrored in Ukrainian (a new
 the English text to translate), and `check:i18n` stops the build if the two ever differ. Tested
 with a copy of the repository in the admin's local-repository mode: saving changes only the edited
 fields, keeps empty optional fields and key order. Deploy: see `ops/README.md` (pull model).
-Sign-in through GitHub needs the `sveltia-cms-auth` Worker (`AUTH_URL` in
-`scripts/cms/build-config.mjs`); until then the admin offers sign-in with a GitHub token.
+Sign-in through GitHub goes through the `sveltia-cms-auth` Worker (`AUTH_URL` in
+`scripts/cms/build-config.mjs`, see `ops/README.md`); sign-in with a GitHub token also works.
 
 Stage 7 (SEO and security) — done in code; the Cloudflare part is a checklist for the account
 owner in `ops/cloudflare.md` (Full (strict) SSL, HSTS, always HTTPS, www → apex, security

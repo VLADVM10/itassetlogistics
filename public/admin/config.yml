@@ -4,6 +4,7 @@ backend:
   name: github
   repo: VLADVM10/itassetlogistics
   branch: main
+  base_url: https://sveltia-cms-auth.skladovka-ua.workers.dev
   commit_messages:
     update: "CMS: {{collection}} / {{slug}} — {{author-login}}"
     uploadMedia: "CMS: upload {{path}} — {{author-login}}"

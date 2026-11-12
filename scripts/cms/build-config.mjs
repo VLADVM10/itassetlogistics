@@ -22,7 +22,7 @@ const CONTENT = path.join(ROOT, 'src', 'content');
 const SITE_URL = 'https://itassetlogistics.com';
 const REPO = 'VLADVM10/itassetlogistics';
 /** Address of the sveltia-cms-auth Worker (GitHub sign-in). Empty: sign-in with a token only. */
-const AUTH_URL = '';
+const AUTH_URL = 'https://sveltia-cms-auth.skladovka-ua.workers.dev';
 const LOCALES = ['en', 'uk'];
 /** Strings longer than this get a multi-line editor. */
 const TEXT_FROM = 160;
