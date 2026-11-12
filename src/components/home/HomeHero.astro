@@ -32,13 +32,10 @@ const BENEFIT_ICONS: IconName[] = ['building', 'cube', 'sliders'];
 
       <ul class="hero__ops" aria-label={hero.operations_label}>
         {hero.operations.map((op, i) => (
-          <>
-            {i > 0 && <li class="hero__dot" aria-hidden="true">·</li>}
-            <li class="hero__op">
-              <Icon name={OPERATION_ICONS[i] ?? 'cube'} />
-              {op}
-            </li>
-          </>
+          <li class="hero__op">
+            <Icon name={OPERATION_ICONS[i] ?? 'cube'} />
+            {op}
+          </li>
         ))}
       </ul>
 
@@ -94,29 +91,40 @@ const BENEFIT_ICONS: IconName[] = ['building', 'cube', 'sliders'];
     margin-bottom: 30px;
   }
 
+  /* Dots between operations sit 15px left of each item. The list starts 30px left of the text
+     column and that strip is clipped, so the dot before the first item of every line is hidden:
+     when the list wraps, no dot hangs at a line end or starts a line. */
   .hero__ops {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px 12px;
-    margin: 0 0 26px;
-    padding: 0;
+    gap: 8px 30px;
+    margin: 0 0 26px -30px;
+    padding: 0 0 0 30px;
     list-style: none;
+    clip-path: inset(0 0 0 30px);
   }
   .hero__op {
+    position: relative;
     display: inline-flex;
+    min-height: 20px; /* the row height of the design, where the dots were 16px text */
     align-items: center;
     gap: 7px;
     font-size: 14px;
     font-weight: 600;
     color: var(--ink);
   }
-  .hero__op :global(svg) { color: var(--accent); }
-  .hero__dot {
+  .hero__op::before {
+    content: '·';
+    content: '·' / ''; /* decorative: no text for screen readers */
+    position: absolute;
+    left: -15px;
+    transform: translateX(-50%);
     font-size: 16px;
     font-weight: 700;
     color: var(--dot);
   }
+  .hero__op :global(svg) { color: var(--accent); }
 
   .hero__benefits {
     display: flex;

@@ -219,4 +219,11 @@ const fields = [
     font-weight: 400;
     color: var(--muted);
   }
+  /* phones: the tag is shown full width, so its smallest labels can be readable */
+  @media (max-width: 560px) {
+    .tag__title { font-size: 10px; }
+    .tag__key { font-size: 10px; }
+    .tag__status { font-size: 11px; }
+    .tag__value { font-size: 13.5px; }
+  }
 </style>

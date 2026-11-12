@@ -81,8 +81,8 @@ const items: Array<keyof typeof PAGES> = ['home', 'hub', 'managed', 'media', 'co
     font-size: 14.5px;
   }
   .site-footer a:hover { color: #FFFFFF; text-decoration: underline; }
-  /* phone: touch targets ≥ 44×44 (spec section 13) */
-  @media (max-width: 560px) {
+  /* phones and touch screens: touch targets ≥ 44×44 (spec section 13) */
+  @media (max-width: 560px), (pointer: coarse) {
     .site-footer nav ul { row-gap: 0; }
     .site-footer nav a { display: flex; align-items: center; min-height: 44px; }
   }

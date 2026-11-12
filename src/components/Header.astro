@@ -105,6 +105,10 @@ const isCurrent = (key: string) => (key === current ? 'page' : undefined);
   }
   .nav-d__link:hover { color: var(--accent); }
   .nav-d__link[aria-current='page'] { font-weight: 600; color: var(--ink); }
+  /* touch screens (tablets show this header): touch targets ≥ 44 px tall (spec section 13) */
+  @media (pointer: coarse) {
+    .nav-d__link { display: inline-flex; align-items: center; min-height: 44px; }
+  }
   .nav-d__cta {
     min-height: 44px;
     padding: 0 20px;

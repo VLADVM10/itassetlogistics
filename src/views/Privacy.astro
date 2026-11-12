@@ -87,8 +87,8 @@ const sections = page.sections.map((s, i) => ({
   @media (max-width: 900px) {
     .pp__toc { position: static; padding-top: 0; }
   }
-  /* phone: touch targets ≥ 44×44 (spec section 13) */
-  @media (max-width: 560px) {
+  /* phones and touch screens: touch targets ≥ 44×44 (spec section 13) */
+  @media (max-width: 560px), (pointer: coarse) {
     .pp__toc a { display: flex; align-items: center; min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
   }
 

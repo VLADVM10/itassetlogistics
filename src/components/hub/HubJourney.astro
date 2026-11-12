@@ -173,8 +173,8 @@ const final = stages.length - 1;
     cursor: pointer;
   }
   .jbtn:hover { border-color: var(--accent); color: var(--accent); }
-  /* phone: touch targets ≥ 44×44 (spec section 13) */
-  @media (max-width: 560px) { .jbtn { min-height: 44px; } }
+  /* phones and touch screens: touch targets ≥ 44×44 (spec section 13) */
+  @media (max-width: 560px), (pointer: coarse) { .jbtn { min-height: 44px; } }
   .jbtn__inner[hidden] { display: none; }
 
   /* ---- shared station look ---- */
@@ -316,6 +316,10 @@ const final = stages.length - 1;
     cursor: pointer;
     transform: translateX(-50%);
     transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+  }
+  /* touch screens: a 44 px tall hit area around the 36 px pill, without moving it */
+  @media (pointer: coarse) {
+    .jt-h__final::after { content: ''; position: absolute; inset: -5px 0; }
   }
   .is-final .jt-h__arc { border-color: var(--accent); }
   .is-final .jt-h__arrow { color: var(--accent); }

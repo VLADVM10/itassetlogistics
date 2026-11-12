@@ -69,6 +69,8 @@ const last = block.steps.length - 1;
     color: var(--muted);
   }
   .mh__arrow { display: block; margin-left: auto; color: var(--rail); }
+  /* one column (below 2 × 240 px + gap + gutters): the arrow points down to the next step */
+  @media (max-width: 527px) { .mh__arrow :global(svg) { transform: rotate(90deg); } }
   .mh__step h3 {
     margin-bottom: 8px;
     font-size: 17px;

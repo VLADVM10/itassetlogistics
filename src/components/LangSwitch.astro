@@ -45,4 +45,8 @@ const { lang, alternates, label } = Astro.props;
   }
   .lang__link:hover { color: var(--accent); }
   .lang__link.is-current { font-weight: 600; color: var(--ink); }
+  /* touch screens (tablets show the desktop header): touch targets ≥ 44×44 (spec section 13) */
+  @media (pointer: coarse) {
+    .lang__link { min-width: 44px; min-height: 44px; justify-content: center; }
+  }
 </style>
