@@ -2,12 +2,13 @@
 import Logo from './Logo.astro';
 import { pathFor, type Lang, type PAGES } from '../i18n/routes';
 import { getContacts, getSettings } from '../lib/content';
+import { GA_MEASUREMENT_ID } from '../lib/env';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
-const { nav, footer } = await getSettings(lang);
+const { nav, footer, consent } = await getSettings(lang);
 const contacts = await getContacts();
 const city = lang === 'uk' ? contacts.city_uk : contacts.city_en;
 const year = new Date().getFullYear();
@@ -35,6 +36,9 @@ const items: Array<keyof typeof PAGES> = ['home', 'hub', 'managed', 'media', 'co
     </div>
     <div class="site-footer__bottom">
       <p>© {year} IT Asset Logistics</p>
+      {GA_MEASUREMENT_ID && (
+        <button type="button" class="site-footer__cookies" data-consent-open>{consent.settings}</button>
+      )}
       <p class="site-footer__domain">{footer.domain}</p>
     </div>
   </div>
@@ -85,6 +89,7 @@ const items: Array<keyof typeof PAGES> = ['home', 'hub', 'managed', 'media', 'co
   @media (max-width: 560px), (pointer: coarse) {
     .site-footer nav ul { row-gap: 0; }
     .site-footer nav a { display: flex; align-items: center; min-height: 44px; }
+    .site-footer__brand p a { display: inline-flex; align-items: center; min-height: 44px; margin: -10px 0; }
   }
   .site-footer__bottom {
     padding-top: 22px;
@@ -96,6 +101,17 @@ const items: Array<keyof typeof PAGES> = ['home', 'hub', 'managed', 'media', 'co
     font-size: 13px;
     color: var(--dark-muted);
   }
+  /* reopens the analytics cookie banner (only when analytics is on) */
+  .site-footer__cookies {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 13px;
+    color: var(--dark-link);
+    cursor: pointer;
+  }
+  .site-footer__cookies:hover { color: #FFFFFF; text-decoration: underline; }
+  @media (pointer: coarse) { .site-footer__cookies { min-height: 44px; } }
   .site-footer__domain {
     font-family: var(--font-mono);
     font-size: 11.5px;

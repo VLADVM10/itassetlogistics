@@ -10,3 +10,10 @@ export const PREVIEW = process.env.SITE_PREVIEW === '1';
  * with the test secret `1x0000000000000000000000000000000AA`; replace both before launch.
  */
 export const TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+
+/**
+ * Google Analytics 4 measurement ID ("G-XXXXXXXXXX", GA → Admin → Data streams → Web).
+ * Empty: no analytics, no cookie banner, no Google hosts in the CSP. When set, GA loads only after
+ * the visitor accepts analytics cookies in the banner (src/components/CookieConsent.astro).
+ */
+export const GA_MEASUREMENT_ID = '';

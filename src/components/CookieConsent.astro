@@ -1,0 +1,52 @@
+---
+/*
+ * Analytics cookie banner. Rendered only when GA_MEASUREMENT_ID is set (src/lib/env.ts).
+ * Google Analytics is loaded only after "Accept"; the choice is kept in this browser and can be
+ * changed with "Cookie settings" in the footer. Logic: src/scripts/analytics.ts.
+ */
+import { getSettings } from '../lib/content';
+import { GA_MEASUREMENT_ID } from '../lib/env';
+import { pathFor, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const { consent, nav } = await getSettings(lang);
+---
+{GA_MEASUREMENT_ID && (
+  <section class="consent" aria-label={consent.label} data-consent data-ga-id={GA_MEASUREMENT_ID} hidden>
+    <p class="consent__text">
+      {consent.text}{' '}
+      <a href={pathFor('privacy', lang)}>{nav.privacy.label}</a>
+    </p>
+    <div class="consent__actions">
+      <button type="button" class="btn btn-p consent__btn" data-consent-accept>{consent.accept}</button>
+      <button type="button" class="btn btn-s consent__btn" data-consent-decline>{consent.decline}</button>
+    </div>
+  </section>
+)}
+
+<script>
+  import { initAnalytics } from '../scripts/analytics';
+  initAnalytics();
+</script>
+
+<style>
+  .consent {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 60;
+    width: min(440px, calc(100% - 32px));
+    padding: 18px 20px;
+    border: 1px solid var(--line-3);
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: 0 2px 4px rgba(13, 27, 42, 0.06), 0 24px 48px -20px rgba(13, 27, 42, 0.35);
+  }
+  .consent[hidden] { display: none; }
+  .consent__text { margin-bottom: 14px; font-size: 14px; line-height: 1.55; color: var(--text); }
+  .consent__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .consent__btn { flex: 1 1 auto; min-height: 44px; padding: 0 18px; font-size: 14.5px; }
+</style>

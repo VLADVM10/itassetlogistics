@@ -238,6 +238,8 @@ function initForm(card: HTMLElement): void {
         form.hidden = true;
         done.hidden = false;
         done.focus();
+        // conversion event for analytics (src/scripts/analytics.ts; nothing happens without consent)
+        window.dispatchEvent(new CustomEvent('ital:lead'));
         return;
       }
       if (response.status === 422 && data?.errors) {

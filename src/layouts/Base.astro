@@ -11,7 +11,8 @@ import interCyrillic from '@fontsource-variable/inter/files/inter-cyrillic-wght-
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { getContacts, getPage, getSettings } from '../lib/content';
-import { PREVIEW } from '../lib/env';
+import { GA_MEASUREMENT_ID, PREVIEW } from '../lib/env';
+import CookieConsent from '../components/CookieConsent.astro';
 import {
   LANGS,
   OG_LOCALE,
@@ -47,13 +48,18 @@ const OG_IMAGE = '/og-default.png';
  * (see ops/cloudflare.md). The only inline script is the `js` class flag below, allowed by hash:
  * change the hash together with that line. Turnstile needs its script and iframe origin.
  */
+// Google Analytics hosts are allowed only when analytics is on (GA_MEASUREMENT_ID in src/lib/env.ts).
+const GA_SCRIPT = GA_MEASUREMENT_ID ? ' https://www.googletagmanager.com' : '';
+const GA_CONNECT = GA_MEASUREMENT_ID
+  ? ' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com'
+  : '';
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' https://challenges.cloudflare.com",
+  `script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' https://challenges.cloudflare.com${GA_SCRIPT}`,
   "style-src 'self'",
-  "img-src 'self' data:",
+  `img-src 'self' data:${GA_CONNECT}`,
   "font-src 'self'",
-  "connect-src 'self'",
+  `connect-src 'self'${GA_CONNECT}`,
   'frame-src https://challenges.cloudflare.com',
   "form-action 'self'",
   "base-uri 'self'",
@@ -158,7 +164,8 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph };
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    {/* .json, not .webmanifest: Cityhost nginx sends no MIME type for .webmanifest */}
+    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#FFFFFF" />
 
     <meta property="og:type" content="website" />
@@ -187,5 +194,6 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph };
       <slot />
     </main>
     <Footer lang={lang} />
+    <CookieConsent lang={lang} />
   </body>
 </html>

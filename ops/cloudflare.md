@@ -92,8 +92,8 @@ If:
 
 ## 5. Вимкнути те, що вставляє сторонній код у сторінки
 
-- **Analytics & Logs → Web Analytics:** вимкнути для itassetlogistics.com (за ТЗ аналітики на
-  старті немає; скрипт `static.cloudflareinsights.com` блокується CSP і дає помилку в консолі).
+- **Analytics & Logs → Web Analytics:** вимкнути для itassetlogistics.com (аналітика сайту — Google
+  Analytics 4 зі згодою на cookie; скрипт `static.cloudflareinsights.com` блокується CSP).
 - **Scrape Shield → Email Address Obfuscation:** Off (вставляє свій скрипт і змінює `mailto:`).
 - **Speed → Optimization → Rocket Loader:** Off.
 
@@ -101,6 +101,45 @@ If:
 
 - **Захист адмін-сторінок / від ботів** для itassetlogistics.com: вимкнути. Інакше на `/admin/`
   показується сторінка Cityhost з Google reCAPTCHA (HTTP 423).
+
+## 7. Пошта домену (Cityhost)
+
+Скринька `info@itassetlogistics.com` на Cityhost; на неї ж приходять заявки з форми.
+
+| Тип | Name | Значення |
+|---|---|---|
+| MX | `@` | `mx1.cityhost.com.ua`, priority 0 |
+| TXT | `@` | `v=spf1 mx ip4:46.4.115.183 ~all` (не `a`: A-запис домену вказує на Cloudflare) |
+| TXT | `dkim._domainkey` | ключ з панелі Cityhost (`v=DKIM1; k=rsa; p=…`) |
+| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:info@itassetlogistics.com` |
+
+**Email Routing** у Cloudflare не вмикати: він замінює MX. SMTP для форми: `mx1.cityhost.com.ua:465`
+(SSL), логін — адреса скриньки; пароль вводиться лише на сервері (`ops/README.md`).
+
+## 8. itassetlogistics.com.ua → itassetlogistics.com (301)
+
+Домен зареєстровано на Cityhost, зараз на ньому паркова сторінка Cityhost. Найпростіше з HTTPS:
+
+1. Cloudflare → **Add a domain** → `itassetlogistics.com.ua`, план Free; DNS-записи можна видалити.
+2. Додати два записи **A**: `@` і `www` → `192.0.2.1`, обидва **Proxied** (адреса-заглушка: запити
+   до сервера не доходять, їх перехоплює правило нижче).
+3. **Rules → Redirect Rules → Create rule** «→ .com»: If *All incoming requests*; Then *Dynamic*,
+   expression `concat("https://itassetlogistics.com", http.request.uri.path)`, status **301**,
+   **Preserve query string** увімкнено.
+4. Cityhost → Домени → `itassetlogistics.com.ua` → **DNS-сервери**: замінити `ns*.controlpanel.host`
+   на два NS, які показав Cloudflare.
+
+Перевірка: `curl -sI https://itassetlogistics.com.ua/contact/` → `301`,
+`location: https://itassetlogistics.com/contact/`.
+
+## 9. Google Search Console
+
+1. https://search.google.com/search-console → **Додати ресурс** → **Домен** → `itassetlogistics.com`.
+2. Google запропонує TXT-запис `google-site-verification=…`: додати його в Cloudflare (DNS → TXT,
+   Name `@`) або натиснути автоматичне підтвердження через Cloudflare.
+3. **Файли Sitemap** → `https://itassetlogistics.com/sitemap-index.xml` (12 сторінок, EN + UA з
+   hreflang; `/sitemap.xml` — те саме).
+4. **Перевірка URL** → головна EN і UA → **Надіслати запит на індексування**.
 
 ## Перевірка
 

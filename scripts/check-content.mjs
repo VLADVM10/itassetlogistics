@@ -47,10 +47,17 @@ const IGNORE = [
 ];
 
 /** Known, approved deviations from the design (spec section 16). */
+// Client edit (Nov 2026): in Ukrainian the footer and the Home link name the media service
+// «Зберігання та операції з носіями даних» instead of «Media Storage & Handling».
+const UA_MEDIA = 'Media Storage & Handling';
 const ALLOWED = new Map([
-  ['uk/privacy', ['сторінку Contact']], // corrected to «сторінку «Контакти»» per the spec
+  ['uk/home', [UA_MEDIA, `${UA_MEDIA} →`]],
+  ['uk/hub', [UA_MEDIA]],
+  ['uk/media', [UA_MEDIA]],
+  ['uk/contact', [UA_MEDIA]],
+  ['uk/privacy', ['сторінку Contact', UA_MEDIA]], // corrected to «сторінку «Контакти»» per the spec
   // SEO: the lead starts with «Відповідальне зберігання…», the term clients search for
-  ['uk/managed', ['Зберігання корпоративного обладнання в Україні без необхідності утримувати власний склад.']],
+  ['uk/managed', ['Зберігання корпоративного обладнання в Україні без необхідності утримувати власний склад.', UA_MEDIA]],
 ]);
 
 const decode = (s) =>

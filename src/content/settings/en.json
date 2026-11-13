@@ -35,6 +35,13 @@
     "managed": "Storage of corporate, reserve and project equipment in Kyiv, from a few sealed boxes to larger batches.",
     "media": "Physical storage of HDDs, SSDs and other data-bearing media, each item individually identified."
   },
+  "consent": {
+    "label": "Cookie consent",
+    "text": "We would like to use Google Analytics cookies to understand how the website is used. They are set only if you accept.",
+    "accept": "Accept analytics",
+    "decline": "Decline",
+    "settings": "Cookie settings"
+  },
   "contact_labels": {
     "email": "Email",
     "phone": "Phone"

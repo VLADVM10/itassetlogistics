@@ -2061,6 +2061,36 @@ collections:
                 hint: До 140 символів.
                 i18n: true
             i18n: true
+          - name: consent
+            label: Банер згоди на cookie (аналітика)
+            widget: object
+            fields:
+              - name: label
+                label: Назва банера (для програм читання екрана)
+                widget: string
+                hint: До 90 символів.
+                i18n: true
+              - name: text
+                label: Текст банера
+                widget: text
+                hint: До 300 символів.
+                i18n: true
+              - name: accept
+                label: Кнопка «Прийняти»
+                widget: string
+                hint: До 60 символів.
+                i18n: true
+              - name: decline
+                label: Кнопка «Відхилити»
+                widget: string
+                hint: До 60 символів.
+                i18n: true
+              - name: settings
+                label: Посилання у футері для зміни вибору
+                widget: string
+                hint: До 60 символів.
+                i18n: true
+            i18n: true
           - name: contact_labels
             label: Підписи контактів
             widget: object

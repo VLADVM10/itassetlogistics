@@ -41,6 +41,27 @@ Manual run: `~/itassetlogistics-app/pull-deploy.sh`; force a re-deploy of the sa
 If the repository becomes private, give the server a read-only deploy key (GitHub → Settings →
 Deploy keys) and change `REPO_URL` to `git@github.com:VLADVM10/itassetlogistics.git`.
 
+## Request form: mailbox password
+
+`/_private/config.php` sends requests to `info@itassetlogistics.com` through
+`mx1.cityhost.com.ua:465` (SSL) as that mailbox. Only the password is secret. To set or change it
+(typed into the terminal, not shown; the script then logs in to SMTP without sending anything):
+
+```
+ssh -t itassetlogistics ~/itassetlogistics-app/set-smtp-password.sh
+```
+
+The script is `ops/set-smtp-password.sh`; copy it to `~/itassetlogistics-app/` if it is missing.
+Each run keeps a backup `config.php.bak-<date>` next to config.php.
+
+## Google Analytics 4
+
+Off until `GA_MEASUREMENT_ID` in `src/lib/env.ts` holds the measurement ID (`G-…`). Then every page
+gets a consent banner (texts: admin → settings → «Банер згоди на cookie»), GA loads only after
+«Accept», the footer gets «Cookie settings», and the CSP allows the Google hosts. A successful
+request form sends the GA event `generate_lead` (mark it as a key event in GA → Admin → Events).
+When switching it on, update section 7 of the Privacy Policy (both languages).
+
 ## Admin sign-in (GitHub OAuth)
 
 The admin's "Sign in with GitHub" goes through the `sveltia-cms-auth` Worker
