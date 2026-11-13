@@ -1,0 +1,86 @@
+---
+/*
+ * "Other services": links to the two other service pages, under the closing panel of each service
+ * page. Gives every service page a text link to the others (search engines follow them, and so do
+ * visitors who landed on the wrong service). Titles are the menu labels, texts come from settings.
+ */
+import Icon from './Icon.astro';
+import { getSettings } from '../lib/content';
+import { pathFor, type Lang } from '../i18n/routes';
+
+type Service = 'hub' | 'managed' | 'media';
+interface Props {
+  lang: Lang;
+  current: Service;
+}
+const { lang, current } = Astro.props;
+const { nav, related } = await getSettings(lang);
+const others = (['hub', 'managed', 'media'] as const).filter((s) => s !== current);
+---
+<section class="rel" aria-labelledby="related-title">
+  <div class="container">
+    <p id="related-title" class="rel__label">{related.label}</p>
+    <ul class="rel__list">
+      {others.map((s) => (
+        <li>
+          <a class="rel__card" href={pathFor(s, lang)}>
+            <span class="rel__title">
+              {nav[s].label}
+              <Icon name="arrow" stroke={2.2} />
+            </span>
+            <span class="rel__text">{related[s]}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .rel { padding: 0 0 64px; background: var(--surface); }
+  .rel__label {
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .rel__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .rel__card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    height: 100%;
+    padding: 20px 22px;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    background: var(--surface);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+  .rel__card:hover { border-color: var(--accent); }
+  .rel__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .rel__title :global(svg) { flex: 0 0 auto; color: var(--accent); transition: transform 0.15s ease; }
+  .rel__card:hover .rel__title :global(svg) { transform: translateX(3px); }
+  .rel__text { font-size: 14px; line-height: 1.55; color: var(--text); }
+  @media (max-width: 760px) { .rel { padding-bottom: 48px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .rel__card, .rel__title :global(svg) { transition: none; }
+  }
+</style>

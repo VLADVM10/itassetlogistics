@@ -1,6 +1,7 @@
 ---
 import Icon, { type IconName } from '../Icon.astro';
 import SectionHead from '../SectionHead.astro';
+import { inline } from '../../lib/richtext';
 import type { PageData } from '../../lib/content';
 
 interface Props {
@@ -29,7 +30,7 @@ const CORE_ICONS: IconName[] = ['receive', 'cube', 'clipboard', 'download'];
 
     <div class="opt card-pad">
       <h3 class="opt__title">{block.optional.title}</h3>
-      <p class="opt__intro">{block.optional.intro}</p>
+      <p class="opt__intro" set:html={inline(block.optional.intro)} />
       <ul class="opt__list">
         {block.optional.items.map((item) => (
           <li>

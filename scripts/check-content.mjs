@@ -49,6 +49,8 @@ const IGNORE = [
 /** Known, approved deviations from the design (spec section 16). */
 const ALLOWED = new Map([
   ['uk/privacy', ['сторінку Contact']], // corrected to «сторінку «Контакти»» per the spec
+  // SEO: the lead starts with «Відповідальне зберігання…», the term clients search for
+  ['uk/managed', ['Зберігання корпоративного обладнання в Україні без необхідності утримувати власний склад.']],
 ]);
 
 const decode = (s) =>

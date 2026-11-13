@@ -1,6 +1,6 @@
 {
   "seo": {
-    "title": "Media Storage & Handling — IT Asset Logistics",
+    "title": "HDD & SSD Media Storage in Kyiv — IT Asset Logistics",
     "description": "Physical storage of HDDs, SSDs and other data-bearing media in Kyiv: individual identification, agreed handling and documented receipt and release."
   },
   "hero": {
@@ -26,7 +26,7 @@
   "what_we_handle": {
     "label": "What We Handle",
     "title": "Physical storage media, individually accounted for.",
-    "intro": "We provide physical storage and handling for data-bearing media removed from corporate IT equipment or retained for future use, return or further processing.",
+    "intro": "We provide physical storage and handling for data-bearing media removed from [corporate IT equipment](/equipment-hub/) or retained for future use, return or further processing.",
     "items": [
       {
         "title": "Hard Disk Drives (HDD)",

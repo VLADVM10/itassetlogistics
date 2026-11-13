@@ -59,6 +59,13 @@ for (const file of htmlFiles) {
     if (attr === '/api/request.php') continue;
     if (!resolve(attr)) problems.push(`${rel}: broken link ${attr}`);
   }
+  // links in page content stay in the page's language (editors type paths by hand in the CMS)
+  const isUk = rel.startsWith('uk/');
+  const main = html.match(/<main[\s\S]*<\/main>/)?.[0] ?? '';
+  for (const [, href] of main.matchAll(/<a\s[^>]*href="(\/[^"#]*)/g)) {
+    if (href.startsWith('/_astro/') || href.startsWith('/api/')) continue;
+    if (isUk !== (href === '/uk/' || href.startsWith('/uk/'))) problems.push(`${rel}: link to the other language ${href}`);
+  }
 
   // hreflang
   const alts = Object.fromEntries([...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)].map((m) => [m[1], m[2]]));

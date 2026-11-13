@@ -7,6 +7,7 @@ import HubJourney from '../components/hub/HubJourney.astro';
 import HubEquipment from '../components/hub/HubEquipment.astro';
 import HubScenarios from '../components/hub/HubScenarios.astro';
 import CtaPanel from '../components/CtaPanel.astro';
+import RelatedServices from '../components/RelatedServices.astro';
 import { getPage } from '../lib/content';
 import { pathFor, type Lang } from '../i18n/routes';
 
@@ -47,4 +48,5 @@ const BENEFIT_ICONS = ['register', 'cube', 'chart', 'route'] as const;
     href={pathFor('contact', lang)}
     note={cta.note}
   />
+  <RelatedServices lang={lang} current="hub" />
 </Base>

@@ -9,7 +9,8 @@ const escape = (s: string) =>
 /** Only site-relative links, anchors, https and mailto are allowed. */
 const SAFE_HREF = /^(\/(?!\/)|#|https:\/\/|mailto:)/;
 
-function inline(text: string): string {
+/** One line of inline rich text (**bold**, [label](/path/)) as HTML, for short fields. */
+export function inline(text: string): string {
   return escape(text)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_match, label: string, href: string) => {

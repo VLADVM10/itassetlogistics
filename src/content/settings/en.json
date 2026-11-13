@@ -29,6 +29,12 @@
     "aria_label": "Footer",
     "domain": "itassetlogistics.com"
   },
+  "related": {
+    "label": "Other services",
+    "hub": "Receiving, registration, storage, dispatch and returns of corporate IT equipment across Ukraine.",
+    "managed": "Storage of corporate, reserve and project equipment in Kyiv, from a few sealed boxes to larger batches.",
+    "media": "Physical storage of HDDs, SSDs and other data-bearing media, each item individually identified."
+  },
   "contact_labels": {
     "email": "Email",
     "phone": "Phone"

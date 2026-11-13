@@ -1,6 +1,7 @@
 ---
 import Icon, { type IconName } from '../Icon.astro';
 import SectionHead from '../SectionHead.astro';
+import { inline } from '../../lib/richtext';
 import { pathFor, type Lang } from '../../i18n/routes';
 import type { PageData } from '../../lib/content';
 
@@ -22,7 +23,7 @@ const ICONS: IconName[] = ['receive', 'register', 'cube', 'truck', 'return', 'la
             <span class="svcs__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           </div>
           <h3 class="svcs__title">{item.title}</h3>
-          <p class="svcs__text">{item.text}</p>
+          <p class="svcs__text" set:html={inline(item.text)} />
           <p class="svcs__result"><span>{block.result_label} →</span> {item.result}</p>
         </article>
       ))}

@@ -1,5 +1,7 @@
 ---
 /* Section heading row used on inner pages: eyebrow + H2 on the left, intro on the right. */
+import { inline } from '../lib/richtext';
+
 interface Props {
   label: string;
   title: string;
@@ -15,9 +17,9 @@ const paragraphs = intro === undefined ? [] : Array.isArray(intro) ? intro : [in
     <p class="eyebrow">{label}</p>
     <h2 class="h2 shead__title">{title}</h2>
   </div>
-  {paragraphs.length === 1 && <p class="shead__intro">{paragraphs[0]}</p>}
+  {paragraphs.length === 1 && <p class="shead__intro" set:html={inline(paragraphs[0]!)} />}
   {paragraphs.length > 1 && (
-    <div class="shead__intro shead__intro--many">{paragraphs.map((p) => <p>{p}</p>)}</div>
+    <div class="shead__intro shead__intro--many">{paragraphs.map((p) => <p set:html={inline(p)} />)}</div>
   )}
 </div>
 

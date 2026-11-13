@@ -6,6 +6,7 @@ import MediaHandle from '../components/media/MediaHandle.astro';
 import MediaHandling from '../components/media/MediaHandling.astro';
 import MediaAfter from '../components/media/MediaAfter.astro';
 import CtaPanel from '../components/CtaPanel.astro';
+import RelatedServices from '../components/RelatedServices.astro';
 import { getPage } from '../lib/content';
 import { pathFor, type Lang } from '../i18n/routes';
 
@@ -41,4 +42,5 @@ const contact = pathFor('contact', lang);
     href={contact}
     compact
   />
+  <RelatedServices lang={lang} current="media" />
 </Base>

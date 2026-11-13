@@ -1,6 +1,6 @@
 {
   "seo": {
-    "title": "Equipment Hub Ukraine — IT Asset Logistics",
+    "title": "IT Equipment Hub in Ukraine — IT Asset Logistics",
     "description": "Equipment Hub Ukraine: receiving, serial-number registration, storage, delivery and returns of corporate IT equipment, with inventory and movement reports."
   },
   "hero": {
@@ -42,7 +42,7 @@
       },
       {
         "title": "Equipment Storage",
-        "text": "We provide access-controlled storage for individual devices, reserve stock and project equipment, with recorded storage locations and documented movements.",
+        "text": "We provide access-controlled storage for individual devices, [reserve stock and project equipment](/managed-storage/), with recorded storage locations and documented movements.",
         "result": "Controlled storage & recorded asset locations"
       },
       {

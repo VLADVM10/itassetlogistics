@@ -61,15 +61,74 @@ const CSP = [
   'upgrade-insecure-requests',
 ].join('; ');
 
-const organization = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'IT Asset Logistics',
-  url: `${SITE_URL}/`,
-  logo: absoluteUrl('/icon-512.png'),
-  address: { '@type': 'PostalAddress', addressLocality: 'Kyiv', addressCountry: 'UA' },
-  ...(contacts.email ? { email: contacts.email } : {}),
-};
+/*
+ * Structured data (schema.org JSON-LD), one graph per page: who runs the site, the site itself,
+ * this page, its place in the site (breadcrumbs) and, on the service pages, the service.
+ * Email and phone appear only once contacts.json has them. A street address and opening hours
+ * (LocalBusiness) can be added the same way when the client publishes them.
+ */
+const ORG_ID = `${SITE_URL}/#organization`;
+const SITE_ID = `${SITE_URL}/#website`;
+const home = absoluteUrl(pathFor('home', lang));
+const SERVICE_PAGES = ['hub', 'managed', 'media'] as const;
+const isService = (SERVICE_PAGES as readonly string[]).includes(page);
+const pageName = page === 'home' || is404 ? '' : nav[page as Exclude<PageKey, 'home' | '404'>].label;
+
+const graph: Record<string, unknown>[] = [
+  {
+    '@type': 'Organization',
+    '@id': ORG_ID,
+    name: 'IT Asset Logistics',
+    url: `${SITE_URL}/`,
+    logo: { '@type': 'ImageObject', url: absoluteUrl('/icon-512.png'), width: 512, height: 512 },
+    image: absoluteUrl(OG_IMAGE),
+    address: { '@type': 'PostalAddress', addressLocality: 'Kyiv', addressCountry: 'UA' },
+    areaServed: { '@type': 'Country', name: 'Ukraine' },
+    ...(contacts.email ? { email: contacts.email } : {}),
+    ...(contacts.phone ? { telephone: contacts.phone } : {}),
+  },
+  {
+    '@type': 'WebSite',
+    '@id': SITE_ID,
+    name: 'IT Asset Logistics',
+    url: `${SITE_URL}/`,
+    inLanguage: [...LANGS],
+    publisher: { '@id': ORG_ID },
+  },
+  {
+    '@type': page === 'contact' ? 'ContactPage' : 'WebPage',
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: seo.title,
+    ...(seo.description ? { description: seo.description } : {}),
+    inLanguage: lang,
+    isPartOf: { '@id': SITE_ID },
+    about: { '@id': ORG_ID },
+    ...(pageName ? { breadcrumb: { '@id': `${canonical}#breadcrumb` } } : {}),
+  },
+];
+if (pageName) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${canonical}#breadcrumb`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: nav.home.label, item: home },
+      { '@type': 'ListItem', position: 2, name: pageName, item: canonical },
+    ],
+  });
+}
+if (isService) {
+  graph.push({
+    '@type': 'Service',
+    '@id': `${canonical}#service`,
+    name: pageName,
+    ...(seo.description ? { description: seo.description } : {}),
+    url: canonical,
+    provider: { '@id': ORG_ID },
+    areaServed: { '@type': 'Country', name: 'Ukraine' },
+  });
+}
+const structuredData = { '@context': 'https://schema.org', '@graph': graph };
 ---
 <!doctype html>
 <html lang={lang}>
@@ -119,7 +178,7 @@ const organization = {
     <meta property="og:image:alt" content="IT Asset Logistics" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    {page === 'home' && <script type="application/ld+json" set:html={JSON.stringify(organization)} />}
+    {!is404 && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
   </head>
   <body>
     <a class="skip-link" href="#main">{nav.skip_link}</a>

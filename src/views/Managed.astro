@@ -6,6 +6,7 @@ import ManagedStore from '../components/managed/ManagedStore.astro';
 import ManagedServices from '../components/managed/ManagedServices.astro';
 import ManagedArrangements from '../components/managed/ManagedArrangements.astro';
 import CtaPanel from '../components/CtaPanel.astro';
+import RelatedServices from '../components/RelatedServices.astro';
 import { getPage } from '../lib/content';
 import { pathFor, type Lang } from '../i18n/routes';
 
@@ -43,4 +44,5 @@ const contact = pathFor('contact', lang);
     button={cta.button}
     href={contact}
   />
+  <RelatedServices lang={lang} current="managed" />
 </Base>
