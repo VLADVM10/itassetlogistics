@@ -70,6 +70,8 @@ for (const file of htmlFiles) {
   // hreflang
   const alts = Object.fromEntries([...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)].map((m) => [m[1], m[2]]));
   if (rel === '404.html' || rel === 'uk/404/index.html') continue;
+  // Google Search Console ownership file (public/google<id>.html): one line of text, not a page
+  if (/^google[0-9a-f]+\.html$/.test(rel)) continue;
   for (const lang of ['en', 'uk', 'x-default']) {
     if (!alts[lang]) problems.push(`${rel}: no hreflang ${lang}`);
     else if (!alts[lang].startsWith(SITE + '/') || !resolve(alts[lang].slice(SITE.length))) problems.push(`${rel}: hreflang ${lang} → missing page ${alts[lang]}`);
