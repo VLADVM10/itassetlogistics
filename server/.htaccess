@@ -1,0 +1,6 @@
+# Deployed as /_private/.htaccess: nothing in this folder is ever served to the web.
+# Covers every file Apache handles (.php, .sqlite, .log, .json, .md, extensionless).
+# Cityhost's nginx serves .txt/.html/.css/.js/images itself, past .htaccess, so this
+# folder must never contain such files (the deploy check in server/README.md fails on them).
+Require all denied
+Options -Indexes
