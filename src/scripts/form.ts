@@ -24,6 +24,8 @@ const INVISIBLE = new RegExp(
   'g',
 );
 const TIMEOUT = 20_000;
+/** How long to wait for Turnstile: long enough to tick the checkbox when Cloudflare asks for it. */
+const TOKEN_TIMEOUT = 180_000;
 const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 
 interface TurnstileApi {
@@ -107,6 +109,7 @@ function initForm(card: HTMLElement): void {
           language: box.dataset.lang,
           action: 'request',
           appearance: 'interaction-only',
+          theme: 'light', // the site has no dark theme; 'auto' would draw a black box on a light form
           size: window.innerWidth < 400 ? 'compact' : 'flexible',
           'response-field': false,
           'refresh-expired': 'auto',
@@ -211,12 +214,18 @@ function initForm(card: HTMLElement): void {
     }
 
     setBusy(true);
+    // Two limits: Turnstile may ask the visitor to tick a checkbox first (TOKEN_TIMEOUT),
+    // then the request itself gets TIMEOUT.
+    const tokenWait = new AbortController();
+    const tokenTimer = window.setTimeout(() => tokenWait.abort(), TOKEN_TIMEOUT);
     const abort = new AbortController();
-    const timer = window.setTimeout(() => abort.abort(), TIMEOUT);
+    let timer = 0;
     const extra = new FormData(form);
     let sent = false;
     try {
-      const turnstileToken = await waitForToken(abort.signal);
+      const turnstileToken = await waitForToken(tokenWait.signal);
+      window.clearTimeout(tokenTimer);
+      timer = window.setTimeout(() => abort.abort(), TIMEOUT);
       const response = await fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -254,6 +263,7 @@ function initForm(card: HTMLElement): void {
     } catch {
       fail.hidden = false;
     } finally {
+      window.clearTimeout(tokenTimer);
       window.clearTimeout(timer);
       if (!sent) {
         setBusy(false);
