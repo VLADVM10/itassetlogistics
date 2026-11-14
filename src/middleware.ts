@@ -5,7 +5,7 @@
  *  - a one-letter Ukrainian word (в, з, і, у, а, о, й, я) ending a line: the space after it
  *    becomes a no-break space;
  *  - a short prefix split at its hyphen ("з-за", "IT-обладнання"): the word is wrapped in
- *    <span class="nw"> (white-space: nowrap). A span, not an invisible joiner character, so the
+ *    <span class="t-nowrap"> (white-space: nowrap). A span, not an invisible joiner character, so the
  *    text stays exactly the same for search engines, copy-paste and page search.
  * Only text between tags is touched: attributes (alt, aria-label, meta content, data-*) stay as in
  * the content JSON, and so do <title>, <script>, <style>, <textarea>, <pre>, <option> and inline
@@ -27,7 +27,7 @@ export function typeset(text: string): string {
     // twice: "і в Україні" has two one-letter words in a row sharing a space
     .replace(ONE_LETTER_RE, `$1$2${NBSP}`)
     .replace(ONE_LETTER_RE, `$1$2${NBSP}`)
-    .replace(SHORT_HYPHEN_RE, '$1<span class="nw">$2</span>');
+    .replace(SHORT_HYPHEN_RE, '$1<span class="t-nowrap">$2</span>');
 }
 
 export function typesetHtml(html: string): string {

@@ -105,7 +105,7 @@ section[id], [id].anchor { scroll-margin-top: 84px; }
 
 .nb { white-space: nowrap; }
 /* short hyphenated words ("з-за", "IT-обладнання"), set by src/middleware.ts: never split */
-.nw { white-space: nowrap; }
+.t-nowrap { white-space: nowrap; }
 
 /* Cards that tighten their side padding on phones (design: .card-pad) */
 @media (max-width: 560px) {

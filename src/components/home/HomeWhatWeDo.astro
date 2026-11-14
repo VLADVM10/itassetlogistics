@@ -38,7 +38,7 @@ const cards = [
 
     <p class="wwd__media">
       {block.media_question}{' '}
-      <a href={pathFor('media', lang)}>{block.media_link} →</a>
+      <a href={pathFor('media', lang)}>{block.media_link}{' '}→</a>
     </p>
   </div>
 </section>
@@ -110,4 +110,6 @@ const cards = [
     color: var(--text);
   }
   .wwd__media a { font-weight: 600; text-decoration: none; white-space: nowrap; }
+  /* narrow phones: the longer UA label may wrap; the arrow stays with the last word (no-break space) */
+  @media (max-width: 420px) { .wwd__media a { white-space: normal; } }
 </style>
