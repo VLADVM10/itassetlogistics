@@ -7,9 +7,11 @@
 set -eu
 APP=/var/www/ch8218ab46/www/itassetlogistics.com/_private
 cd "$APP"
+# the CLI default here is PHP 7.4; the site and its vendor/ need 8.1 (same as ops/pull-deploy.sh)
+PHP=/opt/alt/php81/usr/bin/php
 
 printf 'Пароль від скриньки %s (символи не відображаються): ' \
-  "$(php -r '$c = require "config.php"; echo $c["smtp"]["username"];')"
+  "$($PHP -r '$c = require "config.php"; echo $c["smtp"]["username"];')"
 stty -echo
 read -r PW
 stty echo
@@ -17,7 +19,7 @@ printf '\n'
 [ -n "$PW" ] || { echo 'Порожній пароль, нічого не змінено.'; exit 1; }
 
 cp -p config.php "config.php.bak-$(date +%Y%m%d-%H%M%S)"
-PW="$PW" php -r '
+PW="$PW" $PHP -r '
   $f = "config.php";
   $s = file_get_contents($f);
   $s = preg_replace("/(\"password\"\s*=>\s*)\"[^\"]*\"/", "\${1}" . var_export(getenv("PW"), true), $s, 1, $n);
@@ -25,9 +27,9 @@ PW="$PW" php -r '
   file_put_contents($f, $s);
 '
 unset PW
-php -l config.php >/dev/null
+$PHP -l config.php >/dev/null
 
-php -r '
+$PHP -r '
   require "vendor/autoload.php";
   $c = (require "config.php")["smtp"];
   $m = new PHPMailer\PHPMailer\PHPMailer(true);

@@ -54,6 +54,19 @@ ssh -t itassetlogistics ~/itassetlogistics-app/set-smtp-password.sh
 The script is `ops/set-smtp-password.sh`; copy it to `~/itassetlogistics-app/` if it is missing.
 Each run keeps a backup `config.php.bak-<date>` next to config.php.
 
+## Request form: Turnstile secret
+
+The site key is public and lives in `src/lib/env.ts`; the secret key of the same widget goes only
+into config.php. After the site key is live, run (the script checks the key with Cloudflare first,
+then also limits tokens to itassetlogistics.com / www):
+
+```
+ssh -t itassetlogistics ~/itassetlogistics-app/set-turnstile-secret.sh
+```
+
+If the secret was ever shown anywhere else (chat, email), rotate it first: Cloudflare → Turnstile →
+the widget → Settings → **Rotate Secret Key**.
+
 ## Google Analytics 4
 
 Off until `GA_MEASUREMENT_ID` in `src/lib/env.ts` holds the measurement ID (`G-…`). Then every page

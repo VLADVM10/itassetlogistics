@@ -96,9 +96,10 @@ when the form nears the screen, sends JSON with a 20 s timeout, shows thanks onl
 `{"ok":true}` and the failure block otherwise. `server/` checks method, Origin, rate limit,
 honeypot, Turnstile and fields, saves to SQLite, then sends the email. Tested: handler on the
 server (every status of spec section 9), 28 UI checks in headless Chrome, and end-to-end on the
-domain with the real Turnstile widget. Turnstile uses Cloudflare's test keys
-(`TURNSTILE_SITE_KEY` in `src/lib/env.ts` and the secret in config.php) until the client's widget
-exists; email needs the domain mailbox in config.php. Without JS the form cannot pass Turnstile.
+domain with the real Turnstile widget. Turnstile: the client's widget (`TURNSTILE_SITE_KEY` in
+`src/lib/env.ts`, secret in config.php via `ops/set-turnstile-secret.sh`); email goes from and to
+`info@itassetlogistics.com` (password via `ops/set-smtp-password.sh`). Without JS the form cannot
+pass Turnstile.
 
 Hosting facts that shape stages 5 and 7: PHP's `open_basedir` is the site folder (hence
 `/_private/`), and nginx serves static files (`.html`, `.txt`, CSS, JS, images) itself, so
