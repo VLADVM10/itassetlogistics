@@ -13,8 +13,8 @@ export const PREVIEW = process.env.SITE_PREVIEW === '1';
 export const TURNSTILE_SITE_KEY = '0x4AAAAAAGAxJnq_ofonLjSx';
 
 /**
- * Google Analytics 4 measurement ID ("G-XXXXXXXXXX", GA → Admin → Data streams → Web).
- * Empty: no analytics, no cookie banner, no Google hosts in the CSP. When set, GA loads only after
- * the visitor accepts analytics cookies in the banner (src/components/CookieConsent.astro).
+ * Google Tag Manager container ("GTM-XXXXXXX"); Google Analytics 4 is added inside the container.
+ * Empty: no tags, no cookie banner, no Google hosts in the CSP. When set, GTM loads only after the
+ * visitor accepts analytics cookies in the banner (src/components/CookieConsent.astro).
  */
-export const GA_MEASUREMENT_ID = '';
+export const GTM_CONTAINER_ID = 'GTM-TLGSS4VB';

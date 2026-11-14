@@ -295,7 +295,7 @@ export const settings = z.strictObject({
   footer: z.strictObject({ aria_label: label, domain: str(60) }),
   // "Other services" links at the end of each service page (titles come from nav)
   related: z.strictObject({ label, hub: str(140), managed: str(140), media: str(140) }),
-  // analytics cookie banner (shown only when GA_MEASUREMENT_ID is set in src/lib/env.ts)
+  // analytics cookie banner (shown only when GTM_CONTAINER_ID is set in src/lib/env.ts)
   consent: z.strictObject({ label, text: str(300), accept: button, decline: button, settings: button }),
   // captions for the email/phone rows on Home and Contact (shown only when contacts.json has a value)
   contact_labels: z.strictObject({ email: str(30), phone: str(30) }),

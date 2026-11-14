@@ -17,11 +17,11 @@
     },
     {
       "title": "Why we use this information",
-      "body": "We use the information to respond to enquiries, discuss possible services and commercial terms, communicate about your request, maintain website security and comply with applicable legal obligations.\n\nWhere the GDPR applies, processing may be based, as appropriate, on steps requested before entering into a contract, legitimate interests in handling business enquiries and protecting the website, compliance with legal obligations or consent where required."
+      "body": "We use the information to respond to enquiries, discuss possible services and commercial terms, communicate about your request, maintain website security, understand how the website is used (only with your consent) and comply with applicable legal obligations.\n\nWhere the GDPR applies, processing may be based, as appropriate, on steps requested before entering into a contract, legitimate interests in handling business enquiries and protecting the website, compliance with legal obligations or consent where required."
     },
     {
       "title": "Sharing information",
-      "body": "Information may be accessible to authorised people handling enquiries and to service providers supporting website hosting, business email, technical maintenance or spam prevention. We may also disclose information when required by applicable law.\n\nWe do not sell personal information."
+      "body": "Information may be accessible to authorised people handling enquiries and to service providers supporting website hosting, business email, technical maintenance, spam prevention or, only with your consent, website analytics (Google). We may also disclose information when required by applicable law.\n\nWe do not sell personal information."
     },
     {
       "title": "International processing",
@@ -33,7 +33,7 @@
     },
     {
       "title": "Cookies and similar technologies",
-      "body": "The website may use technologies necessary for its operation, security or language preferences. If optional analytics, advertising or other non-essential tracking technologies are introduced, information about them and any consent choices required by law will be provided.\n\nYou can also manage cookies through your browser settings."
+      "body": "The website uses technologies necessary for its operation, security and language preferences. They do not require consent.\n\nWith your consent, we use Google Analytics, loaded through Google Tag Manager (services provided by Google), to understand how the website is used: for example, which pages are viewed and whether a request was sent. Google Analytics sets cookies such as **_ga**, which are kept for up to 2 years. They are set only after you choose “Accept analytics” in the cookie banner. If you decline, no analytics cookies are set and Google Tag Manager is not loaded.\n\nYou can change your choice at any time with “Cookie settings” at the bottom of every page. You can also manage cookies through your browser settings."
     },
     {
       "title": "Your rights",

@@ -1,9 +1,11 @@
 /*
- * Google Analytics 4 behind a consent banner (src/components/CookieConsent.astro).
+ * Google Tag Manager behind a consent banner (src/components/CookieConsent.astro). Google
+ * Analytics 4 is a tag inside the GTM container, configured in the GTM interface.
  * - Nothing is loaded and no cookie is set until the visitor clicks "Accept".
  * - The choice is stored in localStorage; "Cookie settings" in the footer shows the banner again.
- * - Declining after accepting removes the GA cookies and reloads the page without GA.
- * - A successful request form dispatches `ital:lead`; it is sent to GA as `generate_lead`.
+ * - Declining after accepting removes the Google Analytics cookies and reloads the page without GTM.
+ * - A successful request form dispatches `ital:lead`; it reaches GTM as the dataLayer event
+ *   `generate_lead` (trigger: Custom Event "generate_lead" → GA4 event tag).
  */
 const KEY = 'ital-analytics-consent';
 type Choice = 'granted' | 'denied';
@@ -11,7 +13,6 @@ type Choice = 'granted' | 'denied';
 declare global {
   interface Window {
     dataLayer?: unknown[];
-    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -31,19 +32,28 @@ const write = (v: Choice) => {
   }
 };
 
-function loadGa(id: string) {
-  if (window.gtag) return;
-  window.dataLayer = window.dataLayer || [];
-  // gtag expects the `arguments` object itself in dataLayer
-  window.gtag = function gtag() {
+let loaded = false;
+
+function loadGtm(id: string) {
+  if (loaded) return;
+  loaded = true;
+  const dl = (window.dataLayer = window.dataLayer || []);
+  // gtag-style command: Google tags read the `arguments` object itself from dataLayer
+  function gtag(..._args: unknown[]) {
     // eslint-disable-next-line prefer-rest-params
-    window.dataLayer!.push(arguments);
-  };
-  window.gtag('js', new Date());
-  window.gtag('config', id);
+    dl.push(arguments);
+  }
+  // Consent Mode v2: the visitor accepted analytics only, not advertising
+  gtag('consent', 'default', {
+    analytics_storage: 'granted',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+  });
+  dl.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
   const s = document.createElement('script');
   s.async = true;
-  s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+  s.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(id)}`;
   document.head.append(s);
 }
 
@@ -51,7 +61,7 @@ function removeGaCookies() {
   const host = location.hostname;
   for (const c of document.cookie.split(';')) {
     const name = c.split('=')[0]!.trim();
-    if (name === '_ga' || name.startsWith('_ga_') || name === '_gid') {
+    if (name === '_ga' || name.startsWith('_ga_') || name === '_gid' || name.startsWith('_gcl')) {
       for (const domain of [host, `.${host}`, `.${host.replace(/^www\./, '')}`]) {
         document.cookie = `${name}=; Max-Age=0; path=/; domain=${domain}`;
       }
@@ -62,20 +72,20 @@ function removeGaCookies() {
 
 export function initAnalytics() {
   const banner = document.querySelector<HTMLElement>('[data-consent]');
-  const id = banner?.dataset.gaId;
+  const id = banner?.dataset.gtmId;
   if (!banner || !id) return;
 
   const choice = read();
-  if (choice === 'granted') loadGa(id);
+  if (choice === 'granted') loadGtm(id);
   else if (choice === null) banner.hidden = false;
 
   banner.querySelector('[data-consent-accept]')?.addEventListener('click', () => {
     write('granted');
     banner.hidden = true;
-    loadGa(id);
+    loadGtm(id);
   });
   banner.querySelector('[data-consent-decline]')?.addEventListener('click', () => {
-    const wasLoaded = Boolean(window.gtag);
+    const wasLoaded = loaded;
     write('denied');
     banner.hidden = true;
     removeGaCookies();
@@ -89,6 +99,11 @@ export function initAnalytics() {
   );
 
   window.addEventListener('ital:lead', () => {
-    window.gtag?.('event', 'generate_lead', { form_name: 'request', page_language: document.documentElement.lang });
+    if (!loaded) return;
+    window.dataLayer!.push({
+      event: 'generate_lead',
+      form_name: 'request',
+      page_language: document.documentElement.lang,
+    });
   });
 }

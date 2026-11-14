@@ -1,11 +1,11 @@
 ---
 /*
- * Analytics cookie banner. Rendered only when GA_MEASUREMENT_ID is set (src/lib/env.ts).
- * Google Analytics is loaded only after "Accept"; the choice is kept in this browser and can be
+ * Analytics cookie banner. Rendered only when GTM_CONTAINER_ID is set (src/lib/env.ts).
+ * Google Tag Manager (and the GA4 tag inside it) is loaded only after "Accept"; the choice is kept in this browser and can be
  * changed with "Cookie settings" in the footer. Logic: src/scripts/analytics.ts.
  */
 import { getSettings } from '../lib/content';
-import { GA_MEASUREMENT_ID } from '../lib/env';
+import { GTM_CONTAINER_ID } from '../lib/env';
 import { pathFor, type Lang } from '../i18n/routes';
 
 interface Props {
@@ -14,8 +14,8 @@ interface Props {
 const { lang } = Astro.props;
 const { consent, nav } = await getSettings(lang);
 ---
-{GA_MEASUREMENT_ID && (
-  <section class="consent" aria-label={consent.label} data-consent data-ga-id={GA_MEASUREMENT_ID} hidden>
+{GTM_CONTAINER_ID && (
+  <section class="consent" aria-label={consent.label} data-consent data-gtm-id={GTM_CONTAINER_ID} hidden>
     <p class="consent__text">
       {consent.text}{' '}
       <a href={pathFor('privacy', lang)}>{nav.privacy.label}</a>

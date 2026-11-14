@@ -2,7 +2,7 @@
 import Logo from './Logo.astro';
 import { pathFor, type Lang, type PAGES } from '../i18n/routes';
 import { getContacts, getSettings } from '../lib/content';
-import { GA_MEASUREMENT_ID } from '../lib/env';
+import { GTM_CONTAINER_ID } from '../lib/env';
 
 interface Props {
   lang: Lang;
@@ -36,7 +36,7 @@ const items: Array<keyof typeof PAGES> = ['home', 'hub', 'managed', 'media', 'co
     </div>
     <div class="site-footer__bottom">
       <p>© {year} IT Asset Logistics</p>
-      {GA_MEASUREMENT_ID && (
+      {GTM_CONTAINER_ID && (
         <button type="button" class="site-footer__cookies" data-consent-open>{consent.settings}</button>
       )}
       <p class="site-footer__domain">{footer.domain}</p>

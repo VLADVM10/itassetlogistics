@@ -67,13 +67,22 @@ ssh -t itassetlogistics ~/itassetlogistics-app/set-turnstile-secret.sh
 If the secret was ever shown anywhere else (chat, email), rotate it first: Cloudflare → Turnstile →
 the widget → Settings → **Rotate Secret Key**.
 
-## Google Analytics 4
+## Analytics: Google Tag Manager (+ GA4 inside it)
 
-Off until `GA_MEASUREMENT_ID` in `src/lib/env.ts` holds the measurement ID (`G-…`). Then every page
-gets a consent banner (texts: admin → settings → «Банер згоди на cookie»), GA loads only after
-«Accept», the footer gets «Cookie settings», and the CSP allows the Google hosts. A successful
-request form sends the GA event `generate_lead` (mark it as a key event in GA → Admin → Events).
-When switching it on, update section 7 of the Privacy Policy (both languages).
+`GTM_CONTAINER_ID` in `src/lib/env.ts` (now `GTM-TLGSS4VB`; empty = no analytics at all). Every page
+shows a consent banner (texts: admin → settings → «Банер згоди на cookie»); GTM loads only after
+«Accept», with Consent Mode v2 `analytics_storage: granted`, advertising denied. The footer has
+«Cookie settings»; declining later removes the `_ga*` cookies. The CSP allows only Google's tag
+hosts, so in the container use built-in tags (Google tag, GA4 Event), not «Custom HTML».
+
+Set up in GTM (tagmanager.google.com):
+
+1. **Tags → New → Google tag**, Tag ID = the GA4 measurement ID (`G-…`), trigger **Initialization —
+   All Pages**.
+2. **Triggers → New → Custom Event**, event name `generate_lead` (pushed after a successful request).
+3. **Tags → New → Google Analytics: GA4 Event**, measurement ID `G-…`, event name `generate_lead`,
+   trigger from step 2. In GA4 → Admin → Events mark `generate_lead` as a key event.
+4. **Submit → Publish.**
 
 ## Admin sign-in (GitHub OAuth)
 

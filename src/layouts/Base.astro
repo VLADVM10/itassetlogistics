@@ -11,7 +11,7 @@ import interCyrillic from '@fontsource-variable/inter/files/inter-cyrillic-wght-
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { getContacts, getPage, getSettings } from '../lib/content';
-import { GA_MEASUREMENT_ID, PREVIEW } from '../lib/env';
+import { GTM_CONTAINER_ID, PREVIEW } from '../lib/env';
 import CookieConsent from '../components/CookieConsent.astro';
 import {
   LANGS,
@@ -48,10 +48,12 @@ const OG_IMAGE = '/og-default.png';
  * (see ops/cloudflare.md). The only inline script is the `js` class flag below, allowed by hash:
  * change the hash together with that line. Turnstile needs its script and iframe origin.
  */
-// Google Analytics hosts are allowed only when analytics is on (GA_MEASUREMENT_ID in src/lib/env.ts).
-const GA_SCRIPT = GA_MEASUREMENT_ID ? ' https://www.googletagmanager.com' : '';
-const GA_CONNECT = GA_MEASUREMENT_ID
-  ? ' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com'
+// Google Tag Manager and Google Analytics 4 hosts, allowed only when GTM_CONTAINER_ID is set
+// (src/lib/env.ts). GTM "Custom HTML" tags with inline code stay blocked by this CSP: use the
+// built-in Google tag / GA4 event tags in the container.
+const GA_SCRIPT = GTM_CONTAINER_ID ? ' https://www.googletagmanager.com' : '';
+const GA_CONNECT = GTM_CONTAINER_ID
+  ? ' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net'
   : '';
 const CSP = [
   "default-src 'self'",

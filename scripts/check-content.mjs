@@ -50,12 +50,31 @@ const IGNORE = [
 // Client edit (Nov 2026): in Ukrainian the footer and the Home link name the media service
 // «Зберігання та операції з носіями даних» instead of «Media Storage & Handling».
 const UA_MEDIA = 'Media Storage & Handling';
+// Analytics (Google Tag Manager + GA4 with consent, Nov 2026): Privacy Policy sections 3, 4 and 7
+// now describe it instead of the design's "if analytics is introduced" wording.
+const PRIVACY_ANALYTICS = {
+  en: [
+    'We use the information to respond to enquiries, discuss possible services and commercial terms, communicate about your request, maintain website security and comply with applicable legal obligations.',
+    'Information may be accessible to authorised people handling enquiries and to service providers supporting website hosting, business email, technical maintenance or spam prevention. We may also disclose information when required by applicable law.',
+    'The website may use technologies necessary for its operation, security or language preferences. If optional analytics, advertising or other non-essential tracking technologies are introduced, information about them and any consent choices required by law will be provided.',
+  ],
+  uk: [
+    'Ми використовуємо інформацію, щоб відповідати на запити, обговорювати можливі послуги й комерційні умови, підтримувати зв’язок щодо звернення, забезпечувати роботу та безпеку сайту й виконувати застосовні вимоги законодавства.',
+    'Доступ до інформації можуть мати уповноважені особи, які опрацьовують звернення, а також постачальники послуг хостингу, корпоративної електронної пошти, технічної підтримки або захисту від спаму. Інформація також може розкриватися, якщо цього вимагає закон.',
+    'Сайт може використовувати технології, необхідні для його роботи, безпеки або збереження мовних налаштувань. Якщо надалі будуть додані необов’язкові засоби аналітики, реклами чи іншого відстеження, ми надамо відповідну інформацію та можливість вибору згоди, якщо цього вимагає закон.',
+  ],
+};
 const ALLOWED = new Map([
   ['uk/home', [UA_MEDIA, `${UA_MEDIA} →`]],
   ['uk/hub', [UA_MEDIA]],
   ['uk/media', [UA_MEDIA]],
   ['uk/contact', [UA_MEDIA]],
-  ['uk/privacy', ['сторінку Contact', UA_MEDIA]], // corrected to «сторінку «Контакти»» per the spec
+  ['uk/privacy', [
+    'сторінку Contact', // corrected to «сторінку «Контакти»» per the spec
+    UA_MEDIA,
+    ...PRIVACY_ANALYTICS.uk,
+  ]],
+  ['en/privacy', PRIVACY_ANALYTICS.en],
   // SEO: the lead starts with «Відповідальне зберігання…», the term clients search for
   ['uk/managed', ['Зберігання корпоративного обладнання в Україні без необхідності утримувати власний склад.', UA_MEDIA]],
 ]);

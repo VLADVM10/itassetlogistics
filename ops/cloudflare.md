@@ -93,7 +93,7 @@ If:
 ## 5. Вимкнути те, що вставляє сторонній код у сторінки
 
 - **Analytics & Logs → Web Analytics:** вимкнути для itassetlogistics.com (аналітика сайту — Google
-  Analytics 4 зі згодою на cookie; скрипт `static.cloudflareinsights.com` блокується CSP).
+  Tag Manager + GA4 зі згодою на cookie; скрипт `static.cloudflareinsights.com` блокується CSP).
 - **Scrape Shield → Email Address Obfuscation:** Off (вставляє свій скрипт і змінює `mailto:`).
 - **Speed → Optimization → Rocket Loader:** Off.
 
